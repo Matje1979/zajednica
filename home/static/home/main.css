@@ -1,0 +1,183 @@
+body {
+  background: #fafafa;
+  font-family: monospace;
+  /*background: #f2f2f2;*/
+  color: #333333;
+  margin-top: 5rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444;
+}
+
+h2{
+  font-size: 1.8rem;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none !important;
+  color: black;
+}
+
+
+ul {
+  margin: 0;
+  list-style: none;
+
+}
+
+ul li{
+  color: #818182;
+}
+
+ul li:hover{
+  color:#428bca;
+}
+
+.fa-bell{
+  color: #cbd5db;
+  padding: .5rem 1rem;
+}
+
+.fa-recycle{
+  color: green;
+}
+
+#frontpage-img{
+  width: 50%;
+  height: auto;
+}
+
+.pdf{
+  color: royalblue;
+}
+
+li.list-group-item{
+    padding: .75rem 1.75rem;
+}
+
+li.list-group-item:hover {
+    background-color: #f2f2ed;
+    color: #428bca;
+    /*font-weight: bold;*/
+    font-size: 14px;
+}
+
+#page-link{
+  background-color: #f2f2ed;
+  color: #428bca;
+}
+
+.mb-1{
+  font-size: 1.15rem;
+}
+
+.quote {
+  margin: 0;
+  background-color: #eee !important; 
+  padding: 1em;
+  border-radius: 1em;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.quote figcaption,
+.quote blockquote {
+  margin: 1em;
+}
+
+#message_to_upravnik_form form{
+  display: none;
+}
+
+.bg-steel {
+  background-color: #5f788a;
+}
+
+.site-header .navbar-nav .nav-link {
+  color: #cbd5db;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  background: #ffffff;
+  padding: 10px 20px;
+  /*border: 1px solid #dddddd;*/
+  border: 0px solid #dddddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  -webkit-box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);
+  -moz-box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);
+  box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);
+}
+
+.article-title {
+  color: #444444;
+}
+
+#profile-form{
+  display: none;
+}
+
+#profile-form-hide-btn{
+  display: none;
+}
+
+#pic-box{
+  width: 200px;
+  padding-right: 50px;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+  object-fit: cover;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+  object-fit: cover;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}

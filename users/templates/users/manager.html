@@ -1,0 +1,111 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+    
+    <div class="content-section">
+        <h1></h1><br>
+      <div class="media">
+        {% if upravnik.user.profile.image.url == '/media/default.jpg' %}
+        <div id=pic-box>
+            <img class="rounded-circle account-img" src="{{ upravnik.user.profile.image.url }}">
+            <small>Image by <a href="https://pixabay.com/users/WandererCreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Pixabay</a></small>
+        </div>
+        {% else %}
+            <img class="rounded-circle account-img" src="{{ upravnik.user.profile.image.url }}">
+        {% endif %}
+        <div class="media-body">
+          <h2 class="account-heading">{{ upravnik.user.username }}</h2>
+          <p class="text-secondary">{{ upravnik.user.email }}</p>
+          <p class="text-secondary">064/234-3219</p>
+          <p class="text-secondary">{{ upravnik.vrsta }}</p>
+          {% if "Profesionalni upravnik" in upravnik.vrsta  %}
+            {% if upravnik.website %}
+              <p class="text-secondary">Preduzeće: {{ upravnik.firma }}<a href="{{ upravnik.website }}"><small> - website</small></a></p>
+            {% else %}
+              <p class="text-secondary">Preduzeće: {{ upravnik.firma }}</p>
+            {% endif %}
+            <p class="text-secondary">Prosečna ocena: {{ ocena_upravnika }}</p>    
+          {% endif %}   
+        </div>       
+      </div>
+      <div>
+          <h3>O sebi</h3>
+          <figure class="col-md-10 mt-4 ml-2">
+          <blockquote class="text-secondary">{{ upravnik.user.profile.o_sebi  }}</blockquote>
+        </figure>
+      </div>
+   <!--  <form id="profile-form" method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb 4">Profile info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>  
+    </form> -->
+       
+      <!-- FORM HERE -->
+      
+    </div>
+    <div id="message_to_upravnik_form"  class="content-section">
+      <h5 id="message_to_upravnik_btn"class="btn btn-outline-info">Piši upravniku</h5>
+      <form method="POST" action="">
+          {% csrf_token %}
+          <fieldset class="form-group">
+             <legend class="mb 4"></legend>
+               {{ message_form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info" name="message-button" type="submit">Posalji</button>
+          </div>  
+      </form>
+    </div>
+    <div class="content-section">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="mb 4"></legend>
+                {{ upravnik_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" name="survey-button" type="submit">Oceni</button>
+            </div>  
+        </form>
+    </div>
+    <a href="{% url 'upravnik-posts' upravnik.user.id %}"><h4 class="ml-3">Postovi upravnika (<span>{{ posts.count }}</span>)</h4></a><hr>
+      
+  {% if is_paginated %}
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">Prva</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Prethodna</a>
+      {% endif %}
+      {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+              <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+      {% endfor %}
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Sledeća</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Poslednja</a>
+      {% endif %}
+  {% endif %}
+    <!-- <div class="form-group">
+        <button id="update-profile-btn" class="btn btn-outline-info ml-4">Update profile</button>
+    </div>  
+    <div class="form-group">
+        <button id="profile-form-hide-btn" class="btn btn-outline-info ml-4">Hide</button>
+    </div>  --> 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      $(function(){
+        $('#message_to_upravnik_btn').click(function(){
+          $('#message_to_upravnik_form form').css('display', 'block')
+        })
+      })
+    </script>
+{% endblock content %}

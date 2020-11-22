@@ -1,0 +1,45 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+    <div class="content-section">
+      <br>
+      <div class="media">
+        {% if user.profile.image.url == '/media/default.jpg' %}
+        <div id=pic-box>
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <small>Image by <a href="https://pixabay.com/users/WandererCreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Pixabay</a></small>
+        </div>
+        {% else %}
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        {% endif %}
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div>
+      <div class="ml-3"><br>
+          <h3>O sebi</h3><br>
+          <p>{{ user.profile.o_sebi }}</p>
+      </div>
+    <form id="profile-form" method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb 4">Profil info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Izmeni</button>
+        </div>  
+    </form>
+       
+      <!-- FORM HERE -->
+    </div>
+    <div class="form-group">
+        <button id="update-profile-btn" class="btn btn-outline-info ml-4">Izmeni profil</button>
+    </div>  
+    <div class="form-group">
+        <button id="profile-form-hide-btn" class="btn btn-outline-info ml-4">Sakrij</button>
+    </div>  
+{% endblock content %}

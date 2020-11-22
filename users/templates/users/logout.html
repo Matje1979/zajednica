@@ -1,0 +1,9 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+    <h2>Izlogovali ste se</h2>
+    <div class="border-top pt-3">
+    	<a href="{% url 'login' %}">Log in</a>
+    </div>
+{% endblock content %}

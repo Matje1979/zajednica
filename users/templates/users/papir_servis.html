@@ -1,0 +1,30 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+<div class="content-section">
+    <form method="POST" action="">
+    	{% csrf_token %}
+    	<fieldset class="form-group">
+    		<legend class="border-bottom mb 4">Informacije o predaji papira</legend>
+
+
+    		{{ form|crispy }}
+            
+             <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.min.js' %}"></script>
+            <!-- <script type="text/javascript" src="{% static 'autocomplete_light/jquery.init.js' %}"></script> -->
+            {{ form.media }}
+
+
+
+    	<!-- </fieldset> -->
+    	<div class="form-group">
+    		<button class="btn btn-outline-info" type="submit">Pošalji</button>
+    	</div>	
+    </form>
+  <!--   <div class="border-top pt-3">
+    	<small class="text-muted">Already have an account?<a class="ml-2" href="{% url 'login' %}">Sign in</a></small>
+    </div> -->
+</div>
+{% endblock content %}

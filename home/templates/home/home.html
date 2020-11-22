@@ -1,0 +1,53 @@
+
+{% extends 'home/base.html' %}
+
+{% block content%}
+	{% for post in posts %}
+		
+	  <article class="media content-section">
+	
+	  <img class='rounded-circle article-img' src="{{ post.author.profile.image.url }}" alt="">
+	  <div class="media-body">
+	    <div class="article-metadata">
+	    {% if user == post.author %}
+	      <a class="mr-2" href="{% url 'profile' %}">{{ post.author }}</a>
+	    {% else%}
+	      <a class="mr-2" href="{% url 'user-profile' post.author.id %}">{{ post.author }}</a>
+	    {% endif %}
+	      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+	    </div>
+	    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+	    <p class="article-content">{{ post.content|truncatewords:20 }}<span><a href="{% url 'post-detail' post.id %}">  ...pročitaj više</a></span></p>
+	    <ul class="list-inline">
+	    	<li class="list-inline-item">Tagovi:</li>
+	     {% for tag in post.tags.all %}
+	         {% if tag.name == "upozorenje" %}
+	             <li class="list-inline-item"><a href="{% url 'app-tagged' tag.slug %}"><button class="btn-sm btn-danger border-0" type="submit">#{{ tag }}</button></a></li>
+	         {% else %}
+        	    <li class="list-inline-item"><a href="{% url 'app-tagged' tag.slug %}"><button class="btn-sm btn-info border-0" type="submit">#{{ tag }}</button></a></li>
+        	{% endif %}
+        {% endfor %}
+    </ul>
+	  </div>
+
+	</article>
+	{% endfor %}
+	{% if is_paginated %}
+	    {% if page_obj.has_previous %}
+		    <a class="btn btn-outline-info mb-4" href="?page=1">Prva</a>
+		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Prethodna</a>
+	    {% endif %}
+	    {% for num in page_obj.paginator.page_range %}
+	        {% if page_obj.number == num %}
+	            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+	        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+	            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+	        {% endif %}
+	    {% endfor %}
+	    {% if page_obj.has_next %}
+		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Sledeća</a>
+		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Poslednja</a>
+	    {% endif %}
+	{% endif %}
+{% endblock content %}
+

@@ -1,0 +1,27 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+    <div class="content-section">
+      <div class="media">
+        {% if user.profile.image.url == '/media/default.jpg' %}
+        <div id=pic-box>
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <small>Image by <a href="https://pixabay.com/users/WandererCreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Pixabay</a></small>
+        </div>
+        {% else %}
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        {% endif %}
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">{{ user.email }}</p>
+        </div>
+      </div><br>
+      <div class="ml-3">
+        <h3>O sebi</h3>
+        <figure class="col-md-10 mt-4 ml-8">
+          <blockquote>{{ user.profile.o_sebi }}</blockquote>
+        </figure>
+      </div>
+    </div>
+{% endblock content %}

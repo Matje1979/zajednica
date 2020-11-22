@@ -1,0 +1,87 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+    
+    <div class="content-section pb-4">
+      <h1>Upravnik</h1><br>
+      <div class="media">
+        {% if upravnik.profile.image.url == '/media/default.jpg' %}
+        <div id=pic-box>
+            <img class="rounded-circle account-img" src="{{ upravnik.profile.image.url }}">
+            <small>Image by <a href="https://pixabay.com/users/WandererCreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Pixabay</a></small>
+        </div>
+        {% else %}
+            <img class="rounded-circle account-img" src="{{ upravnik.user.profile.image.url }}">
+        {% endif %}
+        <div class="media-body">
+          <h2 class="account-heading">{{ upravnik.username }}</h2>
+          <p class="text-secondary">{{ upravnik.email }}</p>
+          <p class="text-secondary">{{ upravnik.vrsta }}</p>
+          {% if "Profesionalni upravnik" in upravnik.profile.vrsta_upravnika  %}
+            <p class="text-secondary">Radi za: {{ upravnik.profile.radi_za }}</p>
+            <p class="text-secondary">Prosečna ocena: {{ upravnik.profile.prosecna_ocena }}</p>
+          {% endif %}
+          
+        
+        </div>
+
+       
+      </div><br><br>
+
+      <div>
+        <h3 class="text-nowrap bd-highlight">Bio</h3><br>
+        <p>Rođen u Beogradu 1970. godine, radi kao profesionalni upravnik već 10 godina. Završio obuku za upravnika zgrade.</p>
+     </div><br>
+      
+        <div>
+            <h3 class="mb-4">Komentari stanara</h3><br>
+            {% for komentar in komentari %}
+                <figure class="quote mb-2">
+                    <blockquote>{{ komentar.text }}</blockquote>
+                    <figcaption>
+                        &mdash; {{ komentar.autor }}, <cite>{{ komentar.autor.Ulica_i_broj}}</cite>
+               </figure>
+           {% endfor %}
+          <!--  <figure class="quote mb-2">
+                <blockquote>Mihajlo se nije baš najbolje pokazao. Ništa nije radio i uvek je bio nedostupan. Samo nam je uzeo pare.</blockquote>
+                <figcaption>
+                    &mdash; Damir Cicic, <cite>Dušana Vukasovića 74</cite>
+           </figure> -->
+        </div>
+    </div>
+    
+   <!--  <form id="profile-form" method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb 4">Profile info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>  
+    </form> -->
+       
+      <!-- FORM HERE -->
+      
+    
+   <!--  <div class="content-section">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="mb 4"></legend>
+                {{ upravnik_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Oceni</button>
+            </div>  
+        </form>
+    </div> -->
+    <!-- <div class="form-group">
+        <button id="update-profile-btn" class="btn btn-outline-info ml-4">Update profile</button>
+    </div>  
+    <div class="form-group">
+        <button id="profile-form-hide-btn" class="btn btn-outline-info ml-4">Hide</button>
+    </div>  --> 
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block content%}
+    {% if p_quant %}
+    <article class="content-section mt-5">
+    	<i class="fas fa-recycle fa-3x"></i><br><br>
+    	<h4>Informacije o sakupljenim stvarima za reciklažu </h4><br>
+        <h5>Beograd</h5><br>
+    	 <h6>Papir</h6><hr>
+    	 <p class="text-secondary">Sakupljeno u svim ulazima: <span>{{ p_quant }} kg</span></p>
+    	<h6>Čepovi</h6><hr>
+    	<p class="text-secondary">Još uvek nije počelo sakupljanje</p>
+        
+    </article>
+
+    <div class="content-section">
+        <img src="{% static 'home/plot.png' %}">
+    </div>
+    {% else %}
+    <article class="content-section mt-5">
+    	<h4>Informacije o sakupljenim stvarima za reciklažu</h4><br>
+ <h6>Papir</h6><hr>
+	  {% for papir in papiri %}
+	      
+	      
+	     
+	      <ul>
+		      <li><p>Količina: <span>{{ papir.kolicina }} kg</span></p></li>
+		      <li><p>Datum: <span>{{ papir.datum }}</span></p></li>
+		      <li><p>Cena: <span>{{ papir.cena }} dinara</span></p><br></li>
+	      </ul>
+
+	      
+	  
+
+      {% endfor %}
+      <h6>Čepovi</h6><hr>
+
+
+    </article>
+    {% endif %}
+{% endblock content %}
