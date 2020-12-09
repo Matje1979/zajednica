@@ -2,5 +2,36 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
+
 {% block content%}
+
+<!-- {% for box in filled_boxes %}
+    <p>{{ box }}<span>  {{ location }}</p>
+    {% if box.foto != None %}
+        <img src="{{ box.foto.url }}" style="width:200px; height: auto;">
+    {% endif %}
+{% endfor %} -->
+
+<div class="mapa-container">
+    <h2 class="mapa-title">Mapa punih kutija</h2>
+    <div id="map"></div>
+</div>
+<script>
+    var map = L.map('map').setView([44.79,20.47], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+
+</script>
+{% for box in filled_boxes %}
+<script>
+    var popup = L.popup().setContent("<p>Hello I am full</p>");
+
+    L.marker({{ box.location }}).addTo(map).bindPopup(popup)
+        // .openPopup();
+</script>
+{% endfor %}
+
 {% endblock content %}

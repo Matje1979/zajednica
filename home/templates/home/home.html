@@ -10,14 +10,21 @@
 	  <div class="media-body">
 	    <div class="article-metadata">
 	    {% if user == post.author %}
-	      <a class="mr-2" href="{% url 'profile' %}">{{ post.author }}</a>
-	    {% else%}
-	      <a class="mr-2" href="{% url 'user-profile' post.author.id %}">{{ post.author }}</a>
+	        <a class="mr-2" href="{% url 'profile' %}">{{ post.author }}</a>
+	    {% else %}
+	        {% if post.author == upravnik.user %}
+	            <a class="mr-2" href="{% url 'manager' %}">{{ post.author }}</a>
+	        {% else %}
+	            <a class="mr-2" href="{% url 'user-profile' post.author.id %}">{{ post.author }}</a>
+	        {% endif %}
 	    {% endif %}
 	      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
 	    </div>
 	    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-	    <p class="article-content">{{ post.content|truncatewords:20 }}<span><a href="{% url 'post-detail' post.id %}">  ...pročitaj više</a></span></p>
+	    <p class="article-content">{{ post.content|safe }}<span><a href="{% url 'post-detail' post.id %}"></a></span></p>
+	    {% if post.anketa_id != None %}
+	        <a class="btn-lg btn-success border-0" href="{% url 'poll-vote' post.anketa_id %}">Anketa: {{ post.anketa_title }}</a><br><br>
+	    {% endif %}
 	    <ul class="list-inline">
 	    	<li class="list-inline-item">Tagovi:</li>
 	     {% for tag in post.tags.all %}

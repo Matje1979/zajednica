@@ -46,9 +46,21 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'taggit',
     'poll',
-    'widget_tweaks'
+    'widget_tweaks',
+    'ckeditor',
+    'ckeditor_uploader',
+    'location_field.apps.DefaultConfig'
     
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS ={
+    'default': {
+    'toolbar': 'basic',
+    'height': 300,   
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,6 +137,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LOCATION_FIELD = {
+    'map.provider': 'openstreetmap',
+    'provider.openstreetmap.max_zoom': 18,
+}
 
 
 # Static files (CSS, JavaScript, Images)

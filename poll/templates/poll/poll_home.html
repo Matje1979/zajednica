@@ -7,25 +7,24 @@
     <div class="col-lg-10 col-lg-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Aktivne ankete</h3>
+                <h4 class="panel-title mb-3">Aktivne ankete</h4>
             </div>
-                
+            
             <ul class="list-group">
+                {% for poll in polls %}
                 <li class="list-group-item mb-3">
-                    <strong>Koji programski jezik je najlakši za učenje?</strong>
+                   <p><strong>{{ poll.question}}</strong></p>
                     <span class="pull-right">
-                        <a href="#" class="btn btn-info btn-xs">Glasaj</a> &nbsp;
-                        <a href="#" class="btn btn-outline-info btn-xs">Rezultat</a> &nbsp;
+                        <a href="{% url 'poll-vote' poll.id %}" class="btn btn-info btn-xs">Glasaj</a> &nbsp;
+                        <a href="{% url 'poll-results' poll.id %}" class="btn btn-outline-info btn-xs">Rezultat</a> &nbsp;
+                        {% if request.user == poll.author %}
+                            <a href="{% url 'post-create2' poll.id poll.question %}" class="btn btn-outline-info btn-xs">Objavi</a> &nbsp;
+                        {% endif %}
                     </span>
                 </li>
-                <li class="list-group-item">
-                    <strong>Koji operativni sistem koristite?</strong>
-                    <span class="pull-right">
-                        <a href="#" class="btn btn-info btn-xs">Glasaj</a> &nbsp;
-                        <a href="#" class="btn btn-outline-info btn-xs">Rezultat</a> &nbsp;
-                    </span>
-                </li>
+                {% endfor %}
             </ul>
+            <a href="{% url 'poll-create' %}" class="d-block btn btn-info btn-xs mx-auto mt-2">Kreiraj novu anketu </a>
 
         </div>
     </div>

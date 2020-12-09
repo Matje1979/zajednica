@@ -7,7 +7,8 @@
     	{% csrf_token %}
     	<fieldset class="form-group">
     		<legend class="border-bottom mb 4">Blog post</legend>
-    		{{ form|crispy }}
+    		{{ form|crispy|safe }}
+            {{ form.media }}
             <ul class="list-inline">
                 <li class="list-inline-item">Standardni tagovi:</li>
                 {% for tag in common_tags %}
@@ -19,7 +20,7 @@
         
 
     	<div class="form-group">
-    		<button class="btn btn-outline-info" type="submit">Post</button>
+    		<button class="btn btn-outline-info" type="submit">Objavi</button>
     	</div>	
     </form>
     

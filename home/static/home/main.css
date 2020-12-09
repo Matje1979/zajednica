@@ -1,9 +1,10 @@
 body {
   background: #fafafa;
-  font-family: monospace;
+  /*font-family: monospace;*/
   /*background: #f2f2f2;*/
   color: #333333;
   margin-top: 5rem;
+  font-size: 1.1rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -20,6 +21,49 @@ a {
   color: black;
 }
 
+.kvar{
+  color: white !important;
+  border: 0.1px solid white !important;
+}
+
+#kvar-list{
+  display: none;
+}
+
+#id_option_one, #id_option_two, #id_option_three{
+  opacity: 0.5;
+}
+
+.end span i{
+  color: #007bff;
+}
+.vote-box{
+  display: flex;
+}
+
+.django-ckeditor-widget{
+  width: 100%;
+}
+#cke_id_Sadržaj{
+  width: 100% !important;
+}
+
+.box-title{
+  font-size: 16px;
+}
+
+#papir-img{
+  display: none;
+}
+
+#paper-details{
+  display: none;
+}
+
+#map{
+  height: 600px;
+  width: 100%;
+}
 
 ul {
   margin: 0;
@@ -49,19 +93,29 @@ ul li:hover{
   height: auto;
 }
 
+.btn-group-sm>.btn, .btn-sm{
+  padding: 1px;
+}
+
 .pdf{
   color: royalblue;
 }
 
+#navbarToggle{
+  font-size: 16px;
+}
+
 li.list-group-item{
     padding: .75rem 1.75rem;
+    cursor: pointer;
 }
+
 
 li.list-group-item:hover {
     background-color: #f2f2ed;
     color: #428bca;
     /*font-weight: bold;*/
-    font-size: 14px;
+    /*font-size: 13px;*/
 }
 
 #page-link{
@@ -181,3 +235,5 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+

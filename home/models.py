@@ -3,6 +3,8 @@ from django.utils import timezone
 from users.models import CustomUser, Ulaz
 from django.urls import reverse
 from taggit.managers import TaggableManager
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 post_outlines = (
@@ -11,19 +13,22 @@ post_outlines = (
 )
 
 class Post(models.Model):
-	title = models.CharField(max_length=100)
-	content = models.TextField()
+	title = models.CharField("Naslov", max_length=100)
+	Sadržaj = RichTextUploadingField(null=True, blank=True)
 	date_posted = models.DateTimeField(default=timezone.now)
 	author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 	tip = models.CharField(max_length=50, choices=post_outlines, default="Info")
 	slug = models.SlugField(max_length=100, null=True)
-	tags = TaggableManager()
+	tags = TaggableManager("Tagovi")
+	anketa_id = models.IntegerField(blank=True, null=True)
+	anketa_title = models.CharField(max_length=100, blank=True, null=True)
 
 	def __str__(self):
 		return self.title
 
 	def get_absolute_url(self):
-		return reverse('post-detail', kwargs={'pk': self.pk})
+		return reverse('app-home')
+	# 	return reverse('app-home', kwargs={'pk': self.pk})
 	#This function returns a url of the detail page for the post as a string. View then handles the string. 
 	#If you want to redirect to a homepage, for example, in the Create view, you have to set the 'success_url(??)' attribute
 
@@ -44,4 +49,5 @@ class Papir(models.Model):
 	ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE, null=True, blank=True)
 	datum = models.DateTimeField(default=timezone.now)
 	cena = models.IntegerField(null=True, blank=True)
+	
 

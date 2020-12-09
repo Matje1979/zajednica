@@ -3,7 +3,7 @@ from django import 	forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, CustomUser, MessageForUpravnik, Temp2
 import logging
-from dal import autocomplete
+
 
 from home.models import Papir
 
@@ -66,6 +66,12 @@ class OceniUpravnikaForm(forms.ModelForm):
 		}
 
 class PapirForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['kolicina'].required = True
+		self.fields['ulaz'].required = True
+		self.fields['cena'].required = True
+
 	class Meta:
 		model = Papir
 		fields = ['kolicina', 'ulaz', 'cena']

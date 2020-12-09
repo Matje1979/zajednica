@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Profile, Ulaz, KomentarUpravnika
-from .models import CustomUser, Upravnik, MessageForUpravnik, Temp, Temp2
+from .models import CustomUser, Upravnik, MessageForUpravnik, Temp, Temp2, TempPapir
 from .forms import CustomUserRegisterForm
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
@@ -48,3 +48,4 @@ admin.site.register(KomentarUpravnika)
 admin.site.register(MessageForUpravnik)
 admin.site.register(Temp)
 admin.site.register(Temp2)
+admin.site.register(TempPapir)

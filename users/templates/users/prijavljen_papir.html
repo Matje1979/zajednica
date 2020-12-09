@@ -1,0 +1,84 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content%}
+
+{% for box in filled_boxes %}
+    <p><strong class="box-title">{{ box }}</strong><span>  {{ location }}</p>
+    {% if box.foto != None %}
+        <img src="{{ box.foto.url }}" style="width:200px; height: auto;">
+    {% endif %}
+    <br>
+    <br>
+    <div>
+        <button id="{{ box }}-accepted" class="btn btn-outline-info btn-xs">Prihvati</button> &nbsp;
+        <button id="{{ box }}-rejected" class="btn btn-outline-info btn-xs">Odbaci</button> &nbsp;
+        <form id="p-box-form" action="" method="POST">
+            {% csrf_token %}
+            <input type="text" id="box-validator" name="box-status" style="visibility:hidden;" value=""/>
+            <input type="text" id="box-ulaz-address" name="box-ulaz-address" style="visibility:hidden;" value="{{ box.ulaz.Ulica_i_broj }}"/>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (ev)=>{
+            var boxInput = document.getElementById("box-validator");
+            console.log(boxInput);
+            var accept = document.getElementById("{{ box }}-accepted");
+            console.log(accept);
+            var reject = document.getElementById("{{ box }}-rejected");
+            
+            accept.addEventListener('click', (ev)=>{
+                console.log("1 clicked");
+                boxInput.value = "accept";
+                document.getElementById("p-box-form").submit();
+            });
+
+            reject.addEventListener('click', (ev)=>{
+                console.log("2 clicked");
+                boxInput.value = "reject";
+                document.getElementById("p-box-form").submit();
+            });
+
+        // if (document.getElementById("{{ box }}-accepted").clicked == true){
+        //     console.log("1 clicked");
+        //     boxInput.value = "accept";
+        //     document.getElementById("p-box-form").submit();
+
+        // } else if (document.getElementById("{{ box }}-rejected").clicked == true){
+        //     console.log("2 clicked");
+        //     boxInput.value = "reject";
+        //     document.getElementById("p-box-form").submit();
+        // }
+
+    });
+
+    </script>
+{% endfor %}
+
+
+
+<!-- <div class="mapa-container">
+    <h2 class="mapa-title">Mapa punih kutija</h2>
+    <div id="map"></div>
+</div>
+<script>
+    var map = L.map('map').setView([44.79,20.47], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+
+</script>
+{% for box in filled_boxes %}
+<script>
+    var popup = L.popup().setContent("<p>Hello I am full</p>");
+
+    L.marker({{ box.ulaz.location }}).addTo(map).bindPopup(popup)
+        // .openPopup();
+</script>
+{% endfor %} -->
+
+{% endblock content %}

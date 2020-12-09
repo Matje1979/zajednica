@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content%}
-    <div class="content-section">
+    <div class="content-section" style="position: relative;">
       <br>
       <div class="media">
         {% if user.profile.image.url == '/media/default.jpg' %}
@@ -30,8 +30,12 @@
             {{ p_form|crispy }}
         </fieldset>
         <div class="form-group">
-            <button class="btn btn-outline-info" type="submit">Izmeni</button>
-        </div>  
+            <button class="btn btn-outline-info" style="float: left;" type="submit">Izmeni</button>
+            <button id="profile-form-hide-btn" style="position: relative; margin-left: auto !important;" class="btn btn-outline-info ml-4">X</button>
+        </div>
+
+        
+       
     </form>
        
       <!-- FORM HERE -->
@@ -39,7 +43,5 @@
     <div class="form-group">
         <button id="update-profile-btn" class="btn btn-outline-info ml-4">Izmeni profil</button>
     </div>  
-    <div class="form-group">
-        <button id="profile-form-hide-btn" class="btn btn-outline-info ml-4">Sakrij</button>
-    </div>  
+    
 {% endblock content %}

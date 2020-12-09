@@ -34,6 +34,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('papir/', user_views.papir_servis, name='papir_servis'),
     path('papir/mapa/', user_views.papir_mapa, name='papir_mapa'),
+    path('prijavljen_papir/', user_views.prijavljen_papir, name='prijavljen_papir'),
     path('manager/', user_views.manager_profile, name='manager'),
     path('manager_public/<int:pk>', user_views.manager_public, name='manager_public'),
     path('docs/', user_views.documents, name='documents_page'),
@@ -42,6 +43,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name="users/login.html"), name='login'),
     path('login_success/', user_views.login_success, name='login-success'),
     path('logout/', auth_views.LogoutView.as_view(template_name="users/logout.html"), name='logout'),
+    path('ckeditor/', include('ckeditor_uploader.urls'))
     # path('ulaz-autocomplete/', user_views.UlazAutocomplete.as_view(), name='ulaz-autocomplete'),
 ]
 

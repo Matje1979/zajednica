@@ -8,9 +8,9 @@
       <ol>
         {% for item in upravnik_list %}
           {% if item.ocena != None %}
-            <a href="{% url 'manager_public' item.id %}"><li class="mb-1">{{item.username }}<span> -  {{ item.ocena }}</span></li></a>
+            <a href="{% url 'manager_public' item.id %}"><li class="mb-1">{{item.first_name}} {{item.last_name}}<span> -  {{ item.ocena }}</span></li></a>
           {% else %}
-            <a href="{% url 'manager_public' item.id %}"><li class="mb-1">{{item.username }}<span> -  Nije ocenjivan</span></li></a>
+            <a href="{% url 'manager_public' item.id %}"><li class="mb-1">{{item.first_name}} {{item.last_name}}<span> -  Nije ocenjivan</span></li></a>
           {% endif %}
 
         {% endfor %}

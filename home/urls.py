@@ -3,6 +3,7 @@ from .views import (
 	PostListView, 
 	PostDetailView, 
 	PostCreateView,
+    PostCreateView2,
 	PostUpdateView,
 	PostDeleteView
 )
@@ -16,6 +17,7 @@ urlpatterns = [
     path('post/<int:pk>/update', PostUpdateView.as_view(), name="post-update"),
     path('post/<int:pk>/delete', PostDeleteView.as_view(), name="post-delete"),
     path('post/new/', PostCreateView.as_view(), name="post-create"),
+    path('post/anketa/<int:anketa_id>/<str:anketa_title>', PostCreateView2.as_view(), name="post-create2"),
     path('about/', views.about, name="app-about"),
     path('reciklaza/', views.reciklaza, name="app-reciklaza"),
     path('tag/<slug:slug>', views.tagged, name="app-tagged"),

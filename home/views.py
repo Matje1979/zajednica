@@ -8,7 +8,7 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post, Comment, Papir
-from users.models import Upravnik, CustomUser
+from users.models import Upravnik, CustomUser, TempPapir, Ulaz
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from .forms import CommentForm
@@ -18,6 +18,8 @@ from django.template.defaultfilters import slugify
 from taggit.models import Tag
 from email.message import EmailMessage
 from transliterate import translit
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -59,7 +61,8 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
         context['upravnik'] = Upravnik.objects.get(ulaz=self.request.user.Ulaz)
-        context['ulaz'] = translit(self.request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
+        context['ulaz'] = self.request.user.Ulaz.Ulica_i_broj
+        context['website'] = self.request.user.Ulaz.website
         return context
     # ordering = ['-date_posted']
     #for a ListView, default context object name is object_list, but that can be overriden in the way above.
@@ -93,7 +96,7 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'tip', 'tags']
+    fields = ['title', 'Sadržaj', 'tip', 'tags']
 
     def get_context_data(self, **kwargs):
         context = super(PostCreateView, self).get_context_data(**kwargs)
@@ -147,6 +150,63 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     #LoginRequiredMixin serves to block access for users who are not logged in. In addition, it redirects the not logged in user to the login page.
     #On classes we cannot use decorators, instead we use mixins.
 
+class PostCreateView2(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'content', 'tip', 'tags', 'anketa_id', 'anketa_title']
+
+    def get_context_data(self, **kwargs):
+        context = super(PostCreateView2, self).get_context_data(**kwargs)
+        context['upravnik'] = Upravnik.objects.get(ulaz=self.request.user.Ulaz)
+        context['ulaz'] = translit(self.request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
+        context['common_tags'] = Post.tags.most_common()[:4]
+        return context
+
+    def get_initial(self):
+        return {'anketa_title':self.kwargs['anketa_title'], 'anketa_id': self.kwargs['anketa_id'], 'title': "Anketa"}
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        # neighbors = CustomUser.objects.filter(Ulaz=self.request.user.Ulaz)
+        # email_list = []
+        # for neighbor in neighbors:
+        #     email_list.append(neighbor.email)
+
+
+        newpost = form.save(commit=False)
+        newpost.slug = slugify(newpost.title)
+        newpost.save()
+        form.save_m2m()
+        # EMAIL_ADDRESS = "damircicic@gmail.com"
+        # password = "jpjpqiomgxbqustb"
+        # if "upozorenje" in list(form.instance.tags.names()):
+        #     for neighbor in neighbors:
+        #         receiver = neighbor.email
+        #         msg = EmailMessage()
+        #         msg['Subject'] = "Važno obaveštenje"
+        #         msg['From'] = EMAIL_ADDRESS
+        #         msg['To'] = receiver
+        #         # msg['Reply-To'] = "ibnruzd@yahoo.com"
+        #         msg.set_content(form.instance.content)
+
+        #         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        #             # smtp.ehlo()
+        #             # smtp.starttls()
+        #             # smtp.ehlo()
+
+        #             smtp.login(EMAIL_ADDRESS, password)
+
+    
+
+        #             # body = form.instance.content
+
+        #             # msg = f'Subject: {subject}\n\n{body}'
+
+        #             # smtp.send_message(msg.encode('utf-8'))
+        #             smtp.send_message(msg)
+        # else:
+        #     print (list(form.instance.tags.names()))
+        return super().form_valid(form)
+
 def tagged(request, slug):
     tag = get_object_or_404(Tag, slug=slug)
     #Filter posts by tag name
@@ -189,22 +249,72 @@ def about(request):
     context={'ulaz': ulaz}
     return render(request, "home/about.html", context)
 
+# @login_required
 def reciklaza(request):
-    if request.user.is_authenticated:
-        papiri = Papir.objects.filter(ulaz=request.user.Ulaz)
-        ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
-        print ("Ulaz", ulaz)
-        context = {'papiri': papiri, 'ulaz': ulaz}
-        return render(request, 'home/reciklaza.html', context)
+    if request.method == "POST":
+        print ("request Post")
+        a = request.POST.get('ulaz')
+        ulaz = Ulaz.objects.get(Ulica_i_broj=a)
+        print ("Ovo je ulaz: ", ulaz)
+        if not TempPapir.objects.filter(ulaz=ulaz):
+            if request.FILES.get('foto'):
+                TempPapir.objects.create(ulaz=ulaz, foto=request.FILES.get('foto'))
+                messages.success(request, "Hvala što ste nas obavestili o popunjenosti kutije!")
+            else:
+                messages.warning(request, "Niste napravili fotografiju, molim vas probajte ponovo.")
+
+        else:
+            
+            print (request.FILES.get('foto'))
+            if request.FILES.get('foto'):
+                print (request.FILES.get('foto'))
+                messages.warning (request, "Niste napravili fotografiju, molim vas probajte ponovo.")
+            else:
+                messages.warning (request, "Niste napravili fotografiju, molim vas probajte ponovo.")
+                print ("photo not taken")
+
+
+        print ("Method Post")
+        if request.user.is_authenticated:
+            papiri = Papir.objects.filter(ulaz=request.user.Ulaz)
+            ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
+            print ("Ulaz", ulaz)
+            context = {'papiri': papiri, 'ulaz': ulaz}
+            return render(request, 'home/reciklaza.html', context)
+        else:
+            papiri = Papir.objects.all()
+            p_quant = 0
+            for papir in papiri: 
+                if papir.kolicina != None:
+                    print ("Kolicina: ", papir.kolicina)
+                    p_quant += papir.kolicina
+            context = {'p_quant': p_quant}
+            return render(request, 'home/reciklaza.html', context)
+
     else:
-        papiri = Papir.objects.all()
-        p_quant = 0
-        for papir in papiri: 
-            if papir.kolicina != None:
-                print ("Kolicina: ", papir.kolicina)
-                p_quant += papir.kolicina
-        context = {'p_quant': p_quant}
-        return render(request, 'home/reciklaza.html', context)
+        if request.user.is_authenticated:
+            papiri = Papir.objects.filter(ulaz=request.user.Ulaz)
+            ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
+            print ("Ulaz", ulaz)
+            total_kolicina = 0
+            total_cena = 0
+            for papir in papiri:
+                total_kolicina += papir.kolicina
+                total_cena += papir.cena
+                print (total_cena)
+                print (total_kolicina)
+
+            context = {'total_kolicina': total_kolicina, 'total_cena': total_cena, 'papiri': papiri, 'ulaz': ulaz}
+            return render(request, 'home/reciklaza.html', context)
+        else:
+            papiri = Papir.objects.all()
+            p_quant = 0
+            for papir in papiri: 
+                if papir.kolicina != None:
+                    print ("Kolicina: ", papir.kolicina)
+                    p_quant += papir.kolicina
+            context = {'p_quant': p_quant}
+            return render(request, 'home/reciklaza.html', context)
 
 
 def telefoni(request):

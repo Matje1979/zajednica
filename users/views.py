@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import CustomUserRegisterForm, UserUpdateForm, ProfileUpdateForm, OceniUpravnikaForm, PapirForm, MessageForUpravnikForm, Register1Form, Register2Form, Register3Form, SecretForm
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser, Upravnik, Profile, KomentarUpravnika, Ulaz, Temp, Temp2
+from .models import CustomUser, Upravnik, Profile, KomentarUpravnika, Ulaz, Temp, Temp2, TempPapir
 # from dal import autocomplete
 from home.models import Post
 from django.core.paginator import Paginator
@@ -10,6 +10,8 @@ import smtplib
 from email.message import EmailMessage
 from transliterate import translit
 import secrets
+from django.http import HttpResponse
+import geocoder
 
 
 # Create your views here.
@@ -267,13 +269,15 @@ def manager_profile(request):
 
 def managers_page(request):
     # ulaz = request.user.Ulaz.Ulica_i_broj
-    upravnici = Profile.objects.filter(is_director = True).order_by('-prosecna_ocena')
+    upravnici = Profile.objects.filter(is_director = True).order_by('-prosecna_ocena')[:100]
     upravnik_list = []
     for upravnik in upravnici:
         upravnik_dict = dict()
         upravnik_dict['username'] = upravnik.user.username
         upravnik_dict['id'] = upravnik.user.id
         upravnik_dict['ocena'] = upravnik.prosecna_ocena
+        upravnik_dict['first_name'] = upravnik.user.first_name
+        upravnik_dict['last_name'] = upravnik.user.last_name
         upravnik_list.append(upravnik_dict)
     print (upravnik_list)
 
@@ -316,22 +320,59 @@ def manager_public(request, pk):
 #         return qs
 
 def papir_servis(request):
-    if request.method == 'POST':
-        form = PapirForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Prodaja papira zabeležena!')
-            return redirect('profile')
-    else:
-        form = PapirForm()
+    if request.user.username == 'Papir_Servis':
+        if request.method == 'POST':
+            form = PapirForm(request.POST)
+            if form.is_valid():
+                a = form.cleaned_data['ulaz']
+                form.save()
+                a.box_full = False
+                a.save()
+                messages.success(request, f'Prodaja papira zabeležena!')
+                form = PapirForm()
+                context = {'form':form}
+                return render(request, 'users/papir_servis.html', context)
+        else:
+            form = PapirForm()
 
-    context = {'form':form}
-    return render(request, 'users/papir_servis.html', context)
+        context = {'form':form}
+        return render(request, 'users/papir_servis.html', context)
+    else:
+        return HttpResponse("<h2>Nemate pristup ovoj stranici</h2>")
 
 
 def papir_mapa(request):
-    return render(request, 'users/papir_mapa.html')
+    filled_boxes = Ulaz.objects.filter(box_full=True)
+    # locations = []
+    # for box in filled_boxes:
+    #     g = geocoder.osm(box.ulaz.Ulica_i_broj + ", " + "Beograd RS")
+    #     location = g.latlng
+    #     print (location)
+    context = {'filled_boxes': filled_boxes}
+    return render(request, 'users/papir_mapa.html', context)
 
+def prijavljen_papir(request):
+    if request.method == "POST":
+        print ("POST")
+        if request.POST['box-status'] == "accept":
+            print ("Box acccepted")
+            ulaz = Ulaz.objects.get(Ulica_i_broj=request.POST['box-ulaz-address'])
+            ulaz.box_full = True
+            ulaz.save()
+            print ("Box_full: ", ulaz.box_full)
+            TempPapir.objects.get(ulaz=ulaz).delete()
+        else:
+            print ("Box rejected")
+            ulaz = Ulaz.objects.get(Ulica_i_broj=request.POST['box-ulaz-address'])
+            TempPapir.objects.get(ulaz=ulaz).delete()
+
+        filled_boxes = TempPapir.objects.all()
+        context={'filled_boxes':filled_boxes}
+        return render(request, 'users/prijavljen_papir.html', context)
+    else:
+        filled_boxes = TempPapir.objects.all()
+        context={'filled_boxes':filled_boxes}
+        return render(request, 'users/prijavljen_papir.html', context)
 
 
 

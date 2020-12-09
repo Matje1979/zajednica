@@ -2,29 +2,86 @@
 
 {% block title %}Results{% endblock %}
 
-{% block main %}
+{% block content %}
 <div class="row">
     <div class="col-lg-8 col-lg-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Poll Result</h3>
+                <p class="panel-title">Rezultat glasanja</p><hr>
             </div>
 
             <div class="panel-body">
-                <h3>Which language is easier to learn?</h3>
+                <h3>{{ poll.question }}</h3><br>
             </div>
 
-            <ul class="list-group">
-                <li class="list-group-item">Python &mdash; <strong>3</strong></li>
-                <li class="list-group-item">JavaScript &mdash; <strong>3</strong></li>
-                <li class="list-group-item">Swift &mdash; <strong>4</strong></li>
-            </ul>
+           <!--  <ul class="list-group">
+                <li class="list-group-item">{{poll.option_one}} &mdash; <strong>{{poll.ption_one_count}}</strong></li>
+                <li class="list-group-item">{{ poll.option_two}} &mdash; <strong>{{poll.ption_two_count}}</strong></li>
+                <li class="list-group-item">{{ poll.option_three}}&mdash; <strong>{{poll.ption_three_count}}</strong></li>
+            </ul><br> -->
+
+    <div class="vote-box" style="display: flex;">  
+    <div class="start w-15" style="float: left; text-align: center; line-height: 1rem;">Da: </div>
+    <div class="progress w-75 mx-auto" style="float: left;">
+    <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">30%</div>
+    </div>
+    <div class="end w-10" style="float: right;line-height: 1rem;">{{ poll.ption_one_count }} <span><i class="fas fa-check"></i></span></div>
+    </div>
+
+    <br>
+
+    <div class="vote-box">  
+    <div class="start w-15" style="float: left; text-align: center; line-height: 1rem;">Ne: </div>
+    <div class="progress w-75 mx-auto">
+    <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">30%</div>
+    </div>
+    <div class="end w-10" style="float: right;line-height: 1rem;">{{ poll.ption_two_count }} <span><i class="fas fa-check"></i></span></div>
+    </div>
+    
+    <br>
+
+
+    <div class="vote-box">  
+    <div class="start w-15" style="float: left; text-align: center; line-height: 1rem;">Svejedno: </div>
+    <div class="progress w-75 mx-auto">
+    <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">30%</div>
+    </div>
+    <div class="end w-10" style="float: right;line-height: 1rem;">{{ poll.ption_three_count }} <span><i class="fas fa-check"></i></span></div>
+    </div>
+    <br>
+
+    <p id="total" style="display: none;">{{ total }}</p>
+
+   
 
             <div class="panel-footer">
-                Total &mdash; <strong>10</strong>
+                Ukupno glasova: <strong>{{ total }} </strong>
             </div>
+            <br>    
 
         </div>
     </div>
 </div>
+{% if poll.ption_one_count %}
+    <script type="text/javascript">
+        var countOne = Number("{{ poll.ption_one_count }}") //set this on page load in a hidden field after an ajax call
+        var countTwo = Number("{{ poll.ption_two_count}}")
+        var countThree = Number("{{ poll.ption_three_count }}")
+        var total = document.getElementById('total').innerHTML; //set this on initial page load
+        var pcg_one = Math.floor(countOne/total*100);        
+        var pcg_two = Math.floor(countTwo/total*100);        
+        var pcg_three = Math.floor(countThree/total*100);        
+        document.getElementsByClassName('progress-bar').item(0).setAttribute('aria-valuenow',pcg_one);
+        document.getElementsByClassName('progress-bar').item(0).setAttribute('style','width:'+Number(pcg_one)+'%');
+        document.getElementsByClassName('progress-bar').item(0).innerHTML = Number(pcg_one) + '%';
+        document.getElementsByClassName('progress-bar').item(1).setAttribute('aria-valuenow',pcg_two);
+        document.getElementsByClassName('progress-bar').item(1).setAttribute('style','width:'+Number(pcg_two)+'%');
+        document.getElementsByClassName('progress-bar').item(1).innerHTML = Number(pcg_two) + '%';
+        document.getElementsByClassName('progress-bar').item(2).setAttribute('aria-valuenow',pcg_three);
+        document.getElementsByClassName('progress-bar').item(2).setAttribute('style','width:'+Number(pcg_three)+'%');
+        document.getElementsByClassName('progress-bar').item(2).innerHTML = Number(pcg_three) + '%';
+    </script>
+{% endif %}
 {% endblock %}
+
+<!-- https://stackoverflow.com/questions/1445989/passing-python-data-to-javascript-via-django -->
