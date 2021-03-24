@@ -1,0 +1,44 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+<div class="content-section">
+    <form method="POST" action="">
+    	{% csrf_token %}
+    	<fieldset class="form-group">
+    		<legend class="border-bottom mb 4">Blog post</legend>
+    		{{ form|crispy|safe }}
+            {{ form.media }}
+            <ul class="list-inline">
+                <li class="list-inline-item">Standardni tagovi:</li>
+                {% for tag in common_tags %}
+                    <li class="list-inline-item"><p class="btn-sm btn-info border-0" style="cursor: pointer;">{{ tag }}</p></li>
+                {% endfor %}
+            </ul>
+
+    	</fieldset>
+
+
+    	<div class="form-group">
+    		<button class="btn btn-outline-info" type="submit">Objavi</button>
+    	</div>
+    </form>
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.list-inline-item').click(function() {
+
+            var text = $('input.tagwidget')
+            console.log(text.text())
+            var t_text = $(this).text()
+            console.log(t_text)
+
+            text.val(text.val() + ' ' + t_text )
+            console.log(text.val())
+        });
+    });
+</script>
+{% endblock content %}

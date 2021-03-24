@@ -15,9 +15,13 @@
 <div class="mapa-container">
     <h2 class="mapa-title">Mapa punih kutija</h2>
     <div id="map"></div>
+    <!--{% if filled_boxes != None %}-->
+    <!--{% endif %}-->
 </div>
 <script>
-    var map = L.map('map').setView([44.79,20.47], 12);
+    var map = L.map('map').setView([44.8067577, 20.4006503], 13);
+
+    map.addControl(new L.Control.Fullscreen());
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -27,9 +31,11 @@
 </script>
 {% for box in filled_boxes %}
 <script>
-    var popup = L.popup().setContent("<p>Hello I am full</p>");
 
+    var popup = L.popup().setContent("<p>{{ box }}</p>");
+    console.log(popup)
     L.marker({{ box.location }}).addTo(map).bindPopup(popup)
+
         // .openPopup();
 </script>
 {% endfor %}

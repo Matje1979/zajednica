@@ -18,12 +18,12 @@
 	                <a class="mr-2" href="{% url 'user-profile' object.author.id %}">{{ object.author }}</a>
 	            {% endif %}
 	        {% endif %}
-	      <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>  
+	      <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
 	    </div>
 	    <h2 class="article-title">{{ object.title }}</h2>
-	    <p class="article-content">{{ object.content }}</p>
+	    <p class="article-content">{{ object.Sadržaj|safe }}</p>
 	    <p>Komentari<span> ({{ comments.count }})</span></p>
-	    {% for comment in comments %}   
+	    {% for comment in comments %}
 		  <article class="media content-section">
 			  <div class="media-body">
 			    <div class="article-metadata">
@@ -53,9 +53,9 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Pošalji</button>
-            </div>  
+            </div>
         </form>
 	  </div>
 	</article>
-	
+
 {% endblock content %}

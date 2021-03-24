@@ -1,0 +1,24 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% for post in posts %}
+  <article class="media content-section border border">
+    <img class='rounded-circle article-img' src="{{ post.author.profile.image.url }}" alt="">
+    <div class="media-body">
+      <div class="article-metadata">
+      {% if user == post.author %}
+        <a class="mr-2" href="{% url 'profile' %}">{{ post.author }}</a>
+      {% else%}
+        <a class="mr-2" href="{% url 'user-profile' post.author.id %}">{{ post.author }}</a>
+      {% endif %}
+        <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+      </div>
+      <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+      <p class="article-content">{{ post.content|truncatewords:20 }}<span><a href="{% url 'post-detail' post.id %}">pročitaj više</a></span></p>
+    </div>
+  </article>
+  {% endfor %}
+
+{% endblock content%}

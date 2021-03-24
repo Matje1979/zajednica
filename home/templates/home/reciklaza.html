@@ -1,7 +1,7 @@
 {% extends 'home/base.html' %}
 {% load static %}
 {% block content%}
-    {% if p_quant %}
+    {% if user.is_authenticated %}
     <article class="content-section mt-5">
     	<i class="fas fa-recycle fa-3x"></i><br><br>
     	<h4>Informacije o sakupljenim stvarima za reciklažu </h4><br>
@@ -10,7 +10,7 @@
     	 <p class="text-secondary">Sakupljeno u svim ulazima: <span>{{ p_quant }} kg</span></p>
     	<h6>Čepovi</h6><hr>
     	<p class="text-secondary">Još uvek nije počelo sakupljanje</p>
-        
+
     </article>
 
    <!--  <div class="content-section">
@@ -23,7 +23,7 @@
 
  <p>Ukupno sakupljeno: <span><strong>{{ total_kolicina }} kg</strong></span></p>
  <p>Zarada: <span><strong>{{ total_cena }} din</strong></span></p>
- <button id="p-button">Detalji</button>
+ <button id="p-button" class="btn btn-outline-info mb-2">Detalji</button>
  <br>
  <br>
  <div id="paper-details">
@@ -41,25 +41,55 @@
       <h5 class="mb-3">Kutija je popunjena?</h5>
       <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
         <input type="hidden" id="ulaz" name="ulaz" value="{{user.Ulaz.Ulica_i_broj}}">
-        <label for="capture" class="btn btn-outline-info mb-5" >Napravi fotografiju <span><i class="fas fa-camera"></i></span></label>
+        <input type="hidden" id="ulaz" name="vrsta" value="Papir">
+        <label for="capture" class="btn btn-outline-info mb-2">Napravi fotografiju <span><i class="fas fa-camera"></i></span></label>
             <!-- Does not work with attribute required -->
             <input type="file"
             name="foto"
             id="capture"
             style="visibility: hidden;"
-            accept="image/*,video/*,audio/*"
-            capture
+            accept="image/*"
+            capture = "camera"
             />
-        <input type="submit" class="btn btn-outline-info mb-5" value="Pošalji">
+        <input type="submit" class="btn btn-outline-info mb-2" value="Pošalji">
      </form>
  </article>
  <p><img src="#" id="papir-img" alt="from phone"/></p>
  <article class="content-section mt-5">
     <h6>Čepovi</h6><hr>
+    <p>Ukupno sakupljeno kutija: <span><strong>{{ total_kolicina }}</strong></span></p>
+    <button id="p-button" class="btn btn-outline-info mb-2">Detalji</button>
+     <br>
+     <br>
+     <div id="paper-details">
+    	  <!--{% for papir in papiri %}-->
+    	  <!--    <ul>-->
+       <!--           <li><p>Datum: <span>{{ papir.datum }}</span></p></li>-->
+    		 <!--     <li><p>Količina: <span>{{ papir.kolicina }} kg</span></p></li>-->
+    		 <!--     <li><p>Cena: <span>{{ papir.cena }} dinara</span></p><br></li>-->
+    	  <!--    </ul>-->
+       <!--   {% endfor %}-->
+
+    </div>
+     <h5 class="mb-3">Kutija je popunjena?</h5>
+      <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <input type="hidden" id="ulaz" name="ulaz" value="{{user.Ulaz.Ulica_i_broj}}">
+        <input type="hidden" id="ulaz" name="vrsta" value="Cepovi">
+        <label for="capture" class="btn btn-outline-info mb-2" >Napravi fotografiju <span><i class="fas fa-camera"></i></span></label>
+            <!-- Does not work with attribute required -->
+            <input type="file"
+            name="foto"
+            id="capture"
+            style="visibility: hidden;"
+            accept="image/*"
+            capture = "camera"
+            />
+        <input type="submit" class="btn btn-outline-info mb-2" value="Pošalji">
+     </form>
 </article>
-    
+
     {% endif %}
-     
+
 <script>
     $('#p-button').click(function (){
         $('#paper-details').toggle();
@@ -67,12 +97,12 @@
 </script>
 
  <script>
-        
+
         document.addEventListener('DOMContentLoaded', (ev)=>{
             let form = document.getElementById('myform');
             //get the captured media file
             let input = document.getElementById('capture');
-            
+
             input.addEventListener('change', (ev)=>{
                 console.dir( input.files[0] );
                 if(input.files[0].type.indexOf("image/") > -1){
@@ -88,10 +118,10 @@
                     let video = document.getElementById('video');
                     video.src=window.URL.createObjectURL(input.files[0]);
                 }
-                
-                
+
+
             })
-            
+
         })
     </script>
 {% endblock content %}

@@ -20,31 +20,31 @@
                 <li class="list-group-item">{{ poll.option_three}}&mdash; <strong>{{poll.ption_three_count}}</strong></li>
             </ul><br> -->
 
-    <div class="vote-box" style="display: flex;">  
+    <div class="vote-box" style="display: flex;">
     <div class="start w-15" style="float: left; text-align: center; line-height: 1rem;">Da: </div>
     <div class="progress w-75 mx-auto" style="float: left;">
-    <div class="progress-bar" role="progressbar" style="width: 30%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">30%</div>
+    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">0%</div>
     </div>
     <div class="end w-10" style="float: right;line-height: 1rem;">{{ poll.ption_one_count }} <span><i class="fas fa-check"></i></span></div>
     </div>
 
     <br>
 
-    <div class="vote-box">  
+    <div class="vote-box">
     <div class="start w-15" style="float: left; text-align: center; line-height: 1rem;">Ne: </div>
     <div class="progress w-75 mx-auto">
-    <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">30%</div>
+    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">0%</div>
     </div>
     <div class="end w-10" style="float: right;line-height: 1rem;">{{ poll.ption_two_count }} <span><i class="fas fa-check"></i></span></div>
     </div>
-    
+
     <br>
 
 
-    <div class="vote-box">  
+    <div class="vote-box">
     <div class="start w-15" style="float: left; text-align: center; line-height: 1rem;">Svejedno: </div>
     <div class="progress w-75 mx-auto">
-    <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">30%</div>
+    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">0%</div>
     </div>
     <div class="end w-10" style="float: right;line-height: 1rem;">{{ poll.ption_three_count }} <span><i class="fas fa-check"></i></span></div>
     </div>
@@ -52,25 +52,28 @@
 
     <p id="total" style="display: none;">{{ total }}</p>
 
-   
+
 
             <div class="panel-footer">
                 Ukupno glasova: <strong>{{ total }} </strong>
             </div>
-            <br>    
+            <br>
 
         </div>
     </div>
 </div>
-{% if poll.ption_one_count %}
+{% if poll.ption_one_count or poll.ption_two_count or poll.ption_three_count %}
     <script type="text/javascript">
         var countOne = Number("{{ poll.ption_one_count }}") //set this on page load in a hidden field after an ajax call
+        console.log(countOne);
         var countTwo = Number("{{ poll.ption_two_count}}")
+        console.log(countTwo)
         var countThree = Number("{{ poll.ption_three_count }}")
+        console.log(countThree)
         var total = document.getElementById('total').innerHTML; //set this on initial page load
-        var pcg_one = Math.floor(countOne/total*100);        
-        var pcg_two = Math.floor(countTwo/total*100);        
-        var pcg_three = Math.floor(countThree/total*100);        
+        var pcg_one = Math.floor(countOne/total*100);
+        var pcg_two = Math.floor(countTwo/total*100);
+        var pcg_three = Math.floor(countThree/total*100);
         document.getElementsByClassName('progress-bar').item(0).setAttribute('aria-valuenow',pcg_one);
         document.getElementsByClassName('progress-bar').item(0).setAttribute('style','width:'+Number(pcg_one)+'%');
         document.getElementsByClassName('progress-bar').item(0).innerHTML = Number(pcg_one) + '%';
@@ -82,6 +85,7 @@
         document.getElementsByClassName('progress-bar').item(2).innerHTML = Number(pcg_three) + '%';
     </script>
 {% endif %}
+
 {% endblock %}
 
 <!-- https://stackoverflow.com/questions/1445989/passing-python-data-to-javascript-via-django -->

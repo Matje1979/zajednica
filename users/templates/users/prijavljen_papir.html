@@ -5,6 +5,7 @@
 
 {% block content%}
 
+{% if filled_boxes %}
 {% for box in filled_boxes %}
     <p><strong class="box-title">{{ box }}</strong><span>  {{ location }}</p>
     {% if box.foto != None %}
@@ -28,7 +29,7 @@
             var accept = document.getElementById("{{ box }}-accepted");
             console.log(accept);
             var reject = document.getElementById("{{ box }}-rejected");
-            
+
             accept.addEventListener('click', (ev)=>{
                 console.log("1 clicked");
                 boxInput.value = "accept";
@@ -56,6 +57,9 @@
 
     </script>
 {% endfor %}
+{% else %}
+<h4 class="mt-5 mb-3 mx-auto" style="text-align: center;">Trenutno nema prijavljenih kutija</h4>
+{% endif %}
 
 
 

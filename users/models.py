@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.utils.translation import ugettext_lazy as _ 
+from django.utils.translation import ugettext_lazy as _
 from location_field.models.plain import PlainLocationField
 
 # Create your models here.
@@ -14,14 +15,35 @@ VRSTE_UPRAVNIKA = (
     ("Profesionalni upravnik - domaće lice", "Profesionalni upravnik - domaće lice"),
 )
 
+class Grad(models.Model):
+    name = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural="Gradovi"
+
+class Opština(models.Model):
+    name=models.CharField(max_length=50, null=True, blank=True)
+    Grad=models.ForeignKey(Grad, on_delete=models.CASCADE, related_name="opštine")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural="Opštine"
+
 class Ulaz(models.Model):
-    Grad=models.CharField(max_length=50)
-    Opština=models.CharField(max_length=50)
+    Grad=models.ForeignKey(Grad, on_delete=models.SET_NULL, related_name="ulazi", null=True)
+    Opština=models.ForeignKey(Opština, on_delete=models.SET_NULL, related_name="ulazi", null=True)
     Ulica_i_broj=models.CharField(max_length=100)
     website = models.URLField(default="https://www.b92.net/")
-    box_full = models.BooleanField(default=False)
+    papir_box_full = models.BooleanField(default=False)
+    cep_box_full = models.BooleanField(default=False)
+    cep_box_filled_date = models.FloatField(null=True, blank=True)
     city = models.CharField(max_length=255, default='Belgrade')
-    location = PlainLocationField(based_fields=['city'], zoom=10, default='44.79688084502436,20.477120876312256')
+    location = PlainLocationField(based_fields=['city'], zoom=10, null=True)
 
     def __str__(self):
         return str(self.Ulica_i_broj)
@@ -55,7 +77,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return str(self.username)
- 
+
 class Upravnik(models.Model):
     ulaz=models.OneToOneField(Ulaz, on_delete=models.CASCADE, related_name="Ulaz")
     user=models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -76,13 +98,14 @@ class Profile(models.Model):
     o_sebi = models.TextField(null=True, blank=True)
     oceni_upravnika = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True)
     prosecna_ocena = models.FloatField(null=True, blank=True)
+    broj_ocenjivaca = models.IntegerField(null=True, blank=True)
     is_director = models.BooleanField(default=False)
     radi_za = models.CharField(max_length=100, null=True, blank=True)
     vrsta_upravnika = models.CharField(max_length=100, null=True, blank=True)
     is_organisation = models.BooleanField(default=False)
-    
+
     # ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE, null=True, blank=True)
-    
+
     def __str__(self):
         return f'{self.user.username} Profile'
 
@@ -102,16 +125,31 @@ class Temp(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
 
 class Temp2(models.Model):
+    CITY_CHOICES = [(x.name, x.name) for x in Grad.objects.all()]
     secr = models.IntegerField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
-    Grad = models.CharField(max_length=50, null=True, blank=True)
-    Opština = models.CharField(max_length=50, null=True, blank=True)
+    Grad = models.CharField(max_length=50, null=True, choices=CITY_CHOICES)
+    Opština = models.CharField(max_length=50, null=True)
     ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE)
+    Broj_stana = models.IntegerField(null=True)
 
 class TempPapir(models.Model):
-    ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE)
+    ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE, unique=True)
     foto = models.ImageField(upload_to='temp_papir_photos', null=True, blank=True)
+    city = models.CharField(max_length=60, default='Belgrade')
+    ulica_i_broj = models.CharField(max_length=50, null=True, blank=True, unique=True)
+    location = PlainLocationField(based_fields=['city'], zoom=10, default='44.79688084502436,20.477120876312256')
+
+    def __str__(self):
+        return self.ulaz.Ulica_i_broj
+
+class TempCepovi(models.Model):
+    ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE, unique=True)
+    foto = models.ImageField(upload_to='temp_papir_photos', null=True, blank=True)
+    city = models.CharField(max_length=60, default='Belgrade')
+    location = PlainLocationField(based_fields=['city'], zoom=10, default='44.79688084502436,20.477120876312256')
+    cep_box_filled_date=models.FloatField(null=True,blank=True)
 
     def __str__(self):
         return self.ulaz.Ulica_i_broj
@@ -128,7 +166,7 @@ class TempPapir(models.Model):
 #     o_sebi = models.TextField(null=True, blank=True)
 #     is_organisation = models.BooleanField(default=False)
 #     # ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE, null=True, blank=True)
-    
+
 #     def __str__(self):
 #         return f'{self.user.username} Profile'
 
@@ -154,7 +192,7 @@ class MessageForUpravnik(models.Model):
     title=models.CharField(max_length=200, null=True)
     content=models.TextField(null=True)
 
-# class TempUser(models.Model): 
+# class TempUser(models.Model):
 #     Email = models.EmailField(max_length=250)
 #     Grad=models.CharField(max_length=100)
 #     Opština=models.CharField(max_length=100)

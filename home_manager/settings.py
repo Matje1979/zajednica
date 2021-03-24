@@ -22,12 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 'yov061qe^&+p=rj=e0sf$0xr(!*k(2fgty+dp&1#t4v1)p!lz%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['zajednicastanara.pythonanywhere.com']
 
 
 # Application definition
@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # 'dal',
     # 'dal_select2',
+    'corsheaders',
     'django.contrib.auth',
     'crispy_forms',
     'django.contrib.contenttypes',
@@ -49,8 +50,11 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'ckeditor',
     'ckeditor_uploader',
-    'location_field.apps.DefaultConfig'
-    
+    'location_field.apps.DefaultConfig',
+    'rest_framework',
+    'pwa',
+
+
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -58,11 +62,12 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_CONFIGS ={
     'default': {
     'toolbar': 'basic',
-    'height': 300,   
+    'height': 300,
     }
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,6 +77,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:8000",
+#     "http://localhost:8000/box_reports/"
+# ]
+CORS_ALLOW_ALL_ORIGINS=True
 ROOT_URLCONF = 'home_manager.urls'
 
 TEMPLATES = [
@@ -147,11 +157,14 @@ LOCATION_FIELD = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# PWA_SERVICE_WORKER_PATH = '/home/zajednicastanara/home_manager/static/home/js/serviceworker.js'
+# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, '/static/home/js', 'serviceworker.js')
+
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = '/home/zajednicastanara/home_manager/static'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/zajednicastanara/home_manager/media'
 
 MEDIA_URL = '/media/'
 
@@ -160,3 +173,37 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'login-success'
 
 LOGIN_URL = 'login'
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
+PWA_APP_DEBUG_MODE = False
+PWA_APP_NAME = 'Zajednica Stanara'
+PWA_APP_DESCRIPTION = "Zajednica Stanara PWA"
+PWA_APP_THEME_COLOR = '#000000'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': 'static/home/house3.png',
+        'sizes': '160x160'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': 'static/home/house3.png',
+        'sizes': '160x160'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': 'static/images/icon.png',
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'

@@ -3,15 +3,56 @@
 
 {% block content%}
 <div class="content-section">
-    <form method="POST" action="">
+    <form method="POST" id="temp2Form" action="" data-cities-url="{% url 'ajax_load_opstine' %}" data-counties-url="{% url 'ajax_load_ulazi' %}">
     	{% csrf_token %}
-    	<fieldset class="form-group">
-    		<legend class="border-bottom mb 4">Unesi adresu radi nastavka registracije.</legend>
+    	<fieldset class="form-group" >
+    		<legend class="border-bottom mb 4">Unesi adresu radi nastavka registracije</legend>
     		{{ form|crispy }}
     	</fieldset>
     	<div class="form-group">
     		<button class="btn btn-outline-info" type="submit">Pošalji</button>
-    	</div>	
+    	</div>
     </form>
 </div>
+<script>
+    $("#id_Grad").change(function(){
+        console.log("City changed");
+        const url = $("#temp2Form").attr("data-cities-url");
+        console.log(url);
+        const gradName = $(this).val();
+        console.log(gradName);
+
+        $.ajax({
+            url: url,
+            data: {
+                "grad_name": gradName
+            },
+            success: function (data){
+                console.log(data);
+                $("#id_Opština").html(data);
+            }
+        })
+    })
+
+      $("#id_Opština").change(function(){
+        console.log("Opština changed");
+        const url = $("#temp2Form").attr("data-counties-url");
+        console.log(url);
+        const opstinaId = $(this).val();
+        console.log(opstinaId);
+
+        $.ajax({
+            url: url,
+            data: {
+                "opstina_id": opstinaId
+            },
+            success: function (data){
+                console.log(data);
+                $("#id_ulaz").html(data);
+            }
+        })
+    })
+
+
+</script>
 {% endblock content %}

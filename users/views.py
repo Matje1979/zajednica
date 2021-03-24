@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import CustomUserRegisterForm, UserUpdateForm, ProfileUpdateForm, OceniUpravnikaForm, PapirForm, MessageForUpravnikForm, Register1Form, Register2Form, Register3Form, SecretForm
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser, Upravnik, Profile, KomentarUpravnika, Ulaz, Temp, Temp2, TempPapir
+from .models import CustomUser, Upravnik, Profile, KomentarUpravnika, Ulaz, Temp, Temp2, TempPapir, Opština
 # from dal import autocomplete
 from home.models import Post
 from django.core.paginator import Paginator
@@ -10,7 +10,7 @@ import smtplib
 from email.message import EmailMessage
 from transliterate import translit
 import secrets
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import geocoder
 
 
@@ -33,11 +33,13 @@ def register(request, pk):
         if form.is_valid() and secr_form.is_valid():
             ##Need to handle this somehow
             if secr_form.cleaned_data.get('secr') == temp2.secr:
-                new_user = form.save(commit=False)        
-                new_user.Grad = temp2.Grad        
-                new_user.Opština = temp2.Opština      
-                new_user.Ulaz = temp2.ulaz      
-                new_user.email = temp2.email     
+                new_user = form.save(commit=False)
+                new_user.Grad = temp2.Grad
+                new_user.Opština = temp2.Opština
+                new_user.Ulaz = temp2.ulaz
+                new_user.email = temp2.email
+                new_user.Ulica_i_broj = temp2.ulaz.Ulica_i_broj
+                new_user.Broj_stana = temp2.Broj_stana
                 username = form.cleaned_data.get('username')
                 new_user.save()
                 messages.success(request, f'Your account has been created! You are now able to log in.')
@@ -118,7 +120,7 @@ def register3(request, temp_id):
             ##Sending the secret code the users email (mailbox in future) and a link to the registration page
             yourname = temp2.name
             r_num = secr
-            reg_link = 'localhost:8000/register/' + str(temp2.id)
+            reg_link = 'zajednicastanara.pythonanywhere.com/register/' + str(temp2.id)
 
             EMAIL_ADDRESS = "damircicic@gmail.com"
             password = "jpjpqiomgxbqustb"
@@ -171,7 +173,7 @@ def profile(request):
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
     ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
-        
+
     context = {'u_form': u_form, 'p_form': p_form, 'ulaz': ulaz}
     return render(request, 'users/profile.html', context)
 
@@ -184,45 +186,48 @@ def manager_profile(request):
     upravnik = Upravnik.objects.get(ulaz=request.user.Ulaz) #identifikacija defin. deskripcije upravnik
     ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
     upravnik_set = Upravnik.objects.filter(user__username=upravnik.user) #prikupljanje seta def. deskripcija upravnik preko
-    posts = Post.objects.filter(author=upravnik.user) 
-    paginator = Paginator(posts, 5) 
+    posts = Post.objects.filter(author=upravnik.user)
+    paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
                                                         #imena upravnika trenutnog ulaza
-    total = 0  
-    n = 0                                                                
+    total = 0
+    n = 0
     for upravnik in upravnik_set:  #za svakog upravnika-deskripciju
-        for stanar in CustomUser.objects.filter(Ulaz=upravnik.ulaz):   #za svakog korisnika koji stanuje u ulazu kojim upravlja dati upravnik      
-            if stanar.username != upravnik.user.username and stanar.profile.oceni_upravnika != None:   #ako korisnik nije taj upravnik 
+        for stanar in CustomUser.objects.filter(Ulaz=upravnik.ulaz):   #za svakog korisnika koji stanuje u ulazu kojim upravlja dati upravnik
+            if stanar.username != upravnik.user.username and stanar.profile.oceni_upravnika != None:   #ako korisnik nije taj upravnik
                 total+=stanar.profile.oceni_upravnika                                                  #i ako je ocenio upravnika
                 n+=1
     if n > 0:                                                                                    #uvećaj total za ocenu upravnika i za 1 ukup. br ocena
-        ocena_upravnika = float(total/n)  #srednja ocena
+        ocena_upravnika = round(float(total/n), 3)  #srednja ocena
+        broj_ocenjivaca = n
     else:
         ocena_upravnika = "Nije ocenjivan"
+        broj_ocenjivaca = n
 
     if request.method == 'POST':
         if 'survey-button' in request.POST:
             upravnik_form = OceniUpravnikaForm(request.POST, instance=request.user.profile)
             if upravnik_form.is_valid():
                 upravnik_form.save()
-                total = 0  
-                n = 0                                                                
+                total = 0
+                n = 0
                 for upravnik in upravnik_set:  #za svakog upravnika-deskripciju
-                    for stanar in CustomUser.objects.filter(Ulaz=upravnik.ulaz):   #za svakog korisnika koji stanuje u ulazu kojim upravlja dati upravnik      
-                        if stanar.username != upravnik.user.username and stanar.profile.oceni_upravnika != None:   #ako korisnik nije taj upravnik 
+                    for stanar in CustomUser.objects.filter(Ulaz=upravnik.ulaz):   #za svakog korisnika koji stanuje u ulazu kojim upravlja dati upravnik
+                        if stanar.username != upravnik.user.username and stanar.profile.oceni_upravnika != None:   #ako korisnik nije taj upravnik
                             total+=stanar.profile.oceni_upravnika                                                  #i ako je ocenio upravnika
-                            n+=1  
+                            n+=1
                 if n > 0:                                                                                 #uvećaj total za ocenu upravnika i za 1 ukup. br ocena
-                    ocena_upravnika = float(total/n) 
+                    ocena_upravnika = float(total/n)
                 else:
                     ocena_upravnika = "Nije ocenjivan"
                 if ocena_upravnika != "Nije ocenjivan":
+                    upravnik.user.profile.broj_ocenjivaca = n
                     upravnik.user.profile.prosecna_ocena = ocena_upravnika
                     upravnik.user.profile.save()
 
                 messages.success(request, f'Uspešno ste ocenili upravnika!')
-                context= {'upravnik': upravnik, 'ulaz': ulaz, 'upravnik_form': upravnik_form, 'ocena_upravnika': ocena_upravnika, 'page_obj':page_obj}
+                context= {'broj_ocenjivaca': n, 'upravnik': upravnik, 'ulaz': ulaz, 'upravnik_form': upravnik_form, 'ocena_upravnika': ocena_upravnika, 'page_obj':page_obj}
                 return render(request, 'users/manager.html', context)
         elif 'message-button' in request.POST:
             message_form = MessageForUpravnikForm(request.POST)
@@ -259,12 +264,12 @@ def manager_profile(request):
             context= {'upravnik': upravnik, 'ulaz': ulaz, 'upravnik_form': upravnik_form, 'ocena_upravnika': ocena_upravnika, 'posts':posts, 'message_form': message_form}
             return render(request, 'users/manager.html', context)
     else:
-        
+
         upravnik_form = OceniUpravnikaForm(instance=request.user.profile)
         message_form = MessageForUpravnikForm()
         print (upravnik)
         # user = request.user
-        context= {'upravnik': upravnik, 'ulaz': ulaz, 'upravnik_form': upravnik_form, 'ocena_upravnika': ocena_upravnika, 'posts':posts, 'message_form': message_form}
+        context= {'broj_ocenjivaca': broj_ocenjivaca, 'upravnik': upravnik, 'ulaz': ulaz, 'upravnik_form': upravnik_form, 'ocena_upravnika': ocena_upravnika, 'posts':posts, 'message_form': message_form}
         return render(request, 'users/manager.html', context)
 
 def managers_page(request):
@@ -278,8 +283,10 @@ def managers_page(request):
         upravnik_dict['ocena'] = upravnik.prosecna_ocena
         upravnik_dict['first_name'] = upravnik.user.first_name
         upravnik_dict['last_name'] = upravnik.user.last_name
+        upravnik_dict['broj_ocenjivaca'] = upravnik.broj_ocenjivaca
+
         upravnik_list.append(upravnik_dict)
-    print (upravnik_list)
+    print ("U: ", upravnik_list, flush=True)
 
     context = {'upravnik_list': upravnik_list}
     return render(request, 'users/managers_page.html', context)
@@ -326,7 +333,7 @@ def papir_servis(request):
             if form.is_valid():
                 a = form.cleaned_data['ulaz']
                 form.save()
-                a.box_full = False
+                a.papir_box_full = False
                 a.save()
                 messages.success(request, f'Prodaja papira zabeležena!')
                 form = PapirForm()
@@ -342,7 +349,7 @@ def papir_servis(request):
 
 
 def papir_mapa(request):
-    filled_boxes = Ulaz.objects.filter(box_full=True)
+    filled_boxes = Ulaz.objects.filter(papir_box_full=True)
     # locations = []
     # for box in filled_boxes:
     #     g = geocoder.osm(box.ulaz.Ulica_i_broj + ", " + "Beograd RS")
@@ -357,14 +364,20 @@ def prijavljen_papir(request):
         if request.POST['box-status'] == "accept":
             print ("Box acccepted")
             ulaz = Ulaz.objects.get(Ulica_i_broj=request.POST['box-ulaz-address'])
-            ulaz.box_full = True
+            ulaz.papir_box_full = True
             ulaz.save()
-            print ("Box_full: ", ulaz.box_full)
+            print ("Box_full: ", ulaz.papir_box_full)
             TempPapir.objects.get(ulaz=ulaz).delete()
+            filled_boxes = TempPapir.objects.all()
+            if not filled_boxes:
+                return redirect('papir_mapa')
         else:
             print ("Box rejected")
             ulaz = Ulaz.objects.get(Ulica_i_broj=request.POST['box-ulaz-address'])
             TempPapir.objects.get(ulaz=ulaz).delete()
+            if not filled_boxes:
+                context = {'filled_boxes': filled_boxes}
+                return redirect('papir_mapa')
 
         filled_boxes = TempPapir.objects.all()
         context={'filled_boxes':filled_boxes}
@@ -374,6 +387,43 @@ def prijavljen_papir(request):
         context={'filled_boxes':filled_boxes}
         return render(request, 'users/prijavljen_papir.html', context)
 
+#AJAX
+def load_opstine(request):
+    grad_name = request.GET.get("grad_name")
+    opstine = Opština.objects.filter(Grad__name = grad_name)
+    # print (opstine, flush=True)
+    context={"opstine": opstine}
+    return render(request, "users/opstine_dropdown_list.html", context)
+
+#AJAX
+def load_ulazi(request):
+    opstina_id = request.GET.get("opstina_id")
+    print (opstina_id, flush=True)
+    ulazi = Ulaz.objects.filter(Opština__id = opstina_id)
+    # print (ulazi, flush=True)
+    context={"ulazi": ulazi}
+    return render(request, "users/ulazi_dropdown_list.html", context)
+
+#AJAX cep_za_hendikep API
+def cep_load_opstine(request):
+    grad_name = request.GET.get("grad_name")
+    opstine = Opština.objects.filter(Grad__name = grad_name)
+    # print (opstine, flush=True)
+    context={"opstine": opstine}
+    return render(request, "users/cep_opstine_dropdown_list.html", context)
+
+#AJAX cep_za_hendikep API
+def cep_load_ulazi(request):
+    opstina_name = request.GET.get("opstina_name")
+    print (opstina_name, flush=True)
+    ulazi = Ulaz.objects.filter(Opština__name = opstina_name)
+    ulaz_list = []
+    for ulaz in ulazi:
+        ulaz_list.append(ulaz.Ulica_i_broj)
+    return JsonResponse(ulaz_list, safe=False)
+    # print (ulazi, flush=True)
+    # context={"ulazi": ulazi}
+    # return render(request, "users/cep_ulazi_dropdown_list.html", context)
 
 
 # def prijava(request):
@@ -382,9 +432,9 @@ def prijavljen_papir(request):
 #         url = url[3:]
 #     else:
 #         url = url
-        
+
 #     cpi = Profil.objects.first()
-        
+
 #     baneri = Baner.objects.all().order_by('-Datum_objave')
 #     baner_list = []
 #     if len(baneri) <= 5:
@@ -392,27 +442,27 @@ def prijavljen_papir(request):
 #             baner_list.append(baner)
 #     else:
 #         baner_list = baneri[:5]
-        
+
 #     if request.method == 'POST':
 #         name = request.POST['ime']
 #         surname = request.POST['prezime']
 #         email = request.POST['email']
 #         tura = request.POST['vodjenja']
 #         random_num = secrets.randbelow(1000000)
-        
+
 #         print (name)
 #         print (surname)
-        
+
 #         num=str(random_num)
-        
+
 #         a = TempPrijava(Ime = name, Prezime = surname, Email = email, Tura = tura, random_num = random_num)
 #         a.save()
-        
+
 #         msg = MIMEMultipart("alternative")
 #         msg["Subject"] = "reservation test"
 #         msg["From"] = "reservations@cpi.rs"
 #         msg["To"] = email
-        
+
 
 #         port = 465
 
@@ -420,14 +470,14 @@ def prijavljen_papir(request):
 
 
 #         context = ssl.create_default_context()
-        
-#         message = f"""\  
+
+#         message = f"""\
 #         Pozdrav,
 #         Potvrdite prijavu za vodjenje klikom na ovaj link: https://www.cpi.rs/potvrda/{num}
-        
+
 #         """
-        
-#         html = f"""\  
+
+#         html = f"""\
 #         <html>
 #             <body>
 #                 <p>Pozdrav,<br>
@@ -435,24 +485,24 @@ def prijavljen_papir(request):
 #                 </p>
 #             </body>
 #         </html>
-        
+
 #         """
-        
+
 #         part1 = MIMEText(message, "plain")
 #         part2 = MIMEText(html, "html")
-        
+
 #         msg.attach(part1)
 #         msg.attach(part2)
 
-        
+
 #         with smtplib.SMTP_SSL("mail.cpi.rs", port, context = context) as server:
 #                 server.login("reservations@cpi.rs", password)
-#                 server.sendmail("reservations@cpi.rs", email, msg.as_string()) 
-        
+#                 server.sendmail("reservations@cpi.rs", email, msg.as_string())
+
 #         return render(request, 'cpi/potvrda_prijave.html')
 #     else:
 #         return HttpResponseNotFound('<h1>Page not found</h1>')
-        
+
 # def potvrda(request, rand_num):
 #     try:
 #         # rand_num = int(rand_num)
@@ -461,15 +511,15 @@ def prijavljen_papir(request):
 #         prezime = a.Prezime
 #         email = a.Email
 #         tura = a.Tura
-        
+
 #         print (tura)
 #         print (ime)
 
 #         b = Prijava.objects.create(Ime = ime, Prezime = prezime, Email = email, Tura = tura)
 
 #         a.delete()
-        
+
 #     except Exception as e:
 #         print (e)
 
-#     return render(request, 'cpi/success.html')   
+#     return render(request, 'cpi/success.html')

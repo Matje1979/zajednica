@@ -1,9 +1,14 @@
+@font-face{
+		  font-family: Metropolis;
+		  src: url("../fonts/other/metropolis.regular.otf")
+		}
+
 body {
   background: #fafafa;
-  font-family: monospace;
   /*background: #f2f2f2;*/
   color: #333333;
   margin-top: 5rem;
+  font-family: Metropolis;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -20,11 +25,139 @@ a {
   color: black;
 }
 
+.media-body{
+    padding: 15px;
+}
+
+#snow-falling1{
+    position: absolute;
+    top: 0px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+}
+
+#snow-falling2{
+    position: absolute;
+    top: 300px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+}
+
+#snow-falling3{
+    position: absolute;
+    top: 600px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+#snow-falling4{
+    position: absolute;
+    top: 900px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+#snow-falling5{
+    position: absolute;
+    top: 1200px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+#snow-falling6{
+    position: absolute;
+    top: 1500px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+#snow-falling7, #snow-falling8, #snow-falling9, #snow-falling10, #snow-falling11{
+    position: absolute;
+    top: 1800px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+#snow-falling12{
+    position: absolute;
+    top: 1800px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+#snow-falling13{
+    position: absolute;
+    top: 1800px;
+    z-index: -1;
+    width: 100%;
+    height: auto;
+    display: none;
+}
+
+
+
+#winter-row{
+    opacity: 0.8;
+    top: 10px;
+    position: relative;
+}
+.kvar{
+  color: white !important;
+  border: 0.1px solid white !important;
+}
+
+#kvar-list{
+  display: none;
+}
+
+#id_option_one, #id_option_two, #id_option_three{
+  opacity: 0.5;
+}
+
+.end span i{
+  color: #007bff;
+}
+.vote-box{
+  display: flex;
+}
+
 .django-ckeditor-widget{
   width: 100%;
 }
 
 #cke_id_Sadržaj{
+  width: 100% !important;
+}
+
+.box-title{
+  font-size: 16px;
+}
+
+#papir-img{
+  display: none;
+  width: 50%;
+}
+
+#paper-details{
+  display: none;
+}
+
+#map{
+  height: 600px;
   width: 100%;
 }
 
@@ -45,6 +178,7 @@ ul li:hover{
 .fa-bell{
   color: #cbd5db;
   padding: .5rem 1rem;
+  margin-top: 4px;
 }
 
 .fa-recycle{
@@ -54,18 +188,29 @@ ul li:hover{
 #frontpage-img{
   width: 50%;
   height: auto;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .btn-group-sm>.btn, .btn-sm{
   padding: 1px;
 }
 
+#p-button{
+    border-radius: 5px;
+}
+
 .pdf{
   color: royalblue;
 }
 
+#navbarToggle{
+  font-size: 16px;
+}
+
 li.list-group-item{
     padding: .75rem 1.75rem;
+    cursor: pointer;
 }
 
 
@@ -73,7 +218,6 @@ li.list-group-item:hover {
     background-color: #f2f2ed;
     color: #428bca;
     /*font-weight: bold;*/
-    font-size: 13px;
 }
 
 #page-link{
@@ -87,7 +231,7 @@ li.list-group-item:hover {
 
 .quote {
   margin: 0;
-  background-color: #eee !important; 
+  background-color: #eee !important;
   padding: 1em;
   border-radius: 1em;
   width: 90%;
@@ -121,10 +265,10 @@ li.list-group-item:hover {
 
 .content-section {
   background: #ffffff;
-  padding: 10px 20px;
+  padding: 20px 20px;
   /*border: 1px solid #dddddd;*/
   border: 0px solid #dddddd;
-  border-radius: 5px;
+  border-radius: 10px;
   margin-bottom: 20px;
   -webkit-box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);
   -moz-box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);
@@ -192,4 +336,69 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  .article-img {
+    display: none;
+  }
+
+  #frontpage-img{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 100%;
+  }
+
+  #snow-falling2{
+      top: 200px;
+  }
+
+  #snow-falling3{
+      top: 400px;
+      display: block;
+  }
+
+  #snow-falling4{
+      top: 600px;
+      display: block;
+  }
+
+    #snow-falling5{
+      top: 800px;
+      display: block;
+  }
+    #snow-falling6{
+      top: 1000px;
+      display: block;
+  }
+
+    #snow-falling7{
+      top: 1200px;
+      display: block;
+  }
+  #snow-falling8{
+      top: 1400px;
+      display: block;
+  }
+   #snow-falling9{
+      top: 1600px;
+      display: block;
+  }
+    #snow-falling10{
+      top: 1600px;
+      display: block;
+  }
+   #snow-falling11{
+      top: 1800px;
+      display: block;
+  }
+  /* #snow-falling12{*/
+  /*    top: 2000px;*/
+  /*    display: block;*/
+  /*}*/
+
+  #winter-row{
+      top: 0px;
+  }
 }

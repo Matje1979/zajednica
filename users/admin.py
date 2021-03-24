@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Profile, Ulaz, KomentarUpravnika
-from .models import CustomUser, Upravnik, MessageForUpravnik, Temp, Temp2, TempPapir
+from .models import CustomUser, Upravnik, MessageForUpravnik, Temp, Temp2, TempPapir, Grad, Opština
 from .forms import CustomUserRegisterForm
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
@@ -19,10 +19,10 @@ class CustomUserAdmin(UserAdmin):
 			{
 			    'fields': (
 			    	'is_director',
-			    	
+
 			    )
 			}
-			
+
 		),
 		(
 			'User Location',
@@ -38,7 +38,8 @@ class CustomUserAdmin(UserAdmin):
         )
 	)
 
-
+admin.site.register(Grad)
+admin.site.register(Opština)
 admin.site.register(CustomUser, CustomUserAdmin)
 # admin.site.register(TempUser)
 # admin.site.register(EmailVerifiedUser)

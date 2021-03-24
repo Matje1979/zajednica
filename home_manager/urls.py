@@ -26,6 +26,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('', include('poll.urls')),
+    path('ajax/load-opstine/', user_views.load_opstine, name="ajax_load_opstine"),
+    path('ajax/load-ulazi/', user_views.load_ulazi, name="ajax_load_ulazi"),
+    path('ajax/cep-load-opstine/', user_views.cep_load_opstine, name="ajax_cep__load_opstine"),
+    path('ajax/cep-load-ulazi/', user_views.cep_load_ulazi, name="ajax_cep_load_ulazi"),
     path('register/<str:pk>', user_views.register, name='register'),
     path('register1/', user_views.register1, name='register1'),
     path('register2/<str:yourname>', user_views.register2, name='register2'),
@@ -43,7 +47,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name="users/login.html"), name='login'),
     path('login_success/', user_views.login_success, name='login-success'),
     path('logout/', auth_views.LogoutView.as_view(template_name="users/logout.html"), name='logout'),
-    path('ckeditor/', include('ckeditor_uploader.urls'))
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('', include('pwa.urls'))
     # path('ulaz-autocomplete/', user_views.UlazAutocomplete.as_view(), name='ulaz-autocomplete'),
 ]
 
