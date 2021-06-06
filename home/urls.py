@@ -5,13 +5,21 @@ from .views import (
 	PostCreateView,
     PostCreateView2,
 	PostUpdateView,
-	PostDeleteView
+	PostDeleteView,
+	MngrMessageListView,
+	MsgDetailView,
+	MsgDeleteView,
+	CheckMessagesView,
+	MessageListView
+
 )
 from django.views.decorators.csrf import csrf_exempt
 from . import views
 
 urlpatterns = [
-    path('home/', PostListView.as_view(), name="app-home"),
+    path('home/', views.home, name="app-home"),
+    path('home_user/', PostListView.as_view(), name="app-home-user"),
+    path('home_manager/', views.home_manager, name="app-home-manager"),
 
     path('', views.frontpage, name="app-frontpage"),
     path('post/<int:pk>', PostDetailView.as_view(), name="post-detail"),
@@ -37,5 +45,10 @@ urlpatterns = [
     path('cep_prijava/', csrf_exempt(views.CepPrijava.as_view())),
     path('cep_confirmation/', csrf_exempt(views.CepConfirmation.as_view())),
     path('cepovi_list/<str:address>', csrf_exempt(views.CepoviList.as_view())),
-    path('api/', views.apiOverview)
+    path('api/', views.apiOverview),
+    path('manager_messages/', MngrMessageListView.as_view(), name="mngr-messages"),
+    path('messages/<int:pk>', MsgDetailView.as_view(), name="msg-detail"),
+    path('messages/<int:pk>/delete', MsgDeleteView.as_view(), name="msg-delete"),
+    path('check_messages/<str:pk>', CheckMessagesView.as_view(), name='check-messages'),
+    path('messages_list/', MessageListView.as_view(), name='message-list')
 ]

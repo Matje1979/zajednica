@@ -103,6 +103,10 @@ class PapirForm(forms.ModelForm):
 class MessageForUpravnikForm(forms.ModelForm):
 	class Meta:
 		model = MessageForUpravnik
-		fields = '__all__'
+		fields = ['title', 'content']
+		labels={
+		    'title': 'Naslov',
+		    'content': 'Sadržaj'
+		}
 
 

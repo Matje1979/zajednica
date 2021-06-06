@@ -23,7 +23,7 @@ from users import views as user_views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('zajednica_admin/', admin.site.urls),
     path('', include('home.urls')),
     path('', include('poll.urls')),
     path('ajax/load-opstine/', user_views.load_opstine, name="ajax_load_opstine"),

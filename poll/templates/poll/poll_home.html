@@ -7,18 +7,18 @@
     <div class="col-lg-10 col-lg-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title mb-3">Aktivne ankete</h4>
+                <h4 class="display-5 mb-3">Aktivne ankete</h4>
             </div>
-            
+
             <ul class="list-group">
                 {% for poll in polls %}
                 <li class="list-group-item mb-3">
                    <p><strong>{{ poll.question}}</strong></p>
                     <span class="pull-right">
                         <a href="{% url 'poll-vote' poll.id %}" class="btn btn-info btn-xs">Glasaj</a> &nbsp;
-                        <a href="{% url 'poll-results' poll.id %}" class="btn btn-outline-info btn-xs">Rezultat</a> &nbsp;
+                        <a href="{% url 'poll-results' poll.id %}" class="btn btn-info btn-xs">Rezultat</a> &nbsp;
                         {% if request.user == poll.author %}
-                            <a href="{% url 'post-create2' poll.id poll.question %}" class="btn btn-outline-info btn-xs">Objavi</a> &nbsp;
+                            <a href="{% url 'post-create2' poll.id poll.question %}" class="btn btn-info btn-xs">Objavi</a> &nbsp;
                         {% endif %}
                     </span>
                 </li>
@@ -30,4 +30,4 @@
     </div>
 </div>
 <!-- </div> -->
-{% endblock %}  
+{% endblock %}

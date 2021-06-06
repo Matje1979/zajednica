@@ -1,6 +1,13 @@
 from rest_framework import serializers
-from users.models import TempPapir, Profile, Ulaz, TempCepovi
+from users.models import TempPapir, Profile, Ulaz, TempCepovi, MessageForUpravnik
 from .models import Papir, Cepovi
+from drf_extra_fields.fields import Base64ImageField
+
+class MessageForUpravnikSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = MessageForUpravnik
+		# fields = ('ulaz', 'foto') # or fields = '__all__'
+		fields = '__all__'
 
 class TempPapirSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -24,11 +31,16 @@ class PapirPrijavaSerializer(serializers.ModelSerializer):
 
 class CepPrijavaSerializer(serializers.ModelSerializer):
     ulaz = serializers.PrimaryKeyRelatedField(read_only=True)
+    foto = Base64ImageField()
 
     class Meta:
         model = TempCepovi
-        fields = ('foto','ulaz') # or fields = '__all__'
+        fields = ('foto','ulaz', 'cep_box_filled_date') # or fields = '__all__'
 # 		fields = '__all__'
+    def create(self, validated_data):
+        foto=validated_data.pop('foto')
+        ulaz=validated_data.pop('ulaz')
+        return TempCepovi.objects.create(ulaz=ulaz,foto=foto)
 
 class PapirSerializer(serializers.ModelSerializer):
     ulaz = serializers.PrimaryKeyRelatedField(read_only=True)

@@ -43,7 +43,7 @@ class Ulaz(models.Model):
     cep_box_full = models.BooleanField(default=False)
     cep_box_filled_date = models.FloatField(null=True, blank=True)
     city = models.CharField(max_length=255, default='Belgrade')
-    location = PlainLocationField(based_fields=['city'], zoom=10, null=True)
+    location = PlainLocationField(based_fields=['city'], zoom=10, null=True, blank=True)
 
     def __str__(self):
         return str(self.Ulica_i_broj)
@@ -79,7 +79,7 @@ class CustomUser(AbstractUser):
         return str(self.username)
 
 class Upravnik(models.Model):
-    ulaz=models.OneToOneField(Ulaz, on_delete=models.CASCADE, related_name="Ulaz")
+    ulaz=models.OneToOneField(Ulaz, on_delete=models.CASCADE, related_name="upravnik")
     user=models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     vrsta=models.CharField(max_length=50, choices = VRSTE_UPRAVNIKA, default="Upravnik - domaće lice")
     firma=models.CharField(max_length=150, null=True, blank=True)
@@ -189,8 +189,12 @@ class KomentarUpravnika(models.Model):
         verbose_name_plural="Komentari upravnika"
 
 class MessageForUpravnik(models.Model):
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="message_sender", null=True)
+    receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="message_receiver", null=True)
     title=models.CharField(max_length=200, null=True)
     content=models.TextField(null=True)
+    seen = models.BooleanField(default=False)
+    read = models.BooleanField(default=False)
 
 # class TempUser(models.Model):
 #     Email = models.EmailField(max_length=250)

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import CustomUserRegisterForm, UserUpdateForm, ProfileUpdateForm, OceniUpravnikaForm, PapirForm, MessageForUpravnikForm, Register1Form, Register2Form, Register3Form, SecretForm
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser, Upravnik, Profile, KomentarUpravnika, Ulaz, Temp, Temp2, TempPapir, Opština
+from .models import CustomUser, Upravnik, Profile, KomentarUpravnika, Ulaz, Temp, Temp2, TempPapir, Opština, MessageForUpravnik
 # from dal import autocomplete
 from home.models import Post
 from django.core.paginator import Paginator
@@ -172,9 +172,12 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
-    ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
+    if request.user.is_director == False:
+        ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
+        context = {'u_form': u_form, 'p_form': p_form, 'ulaz': ulaz}
+    else:
+        context = {'u_form': u_form, 'p_form': p_form}
 
-    context = {'u_form': u_form, 'p_form': p_form, 'ulaz': ulaz}
     return render(request, 'users/profile.html', context)
 
 def user_profile(request, pk):
@@ -182,6 +185,7 @@ def user_profile(request, pk):
     context = {'user': user}
     return render(request, 'users/user_profile.html', context)
 
+@login_required
 def manager_profile(request):
     upravnik = Upravnik.objects.get(ulaz=request.user.Ulaz) #identifikacija defin. deskripcije upravnik
     ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
@@ -232,23 +236,30 @@ def manager_profile(request):
         elif 'message-button' in request.POST:
             message_form = MessageForUpravnikForm(request.POST)
             if message_form.is_valid():
-                EMAIL_ADDRESS = "damircicic@gmail.com"
-                password = "jpjpqiomgxbqustb"
-                receiver = "damircicic@gmail.com"
-                msg = EmailMessage()
-                msg['Subject'] = message_form.cleaned_data['title']
-                msg['From'] = EMAIL_ADDRESS
-                msg['To'] = receiver
-                msg['Reply-To'] = "ibnruzd@yahoo.com"
-                content = message_form.cleaned_data['content']
-                msg.set_content(content)
+                new_message = message_form.save(commit=False)
+                new_message.receiver=upravnik.user
+                new_message.sender=request.user
+                new_message.save()
+                messages.success(request, f'Poslali ste poruku upravniku!')
+                # content = message_form.cleaned_data['content']
 
-                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                # EMAIL_ADDRESS = "damircicic@gmail.com"
+                # password = "jpjpqiomgxbqustb"
+                # receiver = "damircicic@gmail.com"
+                # msg = EmailMessage()
+                # msg['Subject'] = message_form.cleaned_data['title']
+                # msg['From'] = EMAIL_ADDRESS
+                # msg['To'] = receiver
+                # msg['Reply-To'] = "ibnruzd@yahoo.com"
+
+                # msg.set_content(content)
+
+                # with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
                     # smtp.ehlo()
                     # smtp.starttls()
                     # smtp.ehlo()
 
-                    smtp.login(EMAIL_ADDRESS, password)
+                    # smtp.login(EMAIL_ADDRESS, password)
 
 
 
@@ -257,8 +268,8 @@ def manager_profile(request):
                 # msg = f'Subject: {subject}\n\n{body}'
 
                 # smtp.send_message(msg.encode('utf-8'))
-                    smtp.send_message(msg)
-                    messages.success(request, f'Poslali ste poruku upravniku!')
+                    # smtp.send_message(msg)
+                    # messages.success(request, f'Poslali ste poruku upravniku!')
             upravnik_form = OceniUpravnikaForm(instance=request.user.profile)
             message_form = MessageForUpravnikForm()
             context= {'upravnik': upravnik, 'ulaz': ulaz, 'upravnik_form': upravnik_form, 'ocena_upravnika': ocena_upravnika, 'posts':posts, 'message_form': message_form}

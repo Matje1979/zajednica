@@ -52,10 +52,15 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'location_field.apps.DefaultConfig',
     'rest_framework',
+    "rest_framework_api_key",
     'pwa',
-
-
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework_api_key.permissions.HasAPIKey",
+    ]
+}
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
@@ -79,7 +84,7 @@ MIDDLEWARE = [
 
 # CORS_ALLOWED_ORIGINS = [
 #     "http://localhost:8000",
-#     "http://localhost:8000/box_reports/"
+#     "http://localhost:8000/prijava/"
 # ]
 CORS_ALLOW_ALL_ORIGINS=True
 ROOT_URLCONF = 'home_manager.urls'
@@ -100,7 +105,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'home_manager.wsgi.application'
+WSGI_APPLICATION = 'zajednicastanara.wsgi.application'
 
 
 # Database
@@ -162,9 +167,9 @@ LOCATION_FIELD = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/home/zajednicastanara/home_manager/static'
+STATIC_ROOT = '/home/zajednicastanara/zajednicastanara/static'
 
-MEDIA_ROOT = '/home/zajednicastanara/home_manager/media'
+MEDIA_ROOT = '/home/zajednicastanara/zajednicastanara/media/'
 
 MEDIA_URL = '/media/'
 

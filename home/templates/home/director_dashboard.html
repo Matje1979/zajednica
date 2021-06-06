@@ -1,0 +1,42 @@
+{% extends 'home/base.html' %}
+{% load custom_tags %}
+
+{% block mngrcontent %}
+
+<h2 id="mngr-dashboard-title">Dobar dan!</h2>
+<hr>
+<div class="">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Ulaz</th>
+        <th>Poruke</th>
+        <th>Kvarovi</th>
+        <th>Finansijski izveštaji</th>
+        <th>Dogadjaji</th>
+        <th>Moje ocene</th>
+      </tr>
+    </thead>
+    <tbody>
+        {%  for key, value in msgs_by_ulazi.items %}
+                <tr>
+                    {% if key.Ulica_i_broj == user.Ulaz.Ulica_i_broj %}
+                        <td><a href="{% url 'app-home-user' %}">{{ key.Ulica_i_broj }}</a></td>
+                    {% else %}
+                        <td>{{ key.Ulica_i_broj }}</td>
+                    {% endif %}
+                    {% if value != 0 %}
+                        <td><a href="{% url 'mngr-messages' %}" style="color: blue;">{{ value }} poruka</a></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    <td></td>
+                    <td>john@example.com</td>
+                    <td>Sastanak kućnog saveta (nedelja, 12h)<i class="far fa-calendar-alt" style="margin-left: 10px; cursor: pointer;"></i></td>
+                    <td>8.5</td>
+                </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock mngrcontent %}

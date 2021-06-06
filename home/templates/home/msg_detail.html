@@ -1,0 +1,36 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+{% block content%}
+	<article class="media content-section">
+	  <div class="media-body">
+	    <div class="article-metadata">
+	       <a class="mr-2" href="#">{{ msg.sender.username }}</a>
+	      <!--<small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>-->
+	    </div>
+	    <h2 class="article-title">{{ msg.title }}</h2>
+	    <p class="article-content">{{ msg.content }}</p>
+		<div>
+	      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="#" id="reply">Odgovori</a>
+	      <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'msg-delete' msg.id %}">Obriši</a>
+	    </div>
+		<form id="msg-reply-form" method="POST" action="" style="display: none;">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="mb 4"></legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Pošalji</button>
+            </div>
+        </form>
+	  </div>
+	  <script>
+	    document.getElementById('reply').addEventListener('click', function(){
+	        console.log('Hello');
+	        document.getElementById('msg-reply-form').style.display = 'block';
+	        });
+	</script>
+	</article>
+
+
+{% endblock content %}

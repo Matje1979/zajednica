@@ -67,4 +67,11 @@ class Cepovi(models.Model):
 	class Meta:
 	    verbose_name_plural = "Čepovi"
 
+class Message(models.Model):
+    sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name= "sender")
+    receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="receiver")
+    Naslov = models.CharField(max_length=100)
+    Sadržaj = models.TextField()
+
+
 

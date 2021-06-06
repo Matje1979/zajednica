@@ -31,10 +31,13 @@
         </div>
       </div>
       <div>
-          <h3>O sebi</h3>
-          <figure class="col-md-10 mt-4 ml-2">
-          <blockquote class="text-secondary">{{ upravnik.user.profile.o_sebi  }}</blockquote>
-        </figure>
+          {% if upravnik.user.profile.o_sebi %}
+              <h3>O sebi</h3>
+              <figure class="col-md-10 mt-4 ml-2">
+                  <blockquote class="text-secondary">{{ upravnik.user.profile.o_sebi  }}</blockquote>
+              </figure>
+          {% endif %}
+
       </div>
    <!--  <form id="profile-form" method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
@@ -51,23 +54,24 @@
       <!-- FORM HERE -->
 
     </div>
-    {% if upravnik.user.email != "mejl@usermail.com" %}
-        <div id="message_to_upravnik_form"  class="content-section">
+    <button id="message_to_upravnik_btn"class="btn btn-outline-info mb-3">Piši upravniku</button>
+    <div id="message_to_upravnik_form"  class="content-section">
+        <span id='close-mngr-msg'>x</span>
 
-                <h5 id="message_to_upravnik_btn"class="btn btn-outline-info">Piši upravniku</h5>
 
-          <form method="POST" action="">
-              {% csrf_token %}
-              <fieldset class="form-group">
-                 <legend class="mb 4"></legend>
-                   {{ message_form|crispy }}
-              </fieldset>
-              <div class="form-group">
-                  <button class="btn btn-outline-info" name="message-button" type="submit">Posalji</button>
-              </div>
-          </form>
-        </div>
-    {% endif %}
+      <form method="POST" action="">
+          {% csrf_token %}
+          <fieldset class="form-group">
+             <legend class="mb 4"></legend>
+               {{ message_form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info" name="message-button" type="submit">Posalji</button>
+          </div>
+      </form>
+
+    </div>
+
 
     <div class="content-section">
         <form method="POST" action="">
@@ -108,10 +112,22 @@
     </div>  -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script type="text/javascript">
-      $(function(){
+    //   $(function(){
         $('#message_to_upravnik_btn').click(function(){
-          $('#message_to_upravnik_form form').css('display', 'block')
-        })
-      })
+            // $('#message_to_upravnik_form form').toggle();
+          $('#message_to_upravnik_form').css('display', 'block');
+          $('#message_to_upravnik_form form').css('display', 'block');
+          $('#close-mngr-msg').css('display', 'block');
+          $(this).css('display', 'none');
+        });
+    //   });
+    //   window.onload = function(){
+        document.getElementById('close-mngr-msg').onclick = function(){
+            $('#message_to_upravnik_btn').css('display', 'block');
+            $('#message_to_upravnik_form').css('display', 'none');
+            $('#close-mngr-msg').css('display', 'none');
+            return false;
+        };
+    // };
     </script>
 {% endblock content %}
