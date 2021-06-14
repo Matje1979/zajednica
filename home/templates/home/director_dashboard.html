@@ -10,7 +10,7 @@
     <thead>
       <tr>
         <th>Ulaz</th>
-        <th>Poruke</th>
+        <th>Nepročitane poruke</th>
         <th>Kvarovi</th>
         <th>Finansijski izveštaji</th>
         <th>Dogadjaji</th>
@@ -26,7 +26,7 @@
                         <td>{{ key.Ulica_i_broj }}</td>
                     {% endif %}
                     {% if value != 0 %}
-                        <td><a href="{% url 'mngr-messages' %}" style="color: blue;">{{ value }} poruka</a></td>
+                        <td><a href="{% url 'mngr-messages' key.id %}" style="color: blue;">{{ value }} poruka</a></td>
                     {% else %}
                         <td></td>
                     {% endif %}

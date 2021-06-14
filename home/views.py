@@ -8,10 +8,12 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post, Comment, Papir, Cepovi
-from users.models import Upravnik, CustomUser, TempPapir, Ulaz, Profile, TempCepovi, MessageForUpravnik
+from users.models import Upravnik, CustomUser, TempPapir, Ulaz, Profile, TempCepovi
+from messaging.models import MessageForUpravnik
+from messaging.serializers import MessageForUpravnikSerializer
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import get_object_or_404
-from .forms import CommentForm, MessageReplyForm
+from .forms import CommentForm
+from messaging.forms import MessageReplyForm
 import os
 import smtplib
 from django.template.defaultfilters import slugify
@@ -24,7 +26,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import (TempPapirSerializer, UlazSerializer, PapirPrijavaSerializer,
-                          PapirSerializer, CepoviSerializer, CepPrijavaSerializer, TempCepoviSerializer, MessageForUpravnikSerializer)
+                          PapirSerializer, CepoviSerializer, CepPrijavaSerializer, TempCepoviSerializer)
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -45,27 +47,27 @@ from rest_framework_api_key.permissions import HasAPIKey
     #     return  # To not perform the csrf check previously happening
 
 #This view actually for all users. MessageForUpravnik model despite the name is a model for all messages. Name needs to be changed.
-class MessageListView(ListView):
-    template_name = 'home/messages.html'
-    context_object_name = 'usr_messages'
-    paginate_by = 5
-    def get_queryset(self):
-        usr_messages = MessageForUpravnik.objects.filter(receiver=self.request.user)
-        return usr_messages
+# class MessageListView(ListView):
+#     template_name = 'home/messages.html'
+#     context_object_name = 'usr_messages'
+#     paginate_by = 5
+#     def get_queryset(self):
+#         usr_messages = MessageForUpravnik.objects.filter(receiver=self.request.user)
+#         return usr_messages
 
-#This the same as the previous, just using the DRF.
-class CheckMessagesView(APIView):
-    def get(self, request, pk):
-        print ("Checking messages", flush=True)
-        print ("PK: ", pk, flush=True)
-        messages = MessageForUpravnik.objects.filter(receiver__id=int(pk))
-        serializer = MessageForUpravnikSerializer(messages, many=True)
-        print (messages, flush=True)
-        # result = dict()
-        # result['messages_num'] = len(messages)
-        # result['user_messages'] = messages
-        # print (result, flush=True)
-        return Response(serializer.data)
+# #This the same as the previous, just using the DRF.
+# class CheckMessagesView(APIView):
+#     def get(self, request, pk):
+#         print ("Checking messages", flush=True)
+#         print ("PK: ", pk, flush=True)
+#         messages = MessageForUpravnik.objects.filter(receiver__id=int(pk))
+#         serializer = MessageForUpravnikSerializer(messages, many=True)
+#         print (messages, flush=True)
+#         # result = dict()
+#         # result['messages_num'] = len(messages)
+#         # result['user_messages'] = messages
+#         # print (result, flush=True)
+#         return Response(serializer.data)
 
 #Overview of api enpoints.
 @api_view(['GET'])
@@ -608,8 +610,6 @@ def reciklaza(request):
         context = {'p_quant': p_quant}
         return render(request, 'home/reciklaza.html', context)
 
-
-
 def telefoni(request):
     if not request.user.is_director:
         ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
@@ -648,53 +648,53 @@ def home_manager(request):
     context = {'ulaz': 'Početna', 'ulazi': ulazi, 'msgs_by_ulazi': msgs_by_ulazi}
     return render(request, 'home/director_dashboard.html', context)
 
-class MngrMessageListView(ListView):
-    # model = Post
-    template_name = 'home/mngr_messages.html'
-    context_object_name = 'msgs'
-    paginate_by = 5
-    def get_queryset(self):
-        print (self.request.user, flush=True)
-        msgs = MessageForUpravnik.objects.filter(receiver=self.request.user)
-        for msg in msgs:
-            msg.seen = True
-            msg.save()
-        print (msgs, flush=True)
-        return msgs
-    # ordering = ['-date_posted']
-    #for a ListView, default context object name is object_list, but that can be overriden in the way above.
-    #for DetailView, defaul context object name is 'object'
-class MsgDetailView(DetailView):
-    model = MessageForUpravnik
-    template_name = 'home/msg_detail.html'
+# class MngrMessageListView(ListView):
+#     # model = Post
+#     template_name = 'home/mngr_messages.html'
+#     context_object_name = 'msgs'
+#     paginate_by = 5
+#     def get_queryset(self):
+#         print (self.request.user, flush=True)
+#         msgs = MessageForUpravnik.objects.filter(receiver=self.request.user)
+#         for msg in msgs:
+#             msg.seen = True
+#             msg.save()
+#         print (msgs, flush=True)
+#         return msgs
+#     # ordering = ['-date_posted']
+#     #for a ListView, default context object name is object_list, but that can be overriden in the way above.
+#     #for DetailView, defaul context object name is 'object'
+# class MsgDetailView(DetailView):
+#     model = MessageForUpravnik
+#     template_name = 'home/msg_detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(MsgDetailView, self).get_context_data(**kwargs)
-        msg = get_object_or_404(MessageForUpravnik, pk = self.kwargs['pk'])
-        if msg:
-            msg.read = True
-            msg.save()
-        context['msg'] = msg
-        context['form'] = MessageReplyForm()
-        # context['form'] = CommentForm()
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super(MsgDetailView, self).get_context_data(**kwargs)
+#         msg = get_object_or_404(MessageForUpravnik, pk = self.kwargs['pk'])
+#         if msg:
+#             msg.read = True
+#             msg.save()
+#         context['msg'] = msg
+#         context['form'] = MessageReplyForm()
+#         # context['form'] = CommentForm()
+#         return context
 
-    def post(self, request, *args, **kwargs):
-        c_form = MessageReplyForm(request.POST)
-        if c_form.is_valid():
-            obj = c_form.save(commit=False)
-            obj.sender = self.request.user
-            msg = get_object_or_404(MessageForUpravnik, pk = self.kwargs['pk'])
-            receiver = msg.sender
-            obj.receiver = receiver
-            obj.save()
-        return redirect('/manager_messages')
+#     def post(self, request, *args, **kwargs):
+#         c_form = MessageReplyForm(request.POST)
+#         if c_form.is_valid():
+#             obj = c_form.save(commit=False)
+#             obj.sender = self.request.user
+#             msg = get_object_or_404(MessageForUpravnik, pk = self.kwargs['pk'])
+#             receiver = msg.sender
+#             obj.receiver = receiver
+#             obj.save()
+#         return redirect('/manager_messages')
 
 
-class MsgDeleteView(LoginRequiredMixin, DeleteView):
+# class MsgDeleteView(LoginRequiredMixin, DeleteView):
 
-    model = MessageForUpravnik
-    success_url='/manager_messages/'
+#     model = MessageForUpravnik
+#     success_url='/manager_messages/'
 
 def malfunction_report(request):
     return render(request, "home/malfunction.html")

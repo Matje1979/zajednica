@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import CustomUserRegisterForm, UserUpdateForm, ProfileUpdateForm, OceniUpravnikaForm, PapirForm, MessageForUpravnikForm, Register1Form, Register2Form, Register3Form, SecretForm
+from .forms import CustomUserRegisterForm, UserUpdateForm, ProfileUpdateForm, OceniUpravnikaForm, PapirForm, Register1Form, Register2Form, Register3Form, SecretForm
+from messaging.forms import MessageForUpravnikForm
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser, Upravnik, Profile, KomentarUpravnika, Ulaz, Temp, Temp2, TempPapir, Opština, MessageForUpravnik
+from .models import CustomUser, Upravnik, Profile, KomentarUpravnika, Ulaz, Temp, Temp2, TempPapir, Opština
+from messaging.models import MessageForUpravnik
 # from dal import autocomplete
 from home.models import Post
 from django.core.paginator import Paginator

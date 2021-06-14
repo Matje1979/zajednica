@@ -1,6 +1,6 @@
 from django import 	forms
 from.models import Comment, Post
-from users.models import MessageForUpravnik
+# from users.models import MessageForUpravnik
 
 
 class CommentForm(forms.ModelForm):
@@ -8,7 +8,7 @@ class CommentForm(forms.ModelForm):
 		model = Comment
 		fields = ['text']
 
-class MessageReplyForm(forms.ModelForm):
-    class Meta:
-        model = MessageForUpravnik
-        fields = ['title', 'content']
+# class MessageReplyForm(forms.ModelForm):
+#     class Meta:
+#         model = MessageForUpravnik
+#         fields = ['title', 'content']

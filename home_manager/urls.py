@@ -26,6 +26,7 @@ urlpatterns = [
     path('zajednica_admin/', admin.site.urls),
     path('', include('home.urls')),
     path('', include('poll.urls')),
+    path('', include('messaging.urls')),
     path('ajax/load-opstine/', user_views.load_opstine, name="ajax_load_opstine"),
     path('ajax/load-ulazi/', user_views.load_ulazi, name="ajax_load_ulazi"),
     path('ajax/cep-load-opstine/', user_views.cep_load_opstine, name="ajax_cep__load_opstine"),

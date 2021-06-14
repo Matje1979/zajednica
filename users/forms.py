@@ -2,7 +2,7 @@ from django import 	forms
 from django.forms.widgets import Select
 # from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, CustomUser, MessageForUpravnik, Temp2, Ulaz, Grad
+from .models import Profile, CustomUser, Temp2, Ulaz, Grad
 import logging
 
 
@@ -100,13 +100,13 @@ class PapirForm(forms.ModelForm):
 		#     'ulaz':autocomplete.ModelSelect2(url='ulaz-autocomplete')
 		# }
 
-class MessageForUpravnikForm(forms.ModelForm):
-	class Meta:
-		model = MessageForUpravnik
-		fields = ['title', 'content']
-		labels={
-		    'title': 'Naslov',
-		    'content': 'Sadržaj'
-		}
+# class MessageForUpravnikForm(forms.ModelForm):
+# 	class Meta:
+# 		model = MessageForUpravnik
+# 		fields = ['title', 'content']
+# 		labels={
+# 		    'title': 'Naslov',
+# 		    'content': 'Sadržaj'
+# 		}
 
 

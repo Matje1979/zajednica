@@ -1,13 +1,13 @@
 from rest_framework import serializers
-from users.models import TempPapir, Profile, Ulaz, TempCepovi, MessageForUpravnik
+from users.models import TempPapir, Profile, Ulaz, TempCepovi
 from .models import Papir, Cepovi
 from drf_extra_fields.fields import Base64ImageField
 
-class MessageForUpravnikSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = MessageForUpravnik
-		# fields = ('ulaz', 'foto') # or fields = '__all__'
-		fields = '__all__'
+# class MessageForUpravnikSerializer(serializers.ModelSerializer):
+# 	class Meta:
+# 		model = MessageForUpravnik
+# 		# fields = ('ulaz', 'foto') # or fields = '__all__'
+# 		fields = '__all__'
 
 class TempPapirSerializer(serializers.ModelSerializer):
 	class Meta:

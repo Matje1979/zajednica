@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'taggit',
     'poll',
+    'messaging',
     'widget_tweaks',
     'ckeditor',
     'ckeditor_uploader',
@@ -56,11 +57,11 @@ INSTALLED_APPS = [
     'pwa',
 ]
 
-REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework_api_key.permissions.HasAPIKey",
-    ]
-}
+# REST_FRAMEWORK = {
+#     "DEFAULT_PERMISSION_CLASSES": [
+#         "rest_framework_api_key.permissions.HasAPIKey",
+#     ]
+# }
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
