@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
 from django.views.generic import (
     ListView,
     DetailView,
@@ -8,13 +7,17 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post, Comment, Papir, Cepovi
-from users.models import Upravnik, CustomUser, TempPapir, Ulaz, Profile, TempCepovi
+from users.models import (
+    Upravnik,
+    CustomUser,
+    TempPapir,
+    Ulaz,
+    Profile,
+    TempCepovi
+)
 from messaging.models import MessageForUpravnik
-from messaging.serializers import MessageForUpravnikSerializer
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CommentForm
-from messaging.forms import MessageReplyForm
-import os
 import smtplib
 from django.template.defaultfilters import slugify
 from taggit.models import Tag
@@ -25,28 +28,37 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import (TempPapirSerializer, UlazSerializer, PapirPrijavaSerializer,
-                          PapirSerializer, CepoviSerializer, CepPrijavaSerializer, TempCepoviSerializer)
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
+from .serializers import (
+    TempPapirSerializer,
+    UlazSerializer,
+    PapirPrijavaSerializer,
+    PapirSerializer,
+    CepoviSerializer,
+    TempCepoviSerializer
+)
 from rest_framework import status
-from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
+from rest_framework.parsers import (
+    MultiPartParser,
+    FormParser,
+    FileUploadParser
+)
 import json
-import datetime, time
-import pytz
+import time
 import re
 import base64
-from django.core.files import File
 from django.core.files.images import ImageFile
-from rest_framework_api_key.permissions import HasAPIKey
-# from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+# from rest_framework.authentication import (
+    # SessionAuthentication,
+    # BasicAuthentication
+# )
 
 # class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     # def enforce_csrf(self, request):
     #     return  # To not perform the csrf check previously happening
 
-#This view actually for all users. MessageForUpravnik model despite the name is a model for all messages. Name needs to be changed.
+# This view actually for all users. MessageForUpravnik model despite the name
+# is a model for all messages. Name needs to be changed.
 # class MessageListView(ListView):
 #     template_name = 'home/messages.html'
 #     context_object_name = 'usr_messages'
@@ -55,7 +67,7 @@ from rest_framework_api_key.permissions import HasAPIKey
 #         usr_messages = MessageForUpravnik.objects.filter(receiver=self.request.user)
 #         return usr_messages
 
-# #This the same as the previous, just using the DRF.
+# # This the same as the previous, just using the DRF.
 # class CheckMessagesView(APIView):
 #     def get(self, request, pk):
 #         print ("Checking messages", flush=True)
@@ -69,7 +81,8 @@ from rest_framework_api_key.permissions import HasAPIKey
 #         # print (result, flush=True)
 #         return Response(serializer.data)
 
-#Overview of api enpoints.
+
+# Overview of api enpoints.
 @api_view(['GET'])
 def apiOverview(request):
     api_urls = {
@@ -81,10 +94,12 @@ def apiOverview(request):
     }
     return Response(api_urls)
 
-#Api for getting the number of collected boxes of lids (cepova) for a particular ulaz.
+
+# Api for getting the number of collected boxes of lids (cepova) for
+# a particular ulaz.
 class CepTotal(APIView):
     def get(self, request, address):
-        print ("Address", address, flush=True)
+        print("Address", address, flush=True)
         ulaz = Ulaz.objects.get(Ulica_i_broj=address)
         res = len(Cepovi.objects.filter(ulaz=ulaz))
         result = {}
@@ -92,15 +107,19 @@ class CepTotal(APIView):
         con = json.dumps(result)
         return Response(con)
 
-#Api for lid collectors. It is getting the list of ulazi with full lid boxes, and lets them confirm that they have collected the box (and replaced it with an empty one)
+
+# Api for lid collectors. It is getting the list of ulazi with full lid boxes,
+# and lets them confirm that they have collected the box
+# (and replaced it with an empty one).
 class CepConfirmation(APIView):
     def get(self, request):
         """ """
         ulazi = Ulaz.objects.filter(cep_box_full=True)
         serializer = UlazSerializer(ulazi, many=True)
         return Response(serializer.data)
+
     def post(self, request):
-        print ("*******************",request.data['address'], flush=True)
+        print("*******************",request.data['address'], flush=True)
         ulaz = Ulaz.objects.get(Ulica_i_broj = request.data['address'])
         Cepovi.objects.create(ulaz=ulaz)
         ulaz.cep_box_full = False
@@ -111,7 +130,8 @@ class CepConfirmation(APIView):
         con = json.dumps(result)
         return Response(con)
 
-#Api for info about collected boxes of lids in a particular ulaz.
+
+# Api for info about collected boxes of lids in a particular ulaz.
 class CepoviList(APIView):
     def get(self, request, address):
         ulaz = Ulaz.objects.get(Ulica_i_broj=address)
@@ -119,7 +139,8 @@ class CepoviList(APIView):
         serializer = CepoviSerializer(cepovi, many=True)
         return Response(serializer.data)
 
-#Api for info about collected boxes of paper in a particular ulaz.
+
+# Api for info about collected boxes of paper in a particular ulaz.
 class UlazPapirList(APIView):
     def get(self, request, pk):
         ulaz = Ulaz.objects.get(id=pk)
@@ -128,35 +149,45 @@ class UlazPapirList(APIView):
         serializer = PapirSerializer(papiri, many=True)
         return Response(serializer.data)
 
-#Api for list of REPORTED full boxes for paper collecting company, with options accept and reject.
+
+# Api for list of REPORTED full boxes for paper collecting company,
+# with options accept and reject.
 class TempPapirList(APIView):
     def get(self, request):
         tempp = TempPapir.objects.all()
         serializer = TempPapirSerializer(tempp, many=True)
         return Response(serializer.data)
+
     def post(self, request):
         serializer = TempPapirSerializer(data=request.data)
         if serializer.is_valid():
             if serializer.validated_data['box_status'] == 'accept':
-                ulaz = Ulaz.objects.get(Ulica_i_broj=serializer.validated_data['box-ulaz-address'])
+                ulaz = Ulaz.objects.get(
+                    Ulica_i_broj=serializer.validated_data['box-ulaz-address']
+                    )
                 ulaz.box_full = True
                 ulaz.save()
                 print ("Box_full: ", ulaz.papir_box_full)
                 TempPapir.objects.get(ulaz=ulaz).delete()
             else:
-                ulaz = Ulaz.objects.get(Ulica_i_broj=serializer.validated_data['box-ulaz-address'])
+                ulaz = Ulaz.objects.get(
+                    Ulica_i_broj=serializer.validated_data['box-ulaz-address']
+                    )
                 TempPapir.objects.get(ulaz=ulaz).delete()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#Api for list of REPORTED full boxes for paper collecting company, with options accept and reject.
+
+# Api for list of REPORTED full boxes for paper collecting company,
+# with options accept and reject.
 class TempCepoviList(APIView):
     def get(self, request):
         tempp = TempCepovi.objects.all()
         serializer = TempCepoviSerializer(tempp, many=True)
         headers = {'Access-Control-Allow-Origin': '*'}
         return Response(serializer.data, headers=headers)
+
     def post(self, request):
         print ("Payload ********************", request.data, flush=True)
         print(request.data, flush=True)
@@ -171,7 +202,7 @@ class TempCepoviList(APIView):
             temp = TempCepovi.objects.get(ulaz=ulaz)
             ulaz.cep_box_filled_date=temp.cep_box_filled_date
             ulaz.save()
-            print ("Box_full: ", ulaz.cep_box_full)
+            print("Box_full: ", ulaz.cep_box_full)
             TempCepovi.objects.get(ulaz=ulaz).delete()
             tempp = TempCepovi.objects.all()
             serializer = TempCepoviSerializer(tempp, many=True)
@@ -183,39 +214,47 @@ class TempCepoviList(APIView):
             serializer = TempCepoviSerializer(tempp, many=True)
             return Response(serializer.data, status=status.HTTP_201_CREATE)
 
-#Api for map of full boxes of paper
+# Api for map of full boxes of paper
 class PapirMapa(APIView):
     def get(self, request):
         filled_boxes = Ulaz.objects.filter(papir_box_full=True)
         serializer = UlazSerializer(filled_boxes, many=True)
         return Response(serializer.data)
 
-#Api for map of full boxes of lids
+
+# Api for map of full boxes of lids
 class CepoviMapa(APIView):
     def get(self, request):
         filled_boxes = Ulaz.objects.filter(cep_box_full=True)
         serializer = UlazSerializer(filled_boxes, many=True)
         return Response(serializer.data)
 
-#Api for reporting that a paper box is full
+
+# Api for reporting that a paper box is full
 # @method_decorator(csrf_exempt, name="dispatch")
 class PapirPrijava(APIView):
     #Not sure if this plays any role
     parser_classes = (MultiPartParser, FormParser, FileUploadParser)
-    # authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    # authentication_classes = (
+        # CsrfExemptSessionAuthentication,
+        # BasicAuthentication
+        # )
     # @csrf_exempt
     def post(self, request, *args, **kwargs):
         # ulaz = Ulaz.objects.get(Ulica_i_broj=request.data['ulaz'])
-        #This line is necessary because the field ulaz accepts object ulaz not an address string
+        #This line is necessary because the field ulaz accepts
+        # object ulaz not an address string
         ulaz = Ulaz.objects.get(Ulica_i_broj=request.data['ulaz'])
         if len(TempPapir.objects.filter(ulaz=ulaz)) == 0:
             serializer = PapirPrijavaSerializer(data=request.data)
-            #flush=True seems necessary to be able to print in console that is to get server logs in pythonanywhere
+            #flush=True seems necessary to be able to print
+            # in console that is to get server logs in pythonanywhere
             print (serializer, flush=True)
             if serializer.is_valid():
                 try:
                     # print (serializer, flush=True)
-                    # TempPapir.objects.create(foto = serializer.validated_data['file'], ulaz = ulaz)
+                    # TempPapir.objects.create(
+                    # foto = serializer.validated_data['file'], ulaz = ulaz)
 
                     # ulaz.box_full = False
                     # ulaz.save()
@@ -229,9 +268,10 @@ class PapirPrijava(APIView):
         else:
             return Response({'Success':'Hvala na prijavi! '}, status=status.HTTP_200_OK)
 
-#Api for reporting that a lid box is full
+
+# Api for reporting that a lid box is full
 class CepPrijava(APIView):
-    #Not sure if this plays any role
+    # Not sure if this plays any role
     parser_classes = (MultiPartParser, FormParser, FileUploadParser)
     # authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     # @csrf_exempt
@@ -273,7 +313,8 @@ class CepPrijava(APIView):
         else:
             return Response({'Success':'Hvala na ponovnoj prijavi! '}, status=status.HTTP_200_OK)
 
-#Api for getting the list of grades of upravniks
+
+# Api for getting the list of grades of upravniks
 class GradesList(APIView):
 
     def get(self, request):
@@ -303,11 +344,12 @@ class GradesList(APIView):
 # ]
 
 
-#This is for the page that users first encounter before registering.
+# This is for the page that users first encounter before registering.
 def frontpage(request):
     return render(request, "home/frontpage.html")
 
-#This is for the page that users see when they log in.
+
+# This is for the page that users see when they log in.
 @login_required
 def home(request):
     if request.user.is_director:
@@ -317,6 +359,7 @@ def home(request):
     # posts = Post.objects.all()
     # context = {'posts': posts}
     # return render(request, "home/home.html", context)
+
 
 class PostListView(LoginRequiredMixin, ListView):
     # model = Post
@@ -330,6 +373,7 @@ class PostListView(LoginRequiredMixin, ListView):
                 print ("Tag:", tag)
                 print ("Tag type:", type(tag))
         return posts
+
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
         context['upravnik'] = Upravnik.objects.get(ulaz=self.request.user.Ulaz)
@@ -343,10 +387,12 @@ class PostListView(LoginRequiredMixin, ListView):
     #for a ListView, default context object name is object_list, but that can be overriden in the way above.
     #for DetailView, defaul context object name is 'object'
 
+
 #Base html
 def base_layout(request):
 	template='home/base.html'
 	return render(request,template)
+
 
 #A View for seeing details about particular posts
 class PostDetailView(LoginRequiredMixin, DetailView):
@@ -356,7 +402,9 @@ class PostDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         context['upravnik'] = Upravnik.objects.get(ulaz=self.request.user.Ulaz)
-        context['ulaz'] = translit(self.request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
+        context['ulaz'] = translit(
+            self.request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True
+            )
         post = get_object_or_404(Post, pk = self.kwargs['pk'])
         context['comments'] = Comment.objects.filter(post=post)
         context['form'] = CommentForm()
@@ -372,8 +420,13 @@ class PostDetailView(LoginRequiredMixin, DetailView):
             obj.save()
         return redirect(post)
 
-            #the view sends data by default to a template with the following name pattern:
-    #/app_name/model_name/underscore/type_of_view(list, detail... except for create view, where it expects 'form' instead)
+            #the view sends data by default to a template with
+            # the following name pattern:
+            # /app_name/model_name/underscore/type_of_view(
+            #list, detail... except for create view, where it expects
+            #'form' instead
+            # )
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -428,8 +481,10 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         else:
             print (list(form.instance.tags.names()))
         return super().form_valid(form)
-    #LoginRequiredMixin serves to block access for users who are not logged in. In addition, it redirects the not logged in user to the login page.
-    #On classes we cannot use decorators, instead we use mixins.
+    # LoginRequiredMixin serves to block access for users who are not logged in.
+    # In addition, it redirects the not logged in user to the login page.
+    # On classes we cannot use decorators, instead we use mixins.
+
 
 #View for publishing a poll in a post.
 class PostCreateView2(LoginRequiredMixin, CreateView):
@@ -510,27 +565,32 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         post = self.get_object()   #gets the post that we want to update
-        if self.request.user == post.author:    #checks if we are the author of the post
+        if self.request.user == post.author: # checks if we are the author
             return True
         else:
             return False
-    #UserPassesTestMixin serves to block access to update post page to users other than the author of the post
-    #How to make a nice notification that access is denied?
+
+
+# UserPassesTestMixin serves to block access to update
+# post page to users other than the author of the post
+# How to make a nice notification that access is denied?
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url='/home/'
 
     def test_func(self):
         post = self.get_object()   #gets the post that we want to update
-        if self.request.user == post.author:    #checks if we are the author of the post
+        if self.request.user == post.author:    #checks if we are the author
             return True
         else:
             return False
+
 
 def about(request):
     ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
     context={'ulaz': ulaz}
     return render(request, "home/about.html", context)
+
 
 # @login_required
 def reciklaza(request):
@@ -542,7 +602,7 @@ def reciklaza(request):
             context = {'papiri': papiri, 'ulaz': ulaz}
             return render(request, 'home/reciklaza.html', context)
             # if request.POST.get('vrsta') == "Papir":
-            print ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+            print ("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             print ("request Post")
             a = request.POST.get('ulaz')
             ulaz = Ulaz.objects.get(Ulica_i_broj=a)
@@ -555,20 +615,35 @@ def reciklaza(request):
                     #     console.log(loc)
                     # </script>
                     print (ulaz.location)
-                    TempPapir.objects.create(ulaz=ulaz, foto=request.FILES.get('foto'), ulica_i_broj = ulaz.Ulica_i_broj, location = ulaz.location)
+                    TempPapir.objects.create(
+                        ulaz=ulaz, foto=request.FILES.get('foto'),
+                        ulica_i_broj = ulaz.Ulica_i_broj, location = ulaz.location
+                        )
 
-                    messages.success(request, "Hvala što ste nas obavestili o popunjenosti kutije!")
+                    messages.success(
+                        request,
+                        "Hvala što ste nas obavestili o popunjenosti kutije!"
+                        )
                 else:
-                    messages.warning(request, "Niste napravili fotografiju, molim vas probajte ponovo.")
+                    messages.warning(
+                        request,
+                        "Niste napravili fotografiju, molim vas probajte ponovo."
+                        )
 
             else:
 
                 print (request.FILES.get('foto'))
                 if request.FILES.get('foto'):
                     print (request.FILES.get('foto'))
-                    messages.warning (request, "Niste napravili fotografiju, molim vas probajte ponovo.")
+                    messages.warning (
+                        request,
+                        "Niste napravili fotografiju, molim vas probajte ponovo."
+                        )
                 else:
-                    messages.warning (request, "Niste napravili fotografiju, molim vas probajte ponovo.")
+                    messages.warning (
+                        request,
+                        "Niste napravili fotografiju, molim vas probajte ponovo."
+                        )
                     print ("photo not taken")
 
 
@@ -597,7 +672,11 @@ def reciklaza(request):
                 print (total_cena)
                 print (total_kolicina)
 
-            context = {'total_kolicina': total_kolicina, 'total_cena': total_cena, 'papiri': papiri, 'ulaz': ulaz}
+            context = {
+                'total_kolicina': total_kolicina,
+                'total_cena': total_cena,
+                'papiri': papiri, 'ulaz': ulaz
+                }
             return render(request, 'home/reciklaza.html', context)
 
     else:
@@ -610,6 +689,7 @@ def reciklaza(request):
         context = {'p_quant': p_quant}
         return render(request, 'home/reciklaza.html', context)
 
+
 def telefoni(request):
     if not request.user.is_director:
         ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
@@ -620,8 +700,10 @@ def telefoni(request):
 
     return render(request, 'home/telefoni.html', context)
 
+
 def telefoni_p(request):
     return render(request, 'home/telefoni.html')
+
 
 def upravnik_posts(request, pk):
     ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
@@ -629,6 +711,7 @@ def upravnik_posts(request, pk):
     posts = Post.objects.filter(author=user)
     context ={'posts': posts, 'ulaz': ulaz}
     return render(request, 'home/user_posts.html', context)
+
 
 def home_manager(request):
     msgs_by_ulazi = {}
@@ -645,7 +728,11 @@ def home_manager(request):
             msgs_by_ulazi[ulaz] = 0
     print (len(msgs_by_ulazi.items()), flush=True)
 
-    context = {'ulaz': 'Početna', 'ulazi': ulazi, 'msgs_by_ulazi': msgs_by_ulazi}
+    context = {
+        'ulaz': 'Početna',
+        'ulazi': ulazi,
+        'msgs_by_ulazi': msgs_by_ulazi
+        }
     return render(request, 'home/director_dashboard.html', context)
 
 # class MngrMessageListView(ListView):
@@ -696,9 +783,9 @@ def home_manager(request):
 #     model = MessageForUpravnik
 #     success_url='/manager_messages/'
 
+
 def malfunction_report(request):
     return render(request, "home/malfunction.html")
-
 
 
     # def test_func(self):
