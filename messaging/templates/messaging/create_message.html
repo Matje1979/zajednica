@@ -1,0 +1,17 @@
+{% extends 'messaging/messages.html' %}
+{% load crispy_forms_tags %}
+
+{% block messages-inner %}
+    <article class="media content-section w-100 p-3">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <fieldset class="form-group">
+               <legend class="mb 4"></legend>
+                   {{ message_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-success" name="message-button" type="submit" disabled>Posalji</button>
+            </div>
+        </form>
+    </article>
+{% endblock messages-inner %}

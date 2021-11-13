@@ -3,6 +3,7 @@ from .models import Post, Papir, Comment, CommentOfComment, Cepovi
 from users.forms import PapirForm
 from users.models import TempCepovi
 
+
 class PapirAdmin(admin.ModelAdmin):
     model = Papir
     form = PapirForm

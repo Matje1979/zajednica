@@ -1,23 +1,36 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load crispy_forms_tags %}
 
 {% block content%}
 
-    <div class="content-section">
-        <h1></h1><br>
-      <div class="media">
+    <div class="content-section p-3">
+      <div class="media" id="manager-media">
         {% if upravnik.user.profile.image.url == '/media/default.jpg' %}
-        <div id=pic-box>
-            <img class="rounded-circle account-img" src="{{ upravnik.user.profile.image.url }}">
-            <small>Image by <a href="https://pixabay.com/users/WandererCreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Pixabay</a></small>
+        <div id="pic-box" class="ml-2">
+            <i class="fas fa-user-circle fa-8x text-secondary"></i>
         </div>
         {% else %}
             <img class="rounded-circle account-img" src="{{ upravnik.user.profile.image.url }}">
         {% endif %}
         <div class="media-body">
           <h2 class="account-heading">{{ upravnik.user.first_name }} {{ upravnik.user.last_name }}</h2>
+          {% if upravnik.user.profile.image.url == '/media/default.jpg' %}
+            <div id="pic-box-media" class="mb-3">
+                <i class="fas fa-user-circle fa-8x text-secondary"></i>
+            </div>
+          {% else %}
+            <img class="rounded-circle account-img" src="{{ upravnik.user.profile.image.url }}">
+          {% endif %}
           <p class="text-secondary">{{ upravnik.user.email }}</p>
-          <p class="text-secondary">064/234-3219</p>
+          <p class="text-secondary">
+              064/234-3219 &nbsp;&nbsp;
+              <a href="viber://chat/?number=%2BPHONENUMBERWITHCOUNTRYCODE">
+                  <i class="fab fa-viber fa-lg" aria-hidden="true" style="color: #8f5db7;"></i>
+              </a>&nbsp;
+              <a href="skype:profile_name?userinfo">
+                  <i class="fab fa-skype fa-lg" aria-hidden="true" style="color: #00aff0;"></i>
+              </a>
+          </p>
           <p class="text-secondary">{{ upravnik.vrsta }}</p>
           {% if "Profesionalni upravnik" in upravnik.vrsta  %}
             {% if upravnik.website %}
@@ -52,9 +65,7 @@
     </form> -->
 
       <!-- FORM HERE -->
-
-    </div>
-    <button id="message_to_upravnik_btn"class="btn btn-outline-info mb-3">Piši upravniku</button>
+      <button id="message_to_upravnik_btn"class="btn btn-success mb-3 ml-1">Piši upravniku</button>
     <div id="message_to_upravnik_form"  class="content-section">
         <span id='close-mngr-msg'>x</span>
 
@@ -66,14 +77,17 @@
                {{ message_form|crispy }}
           </fieldset>
           <div class="form-group">
-              <button class="btn btn-outline-info" name="message-button" type="submit">Posalji</button>
+              <button id="m-btn" class="btn btn-success" name="message-button" type="submit" disabled>Posalji</button>
           </div>
       </form>
 
     </div>
 
+    </div>
 
-    <div class="content-section">
+
+
+    <div class="content-section p-3">
         <form method="POST" action="">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -81,7 +95,7 @@
                 {{ upravnik_form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" name="survey-button" type="submit">Oceni</button>
+                <button class="btn btn-success" name="survey-button" type="submit">Oceni</button>
             </div>
         </form>
     </div>
@@ -130,4 +144,22 @@
         };
     // };
     </script>
+    <script>
+	        var button = document.getElementById("m-btn");
+            var input = document.querySelector("[required_id='id_content']");
+            console.log(document.getElementsById("textarea")[0]);
+
+            document.getElementsByTagName("textarea")[0].addEventListener("keyup", function(e) {
+               console.log("Hi")
+               var inputValue = e.target.value;
+               if (inputValue.length > 0) {
+                  console.log("Hello");
+                  button.disabled = false;
+               } else {
+                   console.log("Goodbye")
+                   button.disabled = true;
+               }
+            })
+        </script>
+
 {% endblock content %}

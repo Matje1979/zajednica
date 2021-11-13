@@ -1,12 +1,12 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load crispy_forms_tags %}
 
 {% block content%}
-<div class="content-section">
+<div class="content-section p-3">
     <form method="POST" action="">
     	{% csrf_token %}
     	<fieldset class="form-group">
-    		<legend class="border-bottom mb 4">Blog post</legend>
+    		<legend class="border-bottom mb 4">Nova objava</legend>
     		{{ form|crispy|safe }}
             {{ form.media }}
             <ul class="list-inline">
@@ -15,22 +15,22 @@
                     <li class="list-inline-item"><p class="btn-sm btn-info border-0" style="cursor: pointer;">{{ tag }}</p></li>
                 {% endfor %}
             </ul>
-            
+
     	</fieldset>
-        
+
 
     	<div class="form-group">
-    		<button class="btn btn-outline-info" type="submit">Objavi</button>
-    	</div>	
+    		<button id="post-btn" class="btn btn-success" type="submit">Objavi</button>
+    	</div>
     </form>
-    
-    
+
+
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(function(){
         $('.list-inline-item').click(function() {
-            
+
             var text = $('input.tagwidget')
             console.log(text.text())
             var t_text = $(this).text()
@@ -40,5 +40,22 @@
             console.log(text.val())
         });
     });
+</script>
+<script>
+        var button = document.getElementById("post-btn");
+        var input = document.querySelector("ck_1_contents");
+        console.log(document.getElementById("id_Sadržaj"));
+
+        document.getElementsByClassName("cke_editable")[0].addEventListener("click", function(e) {
+           console.log("Hi")
+           var inputValue = e.target.value;
+           if (inputValue.length > 0) {
+              console.log("Hello");
+              button.disabled = false;
+           } else {
+               console.log("Goodbye")
+               button.disabled = true;
+           }
+        })
 </script>
 {% endblock content %}

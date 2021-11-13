@@ -1,26 +1,115 @@
 {% extends 'home/base.html' %}
 
-{% block content%}
-    <h2>Primljene poruke</h2>
-    <p style="width: 250px; height: 10px; background-color: #5f788a;"></p>
-	{% for msg in usr_messages %}
-	  {% if msg.read == True %}
-	      <article class="media content-section" style="opacity: 0.6;">
-	  {% else %}
-	      <article class="media content-section">
-	  {% endif %}
-    	  <div class="media-body">
-    	    <div class="article-metadata">
-    	        <a class="mr-2" href="#">{{ msg.sender.username }}</a>
-    	    </div>
-    	    <h4><a class="article-title" href="{% url 'msg-detail' msg.id %}">{{ msg.title }}</a></h4>
-    	  </div>
-    	</article>
-	{% endfor %}
+{% block messages %}
+    <main role="main" class="container">
+    <div class="wraper bootstrap snippets bootdeys bootdey">
+        <div class="page-title">
+            {% if 'messages_list' in request.path %}
+                <h3 id="inbox-title" class="title">Primljene poruke</h3>
+            {% elif 'sent_messages' in request.path %}
+                <h3 id="inbox-title" class="title">Poslate poruke</h3>
+            {% endif %}
+        </div>
+        <div class="row">
+            <!-- Right Sidebar -->
+            <div class="col-md-9">
+                	{% if messages %}
+        	    	    {% for message in messages %}
+        	    	        <div class="alert alert-{{ message.tags }}">
+        	    	        	{{ message }}
+        	    	        </div>
+        	    	    {% endfor %}
+        	    	{% endif %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="btn-toolbar" role="toolbar" style="pointer-events: none; opacity: 0.5;">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success"><i class="fa fa-inbox"></i></button>
+                                <button type="button" class="btn btn-success"><i class="fa fa-exclamation-circle"></i></button>
+                                <button type="button" class="btn btn-success"><i class="fa fa-trash-o"></i></button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-folder"></i>
+                                <b class="caret"></b>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#fakelink">Action</a></li>
+                                    <li><a href="#fakelink">Another action</a></li>
+                                    <li><a href="#fakelink">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#fakelink">Separated link</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-tag"></i>
+                                <b class="caret"></b>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#fakelink">Action</a></li>
+                                    <li><a href="#fakelink">Another action</a></li>
+                                    <li><a href="#fakelink">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#fakelink">Separated link</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                  More
+                                  <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="#fakelink">Dropdown link</a></li>
+                                  <li><a href="#fakelink">Dropdown link</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% block messages-inner %}
+                    {% endblock messages-inner %}
+
+                </div> <!-- End row -->
+
+            </div> <!-- end Col-9 -->
+            <!-- Left sidebar -->
+            <div class="col-md-3">
+                {% if 'create_message' not in request.path %}
+                    <a href="{% url 'create-message' %}" id="create-message-btn" class="btn btn-success btn-block">Kreiraj</a>
+                {% else %}
+                    <a href="{% url 'create-message' %}" id="create-message-btn" class="btn btn-success btn-block" style="pointer-events: none; opacity: 0.5;">Kreiraj</a>
+                {% endif %}
+                <div class="panel panel-default p-0  m-t-20">
+                    <div class="panel-body p-0">
+                        <div class="list-group no-border mail-list">
+                            {% if 'messages_list' in request.path %}
+                                <a href="{% url 'message-list' %}" class="list-group-item active"><i class="fa fa-download m-r-5"></i> Primljene <b>({{ usr_messages.count }})</b></a>
+                            {% else %}
+                                <a href="#" class="list-group-item"><i class="fa fa-download m-r-5"></i> Primljene <b>({{ usr_messages.count }})</b></a>
+                            {% endif %}
+                          <a href="#" class="list-group-item"><i class="fa fa-star-o m-r-5"></i> Starred</a>
+                          <a href="#" class="list-group-item"><i class="fa fa-file-text-o m-r-5"></i> Draftovi<b>(20)</b></a>
+                          {% if 'sent_messages' in request.path %}
+                              <a href="#" class="list-group-item active"><i class="fa fa-paper-plane-o m-r-5"></i> Poslate<b>({{ msgs.count }})</b></a>
+                          {% else %}
+                              <a href="{% url 'sent-messages' %}" class="list-group-item"><i class="fa fa-paper-plane-o m-r-5"></i> Poslate<b>({{ msgs.count }})</b></a>
+                          {% endif %}
+                          <a href="#" class="list-group-item"><i class="fa fa-trash-o m-r-5"></i> Otpaci <b>(354)</b></a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- End Left sidebar -->
+        </div><!-- End row -->
+    </div>
+    <div class="ml-3">
 	{% if is_paginated %}
 	    {% if page_obj.has_previous %}
-		    <a class="btn btn-outline-info mb-4" href="?page=1">Prva</a>
-		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Prethodna</a>
+		    <a class="btn btn-outline-info mb-4 ml-3" href="?page=1">Prva</a>
+		    <a class="btn btn-outline-info mb-4 ml-3" href="?page={{ page_obj.previous_page_number }}">Prethodna</a>
 	    {% endif %}
 	    {% for num in page_obj.paginator.page_range %}
 	        {% if page_obj.number == num %}
@@ -34,5 +123,7 @@
 		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Poslednja</a>
 	    {% endif %}
 	{% endif %}
-{% endblock content %}
+	</div>
+	</main>
+{% endblock messages %}
 

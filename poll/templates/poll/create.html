@@ -1,4 +1,4 @@
-{% extends "home/base.html" %}
+{% extends "home/base_content.html" %}
 
 {% load widget_tweaks %}
 
@@ -11,7 +11,7 @@
             <div class="panel-heading">
                 <!-- <h3 class="panel-title">Napravi novu anketu</h3> -->
             </div>
-                
+
             <form method="POST">
                 {% csrf_token %}
                 <div class="panel-body">
@@ -28,7 +28,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="option1">Opcija 1</label>
-                                
+
                                 {% render_field form.option_one class="form-control" %}
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row mb-2">
                         <hr />
                         <div class="col-lg-4">
                             <button type="submit" class="btn btn-info">Kreiraj</button>

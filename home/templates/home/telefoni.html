@@ -1,55 +1,59 @@
 
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load static %}
 {% block content%}
 
-<div class="content-section pt-4">
-   <h3 class="mb-4 mt-1">Važni telefoni</h3>
-   <!--<p style="width: 200px; height: 20px; background-color: red; margin-bottom: 20px;"></p>-->
+<div class="content-section p-3">
+  <h3><i class="far fa-address-book mb-1"></i>&nbsp; Važni telefoni</h3>
+  <hr>
   <table class="table table-bordered">
     <tbody>
        <tr>
-        <td colspan="2"><a href="https://www.beograd94.rs/">Hitna Pomoć</a></td>
+        <td colspan="2"><a href="https://www.beograd94.rs/"><i class="fas fa-ambulance"></i>&nbsp; Hitna Pomoć</a></td>
         <td><a href="tel:194">194</a></td>
       </tr>
       <tr>
-        <td colspan="2">BEOGRADSKI TAXI</td>
+        <td colspan="2"><a href="#"><img src="{% static 'home/policija-logo.png' %}" style="width: 22px;">&nbsp; Policija</a></td>
+        <td><a href="tel:194">192</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-taxi"></i>&nbsp; BEOGRADSKI TAXI</td>
         <td><a href="tel:19801">19801</a></td>
       </tr>
       <tr>
-        <td colspan="2">Elektrodistribucija</td>
+        <td colspan="2"><img src="{% static 'home/eps.png' %}" style="width: 22px;">&nbsp; Elektrodistribucija</td>
         <td><a href="tel:063/321-45">063/321-45</a></td>
       </tr>
       <tr>
-        <td colspan="2">JKP Beogradski vodovod i kanalizacija</td>
+        <td colspan="2"><i class="fas fa-hand-holding-water"></i>&nbsp; JKP Beogradski vodovod i kanalizacija</td>
         <td><a href="tel:063/321-45">063/321-45</a></td>
       </tr>
       <tr>
-        <td colspan="2">Grejanje i topla voda: JKP Beogradske elektrane:</td>
+        <td colspan="2"><i class="fas fa-fire-alt"></i>&nbsp; Grejanje i topla voda: JKP Beogradske elektrane:</td>
         <td><a href="tel:063/321-45">063/321-45</a></td>
       </tr>
       <tr>
-        <td colspan="2">EPS – JP Elektrodistribucija Beograd: </td>
+        <td colspan="2"><i class="fas fa-bolt" style="color: orange;"></i>&nbsp; EPS – JP Elektrodistribucija Beograd: </td>
         <td>340-5555</td>
       </tr>
       <tr>
-        <td colspan="2">JKP Javno osvetljenje: </td>
+        <td colspan="2"><i class="far fa-lightbulb"></i>&nbsp; JKP Javno osvetljenje: </td>
         <td>4405-100</td>
       </tr>
       <tr>
-        <td colspan="2">Telekom Srbija: </td>
+        <td colspan="2"><img src="{% static 'home/mts_logo.png' %}" style="width: 20px;">&nbsp; Telekom Srbija: </td>
         <td>977, 9813</td>
       </tr>
       <tr>
-        <td colspan="2">Gasovod – JP Srbijagas: </td>
+        <td colspan="2"><i class="fas fa-burn"></i>&nbsp; Gasovod – JP Srbijagas: </td>
         <td>2604-130, 312-9237</td>
       </tr>
       <tr>
-        <td colspan="2">Parkiranje – JKP Parking servis: </td>
+        <td colspan="2"><i class="fas fa-parking"></i>&nbsp; Parkiranje – JKP Parking servis: </td>
         <td>3035-400, 3017-070</td>
       </tr>
       <tr>
-        <td colspan="2">Direkcija za puteve: </td>
+        <td colspan="2"><i class="fas fa-road"></i>&nbsp; Direkcija za puteve: </td>
         <td>3309-250</td>
       </tr>
       <tr>

@@ -1,12 +1,12 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load crispy_forms_tags %}
 
 {% block content%}
-    <div class="content-section">
+    <div class="content-section p-3">
+        <br>
       <!-- <h2 class="ml-2 mb-4 mt-2">Dokumenti</h2> -->
-      <hr>
-      <ul class="pl-3">
-        <a href="http://stanovanje.gov.rs/doc/zakon%20o%20stanovanju%203110.pdf"><li class="mb-2">Brošura o zakonu o stanovanju i održavanju zgrada <span class="pdf">(pdf)</span></li></a>
+      <ul class="pl-3" style="list-style: initial;">
+        <a href="http://stanovanje.gov.rs/doc/zakon%20o%20stanovanju%203110.pdf"><li class="mb-2">Brošura o zakonu o stanovanju i održavanju zgrada <span class="pdf"><i class="fas fa-file-pdf"></i></span></li></a>
         <a href="http://stanovanje.gov.rs/latinica/propisi.php"><li class="mb-2">Zakon stanovanju i održavanju zgrada</li></a>
         <a href="http://stanovanje.gov.rs/latinica/registar-stambenih-zajednica.php"><li class="mb-2">Registar stambenih zajednica</li></a>
         <a href="http://stanovanje.gov.rs/latinica/odrzavanje-zgrade.php"><li class="mb-2">Održavanje zgrada</li></a>

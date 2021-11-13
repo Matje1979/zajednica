@@ -1,30 +1,31 @@
-{% extends "home/base.html" %}
+{% extends "home/base_content.html" %}
 
 
 {% block content %}
 <!-- <div class="content-section"> -->
 <div class="row">
-    <div class="col-lg-10 col-lg-offset-2">
+    <div class="col-lg-12 col-lg-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="display-5 mb-3">Aktivne ankete</h4>
+                <h2 class="display-5 mb-2 pl-3">Aktivne ankete</h2>
             </div>
 
             <ul class="list-group">
                 {% for poll in polls %}
-                <li class="list-group-item mb-3">
+                <li class="list-group-item mb-3 poll-item">
                    <p><strong>{{ poll.question}}</strong></p>
+                   <hr>
                     <span class="pull-right">
-                        <a href="{% url 'poll-vote' poll.id %}" class="btn btn-info btn-xs">Glasaj</a> &nbsp;
-                        <a href="{% url 'poll-results' poll.id %}" class="btn btn-info btn-xs">Rezultat</a> &nbsp;
+                        <a href="{% url 'poll-vote' poll.id %}" class="btn btn-success btn-xs mb-1">Glasaj</a> &nbsp;
+                        <a href="{% url 'poll-results' poll.id %}" class="btn btn-info btn-xs mb-1">Rezultat</a> &nbsp;
                         {% if request.user == poll.author %}
-                            <a href="{% url 'post-create2' poll.id poll.question %}" class="btn btn-info btn-xs">Objavi</a> &nbsp;
+                            <a href="{% url 'post-create2' poll.id poll.question %}" class="btn btn-warning btn-xs mb-1">Objavi</a> &nbsp;
                         {% endif %}
                     </span>
                 </li>
                 {% endfor %}
             </ul>
-            <a href="{% url 'poll-create' %}" class="d-block btn btn-info btn-xs mx-auto mt-2">Kreiraj novu anketu </a>
+            <a href="{% url 'poll-create' %}" class="d-block btn btn-success btn-xs mx-auto mt-2 mb-4">Kreiraj novu anketu </a>
 
         </div>
     </div>

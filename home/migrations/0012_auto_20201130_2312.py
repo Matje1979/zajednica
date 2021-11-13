@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='post',
             name='content',
-            field=ckeditor_uploader.fields.RichTextUploadingField(verbose_name='sadržaj'),
+            field=ckeditor_uploader.fields.RichTextUploadingField(
+                verbose_name='sadržaj'
+            ),
         ),
         migrations.AlterField(
             model_name='post',

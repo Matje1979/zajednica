@@ -1,7 +1,7 @@
-{% extends 'home/base.html' %}
+{% extends 'messaging/messages.html' %}
 {% load crispy_forms_tags %}
-{% block content%}
-	<article class="media content-section">
+{% block messages-inner %}
+	<article class="media content-section w-100 m-4">
 	  <div class="media-body">
 	    <div class="article-metadata">
 	       <a class="mr-2" href="#">{{ msg.sender.username }}</a>
@@ -33,4 +33,4 @@
 	</article>
 
 
-{% endblock content %}
+{% endblock messages-inner %}

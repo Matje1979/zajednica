@@ -1,7 +1,7 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load crispy_forms_tags %}
 {% block content%}
-	<article class="media content-section">
+	<article class="media content-section p-3">
 	  <img class='rounded-circle article-img' src="{{ post.author.profile.image.url }}" alt="">
 	  <div class="media-body">
 	    <div class="article-metadata">
@@ -52,7 +52,7 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Pošalji</button>
+                <button class="btn btn-success" type="submit">Pošalji</button>
             </div>
         </form>
 	  </div>

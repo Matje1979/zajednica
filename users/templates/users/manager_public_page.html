@@ -1,9 +1,9 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load crispy_forms_tags %}
 
 {% block content%}
-    
-    <div class="content-section pb-4">
+
+    <div class="content-section p-3">
       <h1>Upravnik</h1><br>
       <div class="media">
         {% if upravnik.profile.image.url == '/media/default.jpg' %}
@@ -22,18 +22,18 @@
             <p class="text-secondary">Radi za: {{ upravnik.profile.radi_za }}</p>
             <p class="text-secondary">Prosečna ocena: {{ upravnik.profile.prosecna_ocena }}</p>
           {% endif %}
-          
-        
+
+
         </div>
 
-       
+
       </div><br><br>
 
       <div>
         <h3 class="text-nowrap bd-highlight">Bio</h3><br>
         <p>Rođen u Beogradu 1970. godine, radi kao profesionalni upravnik već 10 godina. Završio obuku za upravnika zgrade.</p>
      </div><br>
-      
+
         <div>
             <h3 class="mb-4">Komentari stanara</h3><br>
             {% for komentar in komentari %}
@@ -50,7 +50,7 @@
            </figure> -->
         </div>
     </div>
-    
+
    <!--  <form id="profile-form" method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
@@ -60,12 +60,12 @@
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Update</button>
-        </div>  
+        </div>
     </form> -->
-       
+
       <!-- FORM HERE -->
-      
-    
+
+
    <!--  <div class="content-section">
         <form method="POST" action="">
             {% csrf_token %}
@@ -75,13 +75,13 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Oceni</button>
-            </div>  
+            </div>
         </form>
     </div> -->
     <!-- <div class="form-group">
         <button id="update-profile-btn" class="btn btn-outline-info ml-4">Update profile</button>
-    </div>  
+    </div>
     <div class="form-group">
         <button id="profile-form-hide-btn" class="btn btn-outline-info ml-4">Hide</button>
-    </div>  --> 
+    </div>  -->
 {% endblock content %}

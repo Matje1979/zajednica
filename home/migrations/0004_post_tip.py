@@ -13,6 +13,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='tip',
-            field=models.CharField(choices=[('Warning', 'Warning'), ('Info', 'Info')], default='Info', max_length=50),
+            field=models.CharField(
+                choices=[
+                    ('Warning', 'Warning'),
+                    ('Info', 'Info')
+                ],
+                default='Info',
+                max_length=50
+            ),
         ),
     ]

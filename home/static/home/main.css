@@ -129,7 +129,7 @@ li.list-group-item:hover {
 
 .quote {
   margin: 0;
-  background-color: #eee !important; 
+  background-color: #eee !important;
   padding: 1em;
   border-radius: 1em;
   width: 90%;
@@ -143,6 +143,10 @@ li.list-group-item:hover {
 
 #message_to_upravnik_form form{
   display: none;
+}
+
+.header h2{
+    font-size: 2.5rem;
 }
 
 .bg-steel {

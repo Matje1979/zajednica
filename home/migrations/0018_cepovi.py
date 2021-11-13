@@ -16,9 +16,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Cepovi',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datum', models.DateTimeField(default=django.utils.timezone.now)),
-                ('ulaz', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='users.Ulaz')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
+                (
+                    'datum',
+                    models.DateTimeField(default=django.utils.timezone.now)
+                ),
+                (
+                    'ulaz',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='users.Ulaz'
+                    )
+                ),
             ],
         ),
     ]

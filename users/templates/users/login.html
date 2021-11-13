@@ -1,8 +1,8 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load crispy_forms_tags %}
 
 {% block content%}
-<div class="content-section">
+<div class="content-section p-3">
     <form method="POST" action="">
     	{% csrf_token %}
     	<fieldset class="form-group">
@@ -11,7 +11,7 @@
     	</fieldset>
     	<div class="form-group">
     		<button class="btn btn-outline-info" type="submit">Login</button>
-    	</div>	
+    	</div>
     </form>
     <div class="border-top pt-3">
     	<small class="text-muted">Nemaš nalog?<a class="ml-2" href="{% url 'register1' %}"> - Registruj se</a></small>

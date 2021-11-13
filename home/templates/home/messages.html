@@ -1,6 +1,6 @@
 {% extends 'home/base.html' %}
 
-{% block content%}
+{% block messages %}
     <h2>Primljene poruke</h2>
     <p style="width: 250px; height: 10px; background-color: #5f788a;"></p>
 	{% for msg in usr_messages %}
@@ -34,5 +34,5 @@
 		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Poslednja</a>
 	    {% endif %}
 	{% endif %}
-{% endblock content %}
+{% endblock messages %}
 

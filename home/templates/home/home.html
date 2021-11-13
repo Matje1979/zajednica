@@ -1,15 +1,14 @@
 
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 
 {% block content%}
 	{% for post in posts %}
 
-	  <article class="media content-section">
-
-	  <a href="{% url 'profile' %}"><img class='rounded-circle article-img' src="{{ post.author.profile.image.url }}" alt=""></a>
+	  <article class="media content-section p-2" style="position: relative;">
 	  <div class="media-body">
 	    <div class="article-metadata">
 	    {% if user == post.author %}
+	        <img class="rounded-circle post-author-img" src="{{ user.profile.image.url }}">
 	        <a class="mr-2" href="{% url 'profile' %}">{{ post.author }}</a>
 	    {% else %}
 	        {% if post.author == upravnik.user %}
@@ -34,8 +33,10 @@
         	    <li class="list-inline-item"><a href="{% url 'app-tagged' tag.slug %}"><button class="btn-sm btn-info border-0" type="submit">#{{ tag }}</button></a></li>
         	{% endif %}
         {% endfor %}
+
     </ul>
-	  </div>
+    <p><i class="far fa-thumbs-up fa-lg mt-4"></i>&nbsp;<span>28</span>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-comment-dots"></i>&nbsp;<span>56</span><a href="{% url 'post-detail' post.id %}" class="btn btn-primary" style="position: absolute; right: 20px;"><small style="font-weight: 600;">pročitaj</small>&nbsp;<i class="fas fa-long-arrow-alt-right" style="position: relative; top: 2px;"></i></a></p>
+	</div>
 
 	</article>
 	{% endfor %}

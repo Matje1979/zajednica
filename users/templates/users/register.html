@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content%}
-<div class="content-section">
+<div class="content-section p-3">
     <form method="POST" action="">
     	{% csrf_token %}
     	<fieldset class="form-group">
@@ -11,8 +11,8 @@
             {{ secr_form|crispy }}
     	</fieldset>
     	<div class="form-group">
-    		<button class="btn btn-outline-info" type="submit">Registruj se</button>
-    	</div>	
+    		<button class="btn btn-info" type="submit">Registruj se</button>
+    	</div>
     </form>
     <div class="border-top pt-3">
     	<small class="text-muted">Imaš nalog?<a class="ml-2" href="{% url 'login' %}">Uloguj se</a></small>

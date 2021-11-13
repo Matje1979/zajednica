@@ -11,7 +11,11 @@ from users.models import CustomUser
 class MessageForUpravnik(models.Model):
     sender = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="message_sender", null=True)
     receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="message_receiver", null=True)
-    title=models.CharField(max_length=200, null=True)
-    content=models.TextField(null=True)
+    title = models.CharField(max_length=200, null=True)
+    content = models.TextField(null=True)
     seen = models.BooleanField(default=False)
     read = models.BooleanField(default=False)
+
+
+class MessageNotificationsBucket(models.Model):
+    empty = models.BooleanField(default=True)

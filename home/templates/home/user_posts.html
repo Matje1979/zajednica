@@ -1,10 +1,10 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
 
 {% for post in posts %}
-  <article class="media content-section border border">
+  <article class="media content-section border border p-3">
     <img class='rounded-circle article-img' src="{{ post.author.profile.image.url }}" alt="">
     <div class="media-body">
       <div class="article-metadata">
@@ -21,4 +21,4 @@
   </article>
   {% endfor %}
 
-{% endblock content%} 
+{% endblock content%}

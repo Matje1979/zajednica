@@ -14,11 +14,19 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='papir',
             name='cena',
-            field=models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(1)]),
+            field=models.IntegerField(
+                blank=True,
+                null=True,
+                validators=[django.core.validators.MinValueValidator(1)]
+            ),
         ),
         migrations.AlterField(
             model_name='papir',
             name='kolicina',
-            field=models.IntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(1)]),
+            field=models.IntegerField(
+                blank=True,
+                null=True,
+                validators=[django.core.validators.MinValueValidator(1)]
+            ),
         ),
     ]

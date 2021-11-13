@@ -1,12 +1,13 @@
-from django import 	forms
-from.models import Comment, Post
+from django import forms
+from.models import Comment
 # from users.models import MessageForUpravnik
 
 
 class CommentForm(forms.ModelForm):
-	class Meta:
-		model = Comment
-		fields = ['text']
+    class Meta:
+        model = Comment
+        fields = ['text']
+
 
 # class MessageReplyForm(forms.ModelForm):
 #     class Meta:

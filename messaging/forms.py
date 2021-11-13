@@ -14,3 +14,14 @@ class MessageForUpravnikForm(forms.ModelForm):
 		    'title': 'Naslov',
 		    'content': 'Sadržaj'
 		}
+
+
+class MessageForm(forms.ModelForm):
+	class Meta:
+		model = MessageForUpravnik
+		fields = ['receiver', 'title', 'content']
+		labels={
+		    'receiver': 'primalac',
+		    'title': 'Naslov',
+		    'content': 'Sadržaj'
+		}

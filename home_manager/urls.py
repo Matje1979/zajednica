@@ -43,7 +43,7 @@ urlpatterns = [
     path('manager/', user_views.manager_profile, name='manager'),
     path('manager_public/<int:pk>', user_views.manager_public, name='manager_public'),
     path('docs/', user_views.documents, name='documents_page'),
-    path('managers_page/', user_views.managers_page, name='managers_page'),
+    path('managers_page/', user_views.ManagersRankingView.as_view(), name='managers_page'),
     path('profile/<int:pk>', user_views.user_profile, name='user-profile'),
     path('login/', auth_views.LoginView.as_view(template_name="users/login.html"), name='login'),
     path('login_success/', user_views.login_success, name='login-success'),

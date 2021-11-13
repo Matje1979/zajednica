@@ -18,6 +18,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='Sadržaj',
-            field=ckeditor_uploader.fields.RichTextUploadingField(blank=True, null=True),
+            field=ckeditor_uploader.fields.RichTextUploadingField(
+                blank=True,
+                null=True
+            ),
         ),
     ]

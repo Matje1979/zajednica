@@ -33,15 +33,10 @@
     {% block styles %}
     {% endblock %}
 </head>
+{% if user.is_authenticated %}
 <body>
-{% if request.path == '/' %}
-    <img src="{% static 'home/snow.gif' %}" alt="" id="snow-falling1">
-    <img src="{% static 'home/snow.gif' %}" alt="" id="snow-falling2">
-    <img src="{% static 'home/snow.gif' %}" alt="" id="snow-falling3">
-    <img src="{% static 'home/snow.gif' %}" alt="" id="snow-falling4">
-    <img src="{% static 'home/snow.gif' %}" alt="" id="snow-falling5">
-    <img src="{% static 'home/snow.gif' %}" alt="" id="snow-falling6">
-    <img src="{% static 'home/snow.gif' %}" alt="" id="snow-falling7">
+{% else%}
+<body style="padding-top: 62px;">
 {% endif %}
 	<!--<header class="site-header">-->
 	  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
@@ -49,7 +44,7 @@
 
 	     {% if user.is_authenticated %}
 	         {% if 'papir' in request.path %}
-	              <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-style: italic; font-size: 22px; margin-left: auto;"><img src="{% static 'home/kapica.png' %}" style="width: 40px;"></a>
+	              <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-style: italic; font-size: 22px; margin-left: auto;"><img src="{% static 'home/kapica.png' %}" style="width: 32px;"></a>
 	          {% else %}
     	          {% if not user.profile.is_organisation %}
     	              {% if not user.is_director %}
@@ -81,22 +76,27 @@
     	     <!--Navbar Right Side-->
     	     <ul id="nav-righ" class="navbar-nav ml-auto">
     	        {% if user.is_authenticated %}
+    	        <li class="nav-item text-light">
+                      <a href="#" class="text-light nav-link">Beograd</a>
+                  </li>
+                  <li class="nav-item ">
+                      <a href="#" class="text-light nav-link" style="margin-right: 10px;">Srbija</a>
+                  </li>
     	        <li id="inbox-item" class="nav-item">
-    	            <a href="{% url 'message-list' %}"><i id="envelope-icon" class="fas fa-envelope"><span id="message-count"></span></i></a>
-    	        </li>
-    	        <li class="nav-item">
-    	        	<i id="bell-icon" class="fas fa-bell">
-
-    	        	    <span id="notification-count"></span>
-    	        	</i>
-    	        </li>
+                      <a href="{% url 'message-list' %}"><i id="envelope-icon" class="fas fa-envelope"><span id="message-count" style="display: none'"></span></i></a>
+                  </li>
+                  <li class="nav-item">
+                	  <i id="bell-icon" class="fas fa-bell">
+                	    <span id="notification-count"></span>
+                	  </i>
+                  </li>
     	        	{% if not user.profile.is_organisation %}
         	        	<li class="nav-item">
-        	        	    <a class="nav-link" href="{% url 'profile' %}">Moj profil</a>
+        	        	    <a class="nav-link" href="{% url 'profile' %}">Moj profil </a>
         	        	</li>
         	        	{% if not user.is_director %}
             	        	<li class="nav-item">
-            	        	    <a class="nav-link" href="{% url 'post-create' %}">Novi post</a>
+            	        	    <a class="nav-link" href="{% url 'post-create' %}">Novi post </a>
             	        	</li>
             	        {% endif %}
     	        	{% endif %}
@@ -116,266 +116,38 @@
 	  </nav>
       <!--<div class="content-section pt-4">-->
 	<!--</header>-->
-	{% if 'home_manager' not in request.path %}
-	  <main role="main" class="container">
-	  {% if request.path == '/' %}
-	  <div class="row" id="winter-row">
-	  {% else %}
-	  <div class="row">
-	  {% endif %}
-	  <div class="col-md-9">
+	<!--</header>-->
+	{% if user.is_authenticated %}
+	    <ul id="between" class="nav justify-content-between" style="height: 60px; margin-top: 10px; background-color: #bab7b6; padding-top: 6px;">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'app-home' %}"><i class="fas fa-home fa-lg text-light"></i><span class="sr-only">(current)</span></a>
+          </li>
+           <li class="nav-item" style="pointer-events: none; opacity: 0.5;">
+            <a class="nav-link" href="#"><i class="fas fa-users fa-lg text-light"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}"><i class="fas fa-user-circle fa-lg text-light"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'message-list' %}"><i class="fas fa-envelope fa-lg text-light" onclick="markSeen()"><span id="message-count-mobile"></span></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'post-create' %}"><i class="fas fa-edit fa-lg text-light"></i></a>
+          </li>
+          <li class="nav-item" style="pointer-events: none; opacity: 0.5;">
+            <a class="nav-link" href="#"><i class="fas fa-bell fa-lg text-light"></i></a>
+          </li>
+    </ul>
+    {% endif %}
+	<div class="header" style="text-align: center;">
+      <h2><a href="#">Zajednica Stanara</a></h2>
+      <p>Zajedno smo jači</p>
+    </div>
+    {% block main_content %}
+    {% endblock main_content %}
 
-	    	{% if messages %}
-	    	    {% for message in messages %}
-	    	        <div class="alert alert-{{ message.tags }}">
-	    	        	{{ message }}
-	    	        </div>
-	    	    {% endfor %}
-	    	{% endif %}
-
-	        {% block content %}{% endblock %}
-         {% if 'papir' not in request.path %}
-	     <div class="content-section mt-3">
-
-	      	    <img src="{% static 'home/reklama2.png'%}" style="width:98%; height: auto; margin: 0 auto; display: block;">
-	     </div>
-	     {% endif %}
-
-	  </div>
-	  <div class="col-md-3">
-	      <div class="content-section">
-	      	{% if 'papir' in request.path %}
-	      	<!--<h3 class="mt-1 mb-3">Bitne informacije</h3>-->
-	          <ul class="list-group">
-	            {% if 'mapa' in request.path %}
-	                <a href="{% url 'prijavljen_papir' %}"><li class="list-group-item list-group-item-light">Prijavljene kutije</li></a>
-	                <li id="page-link" class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
-	                <a href="{% url 'papir_servis' %}"><li class="list-group-item list-group-item-light">Informacije o predaji papira</li></a>
-	            {% elif 'prijavljen_papir' in request.path %}
-	                <li id="page-link" class="list-group-item list-group-item-light">Prijavljene kutije</li>
-                    <a href="{% url 'papir_mapa' %}"><li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li></a>
-	                <a href="{% url 'papir_servis' %}"><li class="list-group-item list-group-item-light">Informacije o predaji papira</li></a>
-	            {% else %}
-	               <a href="{% url 'prijavljen_papir' %}"><li class="list-group-item list-group-item-light">Prijavljene kutije</li></a>
-	               <a href="{% url 'papir_mapa' %}"><li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li></a>
-	               <li id="page-link" class="list-group-item list-group-item-light">Informacije o predaji papira</li>
-	             {% endif %}
-	          </ul>
-
-	      	{% else %}
-	      	<h3 class="mt-1"></h3>
-	        <!-- <p class='text-muted'>Servisne informacije i podaci o zgradi</p> -->
-	          <ul class="list-group">
-	          	{% if user.is_authenticated %}
-	          	    {% if user.is_director %}
-	          	        {% if 'profile' in request.path %}
-	                    	<a href="{% url 'profile' %}"><li id="page-link" class="list-group-item list-group-item-light">Upravnik</li></a>
-	                    {% else %}
-	                    	<a href="{% url 'profile' %}"><li class="list-group-item list-group-item-light">Upravnik</li></a>
-	          	        {% endif %}
-	          	    {% else %}
-	          	        {% if 'manager' in request.path %}
-	          	        	<a href="{% url 'manager' %}"><li id="page-link" class="list-group-item list-group-item-light">Upravnik</li></a>
-	          	        {% else %}
-	          	        	<a href="{% url 'manager' %}"><li class="list-group-item list-group-item-light">Upravnik</li></a>
-	          	        {% endif %}
-	          	    {% endif %}
-	            {% else %}
-	                {% if 'managers_page' in request.path %}
-	                	<a href="{% url 'managers_page' %}"><li id="page-link" class="list-group-item list-group-item-light">Upravnici</li></a>
-	                {% else %}
-	                	<a href="{% url 'managers_page' %}"><li class="list-group-item list-group-item-light">Upravnici</li></a>
-                    {% endif %}
-	            {% endif %}
-	            <!-- <li class="list-group-item list-group-item-light">Struja/Voda/Grejanje</li> -->
-	            {% if user.is_authenticated %}
-		            {% if 'telefoni' in request.path %}
-		            	<a href="{% url 'app-telefoni' %}"><li id="page-link" class="list-group-item list-group-item-light">Važni telefoni</li></a>
-		            {% else %}
-		            	<a href="{% url 'app-telefoni' %}"><li class="list-group-item list-group-item-light">Važni telefoni</li></a>
-		            {% endif %}
-		        {% else %}
-		            {% if 'telefoni_p' in request.path %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li id="page-link" class="list-group-item list-group-item-light">Važni telefoni</li></a>
-		            {% else %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li class="list-group-item list-group-item-light">Važni telefoni</li></a>
-		            {% endif %}
-		        {% endif %}
-		        {%  if user.is_authenticated %}
-		            {% if 'poll_home' in request.path %}
-		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light">Ankete</li></a>
-		            	<a href="{% url 'poll-home' %}"><li class="list-group-item list-group-item-light">Prijavi kvar</li></a>
-		            	<li class="list-group-item list-group-item-light">Finansije</li>
-		            {% else %}
-		            	<a href="{% url 'poll-home' %}"><li class="list-group-item list-group-item-light">Ankete</li></a>
-		            	<li class="list-group-item list-group-item-light">Finansije</li>
-		            	<li id="prijavi-kvar" class="list-group-item list-group-item-light">Prijavi kvar</li>
-	            		<ul id="list-kvar"class="list-group">
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Lift</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Vodoinstalacije</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Krov</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Podrum</li>
-	            		</ul>
-
-		            {% endif %}
-		        {% endif %}
-
-	            {% if 'docs' in request.path %}
-	            	<a href="{% url 'documents_page' %}"><li id="page-link" class="list-group-item list-group-item-light">Opšti dokumenti</li></a>
-	            {% else %}
-	            	<a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Opšti dokumenti</li></a>
-	            {% endif %}
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Popravke</li></a>
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Usluge</li></a>
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Trgovina</li></a>
-                {% if 'reciklaza' in request.path %}
-		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light">Recikliranje</li></a>
-		        {% else %}
-	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light">Recikliranje</li></a>
-	            {% endif %}
-	            <li class="list-group-item list-group-item-light">Zelenilo</li>
-	          </ul>
-
-	      	{% endif %}
-	      </div>
-	      <!--<div class="content-section">-->
-	      <!--	<img src="{% static 'home/reklama1.jpeg'%}">-->
-	      <!--</div>-->
-	    </div>
-
-	  </div>
-	</main>
-	{% else %}
-	<main role="main" id="container" class="container">
-	  {% if request.path == '/' %}
-	  <div class="row" id="winter-row">
-	  {% else %}
-	  <div class="row">
-	  {% endif %}
-	  <div class="col-md-2">
-	      <div id="mngr-sidebar" class="content-section">
-	      	{% if 'papir' in request.path %}
-	      	<!--<h3 class="mt-1 mb-3">Bitne informacije</h3>-->
-	          <ul class="list-group">
-	            {% if 'mapa' in request.path %}
-	                <a href="{% url 'prijavljen_papir' %}"><li class="list-group-item list-group-item-light">Prijavljene kutije</li></a>
-	                <li id="page-link" class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
-	                <a href="{% url 'papir_servis' %}"><li class="list-group-item list-group-item-light">Informacije o predaji papira</li></a>
-	            {% elif 'prijavljen_papir' in request.path %}
-	                <li id="page-link" class="list-group-item list-group-item-light">Prijavljene kutije</li>
-                    <a href="{% url 'papir_mapa' %}"><li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li></a>
-	                <a href="{% url 'papir_servis' %}"><li class="list-group-item list-group-item-light">Informacije o predaji papira</li></a>
-	            {% else %}
-	               <a href="{% url 'prijavljen_papir' %}"><li class="list-group-item list-group-item-light">Prijavljene kutije</li></a>
-	               <a href="{% url 'papir_mapa' %}"><li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li></a>
-	               <li id="page-link" class="list-group-item list-group-item-light">Informacije o predaji papira</li>
-	             {% endif %}
-	          </ul>
-
-	      	{% else %}
-	      	<h3 class="mt-1"></h3>
-	        <!-- <p class='text-muted'>Servisne informacije i podaci o zgradi</p> -->
-	          <ul class="list-group">
-	          	{% if user.is_authenticated %}
-	          	    {% if user.is_director %}
-	          	        {% if 'profile' in request.path %}
-	                    	<a href="{% url 'profile' %}"><li id="page-link" class="list-group-item list-group-item-light">Upravnik</li></a>
-	                    {% else %}
-	                    	<a href="{% url 'profile' %}"><li class="list-group-item list-group-item-light">Upravnik</li></a>
-	          	        {% endif %}
-	          	    {% else %}
-	          	        {% if 'manager' in request.path %}
-	          	        	<a href="{% url 'manager' %}"><li id="page-link" class="list-group-item list-group-item-light">Upravnik</li></a>
-	          	        {% else %}
-	          	        	<a href="{% url 'manager' %}"><li class="list-group-item list-group-item-light">Upravnik</li></a>
-	          	        {% endif %}
-	          	    {% endif %}
-	            {% else %}
-	                {% if 'managers_page' in request.path %}
-	                	<a href="{% url 'managers_page' %}"><li id="page-link" class="list-group-item list-group-item-light">Upravnici</li></a>
-	                {% else %}
-	                	<a href="{% url 'managers_page' %}"><li class="list-group-item list-group-item-light">Upravnici</li></a>
-                    {% endif %}
-	            {% endif %}
-	            <!-- <li class="list-group-item list-group-item-light">Struja/Voda/Grejanje</li> -->
-	            {% if user.is_authenticated %}
-		            {% if 'telefoni' in request.path %}
-		            	<a href="{% url 'app-telefoni' %}"><li id="page-link" class="list-group-item list-group-item-light">Važni telefoni</li></a>
-		            {% else %}
-		            	<a href="{% url 'app-telefoni' %}"><li class="list-group-item list-group-item-light">Važni telefoni</li></a>
-		            {% endif %}
-		        {% else %}
-		            {% if 'telefoni_p' in request.path %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li id="page-link" class="list-group-item list-group-item-light">Važni telefoni</li></a>
-		            {% else %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li class="list-group-item list-group-item-light">Važni telefoni</li></a>
-		            {% endif %}
-		        {% endif %}
-		        {%  if user.is_authenticated %}
-		            {% if 'poll_home' in request.path %}
-		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light">Napravi anketu</li></a>
-		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light">*</li></a>
-		            	<li class="list-group-item list-group-item-light">Finansije</li>
-		            {% else %}
-		            	<a href="{% url 'poll-home' %}"><li class="list-group-item list-group-item-light">Napravi anketu</li></a>
-		            	<li class="list-group-item list-group-item-light">Finansije</li>
-		            	<li id="kvar-prijavi" class="list-group-item list-group-item-light">Nadji majstora</li>
-	            		<ul id="kvar-list"class="list-group">
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Lift</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Vodoinstalacije</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Krov</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Podrum</li>
-	            		</ul>
-
-		            {% endif %}
-		        {% endif %}
-
-	            {% if 'docs' in request.path %}
-	            	<a href="{% url 'documents_page' %}"><li id="page-link" class="list-group-item list-group-item-light">Opšti dokumenti</li></a>
-	            {% else %}
-	            	<a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Opšti dokumenti</li></a>
-	            {% endif %}
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Kreiraj dogadjaj</li></a>
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Popravke</li></a>
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Usluge</li></a>
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Trgovina</li></a>
-                {% if 'reciklaza' in request.path %}
-		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light">Recikliranje</li></a>
-		        {% else %}
-	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light">Recikliranje</li></a>
-	            {% endif %}
-	            <li class="list-group-item list-group-item-light">Zelenilo</li>
-	          </ul>
-
-	      	{% endif %}
-	      </div>
-	      <!--<div class="content-section">-->
-	      <!--	<img src="{% static 'home/reklama1.jpeg'%}">-->
-	      <!--</div>-->
-	    </div>
-	    <div class="col-md-10">
-
-	    	{% if messages %}
-	    	    {% for message in messages %}
-	    	        <div class="alert alert-{{ message.tags }}">
-	    	        	{{ message }}
-	    	        </div>
-	    	    {% endfor %}
-	    	{% endif %}
-
-	        {% block mngrcontent %}{% endblock mngrcontent %}
-         {% if 'papir' not in request.path %}
-	     <div class="content-section mt-3">
-
-	      	    <img src="{% static 'home/reklama2.png'%}" style="width:98%; height: auto; margin: 0 auto; display: block;">
-	     </div>
-	     {% endif %}
-
-	    </div>
-
-	  </div>
-	</main>
-	{% endif %}
+    {% block messages %}
+    {% endblock messages %}
 	<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -399,14 +171,21 @@
                   console.log('Success:', data);
                   if(data.length > 0){
                       var total = 0;
+                      const newMsgs = [];
                       for(var i = 0; i < data.length; i++){
                           if(data[i].seen == false){
                               total += 1;
+                              newMsgs.push(data[i].id)
                           }
                       }
+                      localStorage.setItem("newMessages", JSON.stringify(newMsgs));
                       if(total > 0){
                           console.log(total);
-                          document.getElementById('message-count').innerHTML = total;
+                          if ($(document).width() > 600){
+                              document.getElementById('message-count').innerHTML = total;
+                          } else {
+                              document.getElementById('message-count-mobile').innerHTML = total;
+                          }
                       }
                   };
                 })
@@ -415,6 +194,28 @@
                   console.error('Error:', error);
                 });
             }
+
+        //   console.log(storageProfile);
+          function markSeen(){
+                var user_id = {{ user.id }}
+                let storageProfile = localStorage.getItem("newMessages");
+                const data = { "new_seen": storageProfile };
+                console.log(data);
+                fetch('https://zajednicastanara.pythonanywhere.com/mark_seen/' + user_id.toString(), {
+                  method: 'POST', // or 'PUT'
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+                })
+                .then(response => response.json())
+                .then(data => {
+                  console.log('Success:', data);
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
+          }
         </script>
     {% endif %}
     <script>

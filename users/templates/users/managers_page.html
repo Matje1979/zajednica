@@ -1,39 +1,64 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 {% load crispy_forms_tags %}
 
 {% block content%}
-    <div id="manager-ranking" class="content-section">
-      <h2 class"card-heading"><strong>Ocene upravnika</strong></h2>
+
+    <div id="manager-ranking" class="content-section p-3">
+
+      <div class="row">
+          <div class="col-6">
+              <h2 class"card-heading"><strong>Ocene upravnika</strong></h2>
+          </div>
+          <div class="col-6">
+              <div class="input-group">
+                  <div class="form-inline ml-auto">
+                    <input type="search" id="form1" class="form-control" placeholder="pretraga" />
+                  </div>
+                  <button type="button" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                  </button>
+              </div>
+          </div>
+      </div>
+
       <!--<hr>-->
       <!--<ol>-->
         <table class="table table-striped">
             <thead>
                 <tr>
-                  <th scope="col">Rangiranje</th>
-                  <th scope="col">Ime i prezime</th>
+                  <th scope="col">Ocena</th>
+                  <th></th>
+                  <th scope="col" style="padding: 0px 0px 10px 35px !important;">Ime i prezime</th>
                   <th scope="col">Firma</th>
                   <th scope="col">Broj ocenjivača</th>
-                  <th scope="col">Ocena</th>
+
                 </tr>
             </thead>
             <tbody>
-            {% for item in upravnik_list %}
-                {% if item.ocena != None %}
+            {% for item in upravnici %}
+                {% if 1 == 1 %}
                 <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td><a href="{% url 'manager_public' item.id %}" style="font-family: Metropolis; font-size: 1rem; font-weight: 400; text-align: left;">{{item.first_name}} {{item.last_name}}</a></td>
+                    <td style="width: 3%;">{{ item.prosecna_ocena|floatformat:2 }}</div>
+                    <td class="star-ratings">
+                      <div class="fill-ratings text-center" style="width: calc({{item.prosecna_ocena}} * 10%);">
+                        <span>★★★★★</span>
+                      </div>
+                      <div class="empty-ratings">
+                        <span>★★★★★</span>
+                      </div>
+                    </td>
+                    <td><a href="{% url 'manager_public' item.id %}" style="padding: 0px 0px 0px 20px !important; text-align: center; font-family: Metropolis; font-size: 1rem; font-weight: 400; text-align: left;">{{item.user.first_name}} {{item.user.last_name}}</a></td>
                     <td>Kosmaj</td>
                     <td>{{ item.broj_ocenjivaca }}</td>
-                    <td>{{ item.ocena|floatformat:2 }}</td>
                     <!--<a href="{% url 'manager_public' item.id %}"><li class="mb-1">{{item.first_name}} {{item.last_name}}<span> -  {{ item.ocena|floatformat:2 }}</span><small>; Broj ocenjivača: {{ item.broj_ocenjivaca }}</small></li></a>-->
                 </tr>
                 {% else %}
                 <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td><a href="{% url 'manager_public' item.id %}" style="font-family: Metropolis; font-size: 1rem; font-weight: 400; text-align: left;">{{item.first_name}} {{item.last_name}}</a></td>
+                    <td></td>
+                    <td></td>
+                    <td><a href="{% url 'manager_public' item.id %}" style="padding: 0px 0px 0px 20px !important; font-family: Metropolis; font-size: 1rem; font-weight: 400; text-align: left;">{{item.user.first_name}} {{item.user.last_name}}</a></td>
                     <td>Kosmaj</td>
                     <td>{{ item.broj_ocenjivaca }}</td>
-                    <td>N/A</td>
                     <!--<a href="{% url 'manager_public' item.id %}"><li class="mb-1">{{item.first_name}} {{item.last_name}}<span> -  Nije ocenjivan</span></li></a>-->
                 </tr>
                 {% endif %}
@@ -56,7 +81,38 @@
         </div>
       </div> -->
     </div>
+    {% if is_paginated %}
+	    {% if page_obj.has_previous %}
+		    <a class="btn btn-outline-info mb-4" href="?page=1">Prva</a>
+		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Prethodna</a>
+	    {% endif %}
+	    {% for num in page_obj.paginator.page_range %}
+	        {% if page_obj.number == num %}
+	            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+	        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+	            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+	        {% endif %}
+	    {% endfor %}
+	    {% if page_obj.has_next %}
+		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Sledeća</a>
+		    <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Poslednja</a>
+	    {% endif %}
+	{% endif %}
+    <script>
+       $(document).ready(function() {
+          // Gets the span width of the filled-ratings span
+          // this will be the same for each rating
+          var star_rating_width = $('.fill-ratings span').width();
+          // Sets the container of the ratings to span width
+          // thus the percentages in mobile will never be wrong
+          $('.star-ratings').width(star_rating_width);
+
+        });
+    </script>
+
 {% endblock content %}
+
+
 
 <!--<table class="table table-dark">-->
 <!--  <thead>-->

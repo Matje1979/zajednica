@@ -1,4 +1,4 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_content.html' %}
 
 {% block content%}
 <div class="content-section">
@@ -11,7 +11,7 @@
     	<div class="form-group">
     		<button class="btn btn-outline-danger" type="submit">Yes, delete</button>
     		<a class="btn btn-outline-secondary" href="{% url 'post-detail' object.id %}">cancel</a>
-    	</div>	
+    	</div>
     </form>
 </div>
 {% endblock content %}
