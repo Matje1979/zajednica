@@ -34,9 +34,9 @@
     {% endblock %}
 </head>
 {% if user.is_authenticated %}
-<body>
+    <body id="body-auth">
 {% else%}
-<body style="padding-top: 62px;">
+    <body>
 {% endif %}
 	<!--<header class="site-header">-->
 	  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
@@ -44,7 +44,7 @@
 
 	     {% if user.is_authenticated %}
 	         {% if 'papir' in request.path %}
-	              <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-style: italic; font-size: 22px; margin-left: auto;"><img src="{% static 'home/kapica.png' %}" style="width: 32px;"></a>
+	              <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-style: italic; font-size: 22px; margin-left: auto;">ZS</a>
 	          {% else %}
     	          {% if not user.profile.is_organisation %}
     	              {% if not user.is_director %}
@@ -57,7 +57,7 @@
     	          {% endif %}
 	         {% endif %}
 	      {% else %}
-	          <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-style: italic; font-size: 22px; margin-left: auto;"><img src="{% static 'home/kapica.png' %}" style="width: 40px;"></a>
+	          <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-style: italic; font-size: 22px; margin-left: auto;">ZS</a>
 	      {% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
@@ -83,7 +83,7 @@
                       <a href="#" class="text-light nav-link" style="margin-right: 10px;">Srbija</a>
                   </li>
     	        <li id="inbox-item" class="nav-item">
-                      <a href="{% url 'message-list' %}"><i id="envelope-icon" class="fas fa-envelope"><span id="message-count" style="display: none'"></span></i></a>
+                      <a href="{% url 'message-list' %}"><i id="envelope-icon" class="fas fa-envelope" style="color: orange;"><span id="message-count" style="display: none'"></span></i></a>
                   </li>
                   <li class="nav-item">
                 	  <i id="bell-icon" class="fas fa-bell">

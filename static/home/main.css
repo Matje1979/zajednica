@@ -8,9 +8,13 @@ body {
   /*background: #bcc0c4;*/
   /*background: #f2f2f2;*/
   color: #333333;
-  padding-top: 50px;
+  padding-top: 59px;
   font-family: Metropolis;
 }
+
+#body-auth{
+        padding-top: 56px;
+    }
 
 .post-author-img{
     height: 35px;
@@ -656,6 +660,10 @@ a.article-title:hover {
     }
 
     body{
+        padding-top: 46px;
+    }
+
+    #body-auth{
         padding-top: 46px;
     }
 
