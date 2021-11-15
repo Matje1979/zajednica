@@ -20,7 +20,7 @@
 	      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
 	    </div>
 	    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-	    <p class="article-content">{{ post.Sadržaj|safe }}<span><a href="{% url 'post-detail' post.id %}"></a></span></p>
+	    <a href="{% url 'post-detail' post.id %}">{{ post.Sadržaj|safe }}</a>
 	    {% if post.anketa_id != None %}
 	        <a class="btn-lg btn-success border-0" href="{% url 'poll-vote' post.anketa_id %}" style="font-size: 30px; background-color: deepskyblue; border-radius: .2rem;">Anketa: {{ post.anketa_title }}</a><br><br>
 	    {% endif %}

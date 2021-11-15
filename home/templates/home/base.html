@@ -44,20 +44,20 @@
 
 	     {% if user.is_authenticated %}
 	         {% if 'papir' in request.path %}
-	              <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-style: italic; font-size: 22px; margin-left: auto;">ZS</a>
+	              <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-size: 17px; margin-left: auto;">ZS</a>
 	          {% else %}
     	          {% if not user.profile.is_organisation %}
     	              {% if not user.is_director %}
     	              <!--If user is a regular tenant, there should be the address-name of his or her ulaz in the navbar, if user is upravnik only Pocetna-->
-    	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="margin-left: auto;">{{ ulaz }}</a>
+    	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">{{ ulaz }}</a>
     	              {% else %}
-    	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="margin-left: auto;">Početna</a>
+    	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">Početna</a>
     	              {% endif %}
     	           <!--What should be the case if user is an organisation?-->
     	          {% endif %}
 	         {% endif %}
 	      {% else %}
-	          <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-style: italic; font-size: 22px; margin-left: auto;">ZS</a>
+	          <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-size: 17px; margin-left: auto;">ZS</a>
 	      {% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
