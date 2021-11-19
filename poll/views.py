@@ -9,7 +9,8 @@ from django.contrib import messages
 def home(request):
     ulaz = request.user.Ulaz.Ulica_i_broj
     polls = Poll.objects.all().order_by('-date_created')
-    context = {'ulaz': ulaz, 'polls': polls}
+    page_title = "Aktivne ankete"
+    context = {'page_title': page_title, 'ulaz': ulaz, 'polls': polls}
     return render(request, 'poll/poll_home.html', context)
 
 def create(request):
@@ -21,7 +22,7 @@ def create(request):
             poll.author = request.user
             poll.save()
             return redirect('poll-home')
-        
+
     else:
         form = CreatePollForm()
     context = {'ulaz': ulaz, 'form': form}
@@ -47,7 +48,7 @@ def vote(request, poll_id):
         print (poll)
         print (user.poll_set.all())
         if poll not in user.poll_set.all():
-            print (poll not in user.poll_set.all())  
+            print (poll not in user.poll_set.all())
             if selected_option == 'option1':
                 poll.ption_one_count += 1
             elif selected_option == 'option2':
@@ -64,7 +65,7 @@ def vote(request, poll_id):
             messages.info(request, f'Već ste glasali!.')
             ulaz = request.user.Ulaz.Ulica_i_broj
             context = {'poll':poll, 'ulaz':ulaz}
-    else:   
+    else:
         ulaz = request.user.Ulaz.Ulica_i_broj
         poll = Poll.objects.get(id=poll_id)
         context = {'poll':poll, 'ulaz':ulaz}

@@ -209,11 +209,21 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
+    page_title = "Moj profil"
+
     if request.user.is_director is False:
         ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
-        context = {'u_form': u_form, 'p_form': p_form, 'ulaz': ulaz}
+        context = {
+            'page_title': page_title,
+            'u_form': u_form,
+            'p_form': p_form,
+            'ulaz': ulaz
+        }
     else:
-        context = {'u_form': u_form, 'p_form': p_form}
+        context = {'page_title': page_title,
+        'u_form': u_form,
+        'p_form': p_form
+    }
 
     return render(request, 'users/profile.html', context)
 
@@ -226,6 +236,7 @@ def user_profile(request, pk):
 
 @login_required
 def manager_profile(request):
+    page_title="Upravnik zgrade"
     upravnik = Upravnik.objects.get(
         ulaz=request.user.Ulaz
     )  # identifikacija defin. deskripcije upravnik
@@ -280,7 +291,8 @@ def manager_profile(request):
                     'ulaz': ulaz,
                     'upravnik_form': upravnik_form,
                     'ocena_upravnika': ocena_upravnika,
-                    'page_obj': page_obj
+                    'page_obj': page_obj,
+                    'page_title': page_title
                 }
                 return render(request, 'users/manager.html', context)
         elif 'message-button' in request.POST:
@@ -300,7 +312,9 @@ def manager_profile(request):
                 'upravnik_form': upravnik_form,
                 'ocena_upravnika': ocena_upravnika,
                 'posts': posts,
-                'message_form': message_form}
+                'message_form': message_form,
+                'page_title': page_title
+            }
             return render(request, 'users/manager.html', context)
     else:
         upravnik_form = OceniUpravnikaForm(instance=request.user.profile)
@@ -313,7 +327,9 @@ def manager_profile(request):
             'upravnik_form': upravnik_form,
             'ocena_upravnika': ocena_upravnika,
             'posts': posts,
-            'message_form': message_form}
+            'message_form': message_form,
+            'page_title': page_title
+        }
         return render(request, 'users/manager.html', context)
 
 
@@ -355,9 +371,10 @@ class ManagersRankingView(ListView):
 
 
 def documents(request):
+    page_title = 'Opšti dokumenti'
     if request.user.is_authenticated    :
         ulaz = translit(request.user.Ulaz.Ulica_i_broj, 'sr', reversed=True)
-        context = {'ulaz': ulaz}
+        context = {'ulaz': ulaz, 'page_title': page_title}
         return render(request, 'users/documents.html', context)
     else:
         return render(request, 'users/documents.html')

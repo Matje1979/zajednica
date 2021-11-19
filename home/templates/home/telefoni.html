@@ -3,15 +3,22 @@
 {% load static %}
 {% block content%}
 
-<div class="content-section p-3">
-  <h3><i class="far fa-address-book mb-1"></i>&nbsp; Važni telefoni</h3>
-  <hr>
+<div id="phone-numbers" class="content-section p-3">
+  <ul class="list-group">
+      <li id="#" class="list-group-item list-group-item-light">
+          <i class="fas fa-ambulance"></i><span id="xpan">&nbsp; Hitna Pomoć &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-plus"></i><i class="fas fa-minus" style="display: none;"></i>
+          <table class="table table-bordered mt-3" style="display: none; ">
+            <tbody>
+               <tr>
+                <td colspan="2"><a href="https://www.beograd94.rs/"><i class="fas fa-ambulance"></i>&nbsp; Hitna Pomoć &nbsp;&nbsp;</a></td>
+                <td><a href="tel:194">194</a></td>
+              </tr>
+            </tbody>
+          </table>
+      </li>
+  </ul>
   <table class="table table-bordered">
-    <tbody>
-       <tr>
-        <td colspan="2"><a href="https://www.beograd94.rs/"><i class="fas fa-ambulance"></i>&nbsp; Hitna Pomoć</a></td>
-        <td><a href="tel:194">194</a></td>
-      </tr>
+      <tbody>
       <tr>
         <td colspan="2"><a href="#"><img src="{% static 'home/policija-logo.png' %}" style="width: 22px;">&nbsp; Policija</a></td>
         <td><a href="tel:194">192</a></td>
@@ -127,6 +134,18 @@
 
     </tbody>
   </table>
+  <script>
+      $( document ).ready(function() {
+    console.log( "ready!" );
+    $("li").click(function(){
+        $(this).find("table").toggle();
+        $(this).css("background-color", "white");
+        $(this).find(".fa-minus").toggle();
+        $(this).find(".fa-plus").toggle();
+    });
+
+});
+  </script>
 </div>
 
 {% endblock content %}

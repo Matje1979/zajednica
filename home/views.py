@@ -391,6 +391,7 @@ class PostListView(LoginRequiredMixin, ListView):
         context["upravnik"] = Upravnik.objects.get(ulaz=self.request.user.Ulaz)
         context["ulaz"] = self.request.user.Ulaz.Ulica_i_broj
         context["website"] = self.request.user.Ulaz.website
+        context["page_title"] ="Objave stanara"
         # MessageForUpravnik are all messages. Should change the name!
         messages = MessageForUpravnik.objects.filter(
             receiver=self.request.user
@@ -727,12 +728,14 @@ def cepovi(request):
 
 
 def telefoni(request):
+    page_title = "Važni telefoni"
+
     if not request.user.is_director:
         ulaz = translit(request.user.Ulaz.Ulica_i_broj, "sr", reversed=True)
-        context = {"ulaz": ulaz}
 
+        context = {"page_title": page_title, "ulaz": ulaz}
     else:
-        context = {"ulaz": "Početna"}
+        context = {"page_title": page_title, "ulaz": "Početna"}
 
     return render(request, "home/telefoni.html", context)
 

@@ -49,7 +49,9 @@
     	          {% if not user.profile.is_organisation %}
     	              {% if not user.is_director %}
     	              <!--If user is a regular tenant, there should be the address-name of his or her ulaz in the navbar, if user is upravnik only Pocetna-->
-    	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">{{ ulaz }}</a>
+    	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">
+    	                      <i class="fas fa-home"style="position: relative; bottom: 1px;"></i>&nbsp; {{ ulaz }}
+    	                  </a>
     	              {% else %}
     	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">Početna</a>
     	              {% endif %}
@@ -92,11 +94,14 @@
                   </li>
     	        	{% if not user.profile.is_organisation %}
         	        	<li class="nav-item">
-        	        	    <a class="nav-link" href="{% url 'profile' %}">Moj profil </a>
+        	        	    <a class="nav-link" href="{% url 'profile' %}">Moj profil <i class="fas fa-user text-light"></i></a>
+        	        	</li>
+        	        	<li class="nav-item">
+        	        	    <a class="nav-link" href="{% url 'profile' %}">Moje grupe <i class="fas fa-users text-light"></i></a>
         	        	</li>
         	        	{% if not user.is_director %}
             	        	<li class="nav-item">
-            	        	    <a class="nav-link" href="{% url 'post-create' %}">Novi post </a>
+            	        	    <a class="nav-link" href="{% url 'post-create' %}">Novi post <i class="fas fa-edit text-light"></i></a>
             	        	</li>
             	        {% endif %}
     	        	{% endif %}
@@ -118,15 +123,15 @@
 	<!--</header>-->
 	<!--</header>-->
 	{% if user.is_authenticated %}
-	    <ul id="between" class="nav justify-content-between" style="height: 60px; margin-top: 10px; background-color: #bab7b6; padding-top: 6px;">
+	    <ul id="between" class="nav justify-content-between" style="height: 60px; margin-top: 10px; background-color: #5f788a; padding-top: 6px;">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'app-home' %}"><i class="fas fa-home fa-lg text-light"></i><span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{% url 'app-reciklaza' %}"><i class="fas fa-recycle fa-lg"></i><span class="sr-only">(current)</span></a>
           </li>
            <li class="nav-item" style="pointer-events: none; opacity: 0.5;">
             <a class="nav-link" href="#"><i class="fas fa-users fa-lg text-light"></i></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile' %}"><i class="fas fa-user-circle fa-lg text-light"></i></a>
+          <li class="nav-item" style="pointer-events: none; opacity: 0.5;">
+            <a class="nav-link" href="#"><i class="fas fa-calendar-alt fa-lg text-light"></i></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'message-list' %}"><i class="fas fa-envelope fa-lg text-light" onclick="markSeen()"><span id="message-count-mobile"></span></i></a>
@@ -141,7 +146,11 @@
     {% endif %}
 	<div class="header" style="text-align: center;">
       <h2><a href="#">Zajednica Stanara</a></h2>
-      <p>Zajedno smo jači</p>
+          {% if page_title %}
+	            <p>{{ page_title }}</p>
+	      {% else %}
+	            <p>Zajedno smo jači</p>
+	      {% endif %}
     </div>
     {% block main_content %}
     {% endblock main_content %}

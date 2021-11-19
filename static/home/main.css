@@ -8,8 +8,21 @@ body {
   /*background: #bcc0c4;*/
   /*background: #f2f2f2;*/
   color: #333333;
-  padding-top: 59px;
+  padding-top: 56px;
   font-family: Metropolis;
+}
+
+#phone-numbers ul li.list-group-item:hover{
+    color: initial !important;
+}
+
+.post-content p{
+    padding-left: 8px;
+}
+
+#username-profile{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
 }
 
 #body-auth{
@@ -57,7 +70,10 @@ body {
 
 main {
     margin-bottom: 30px;
-    margin-top: 3rem!important;
+    margin-top: 2rem !important;
+}
+
+
 }
 
 .panel-body{
@@ -443,7 +459,7 @@ ul li:hover{
 }
 
 .fa-recycle{
-  color: green;
+  color: white;
 }
 
 .fa-tree{
@@ -654,6 +670,10 @@ a.article-title:hover {
 }
 
 @media screen and (max-width: 600px) {
+    #username-profile{
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
     .mail-div{
         overflow: scroll;
         width: 330px;

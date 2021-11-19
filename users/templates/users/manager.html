@@ -37,9 +37,11 @@
               <p class="text-secondary">Preduzeće: {{ upravnik.firma }}<a href="{{ upravnik.website }}"><small> - website</small></a></p>
             {% else %}
               <p class="text-secondary">Preduzeće: {{ upravnik.firma }}</p>
+              <a href="#" target="_blank"><p>Biografija <i class="fas fa-file-pdf text-danger"></i></p></a>
+              <a href="http://stanovanje.gov.rs/doc/profesionalni-upravnik/Izvod%20iz%20zakona.pdf" target="_blank"><p>Prava i obaveze upravnika <i class="fas fa-link text-primary"></i></p></a>
             {% endif %}
-            <p class="text-secondary">Prosečna ocena: {{ ocena_upravnika }}</p>
-            <small>Broj ocenjivača: {{ broj_ocenjivaca }}</small>
+            <p>Prosečna ocena: {{ ocena_upravnika }} <small> &nbsp;(broj ocenjivača: {{ broj_ocenjivaca }})</small></p>
+
           {% endif %}
         </div>
       </div>

@@ -3,8 +3,7 @@
 
 {% block content%}
     <div class="content-section p-3" style="position: relative;">
-      <br>
-      <div class="media">
+      <div class="media mt-2">
         {% if user.profile.image.url == '/media/default.jpg' %}
         <div id=pic-box>
             <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
@@ -13,7 +12,7 @@
         {% else %}
             <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
         {% endif %}
-        <div class="media-body">
+        <div id="username-profile" class="media-body">
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
         </div>
