@@ -613,6 +613,7 @@ def about(request):
 
 # @login_required
 def reciklaza(request):
+    page_title = "Reciklaža"
     if request.user.is_authenticated:
         if request.method == "POST":
             papiri = Papir.objects.filter(ulaz=request.user.Ulaz)
@@ -704,6 +705,7 @@ def reciklaza(request):
                 "total_cena": total_cena,
                 "papiri": papiri,
                 "ulaz": ulaz,
+                "page_title": page_title
             }
             return render(request, "home/reciklaza.html", context)
 
@@ -714,15 +716,16 @@ def reciklaza(request):
             if papir.kolicina is not None:
                 print("Kolicina: ", papir.kolicina)
                 p_quant += papir.kolicina
-        context = {"p_quant": p_quant}
+        context = {"p_quant": p_quant, "page_title": page_title}
         return render(request, "home/reciklaza.html", context)
 
 
 def cepovi(request):
+    page_title = "Reciklaža"
     ulaz = translit(
             request.user.Ulaz.Ulica_i_broj, "sr", reversed=True
         )
-    context = {"ulaz": ulaz}
+    context = {"ulaz": ulaz, "page_title": page_title}
 
     return render(request, "home/cepovi.html", context)
 

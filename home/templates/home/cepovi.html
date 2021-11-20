@@ -18,7 +18,12 @@
     </div> -->
     {% else %}
  <article class="content-section mt-2 p-3">
-    <h6>Čepovi</h6><hr>
+     <div class="row">
+         <div class="col-4"><h6 class="text-primary">Čepovi</h6></div>
+         <div class="col-4"><h6>Flaše</h6></div>
+         <div class="col-4"><h6>Ostalo</h6></div>
+     </div>
+    <hr>
     <p>Ukupno sakupljeno kutija: <span><strong>{{ total_kolicina }}</strong></span></p>
     <button id="p-button" class="btn btn-info mb-2">Detalji</button>
      <br>
@@ -48,6 +53,7 @@
             />
         <input type="submit" class="btn btn-success mb-2" value="Pošalji">
      </form>
+     <p class="mt-2" style="position: relative;"><small>Nemate kutiju? <a href="#" style="color: #007bff;">Naručite je</a></small><img src="{% static 'home/Openstreetmap_logo.png' %}" style="width: 40px; position: absolute; right: 10px;"></p>
 </article>
 
     {% endif %}

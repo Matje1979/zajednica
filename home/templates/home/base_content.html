@@ -21,9 +21,9 @@
               </li>
               <li class="nav-item">
                   {% if 'cepovi' in request.path %}
-                    <a class="nav-link active" href="#">Čepovi</a>
+                    <a class="nav-link active" href="#">Plastika</a>
                   {% else %}
-                    <a class="nav-link" href="{% url 'reciklaza-cepovi' %}">Čepovi</a>
+                    <a class="nav-link" href="{% url 'reciklaza-cepovi' %}">Plastika</a>
                   {% endif %}
               </li>
               <li class="nav-item">
@@ -140,9 +140,9 @@
 	            <a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-university"></i>&nbsp Institucije</li></a>
 	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-bullhorn"></i>&nbsp Oglasi</li></a>
                 {% if 'reciklaza' in request.path %}
-		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-recycle"></i>&nbsp Recikliranje</li></a>
+		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-recycle" style="color: white;"></i>&nbsp Recikliranje</li></a>
 		        {% else %}
-	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-recycle"></i>&nbsp Recikliranje</li></a>
+	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-recycle" style="color: green;"></i>&nbsp Recikliranje</li></a>
 	            {% endif %}
 	            <li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-tree"></i>&nbsp Zelenilo</li>
 	          </ul>
