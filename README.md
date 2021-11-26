@@ -14,39 +14,39 @@ sudo apt install python3.8
 
 restart terminal
 
-# Install pip - library for downloading python modules.
+### Install pip - library for downloading python modules.
 
 sudo apt install python3-pip   
 
-# type pip3 command to check if pip is installed  
+### type pip3 command to check if pip is installed  
 
-# Install venv - library for creating virtual environments.
+### Install venv - library for creating virtual environments.
 
 sudo apt install python3-venv 
 
-### Create venv
+## Create venv
 
 #Check python location.
 
 which python3.8
 
-# Create a project folder.
+### Create a project folder.
 
 mkdir zajednica
 
-# Enter this folder.
+### Enter this folder.
 
 cd zajednica
 
-# Clone project from github.
+### Clone project from github.
 
 
 
-# Create venv (virtual environment) named django_env (can use other name) in the folder.
+### Create venv (virtual environment) named django_env (can use other name) in the folder.
 
 /usr/bin/python3.8 -m venv django_env
 
-# Activate venv.
+### Activate venv.
 
 source django_env/bin/activate
 
