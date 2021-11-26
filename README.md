@@ -18,7 +18,7 @@ restart terminal
 
 sudo apt install python3-pip   
 
-### type pip3 command to check if pip is installed  
+(type pip3 command to check if pip is installed)  
 
 ### Install venv - library for creating virtual environments.
 
