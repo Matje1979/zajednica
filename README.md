@@ -1,8 +1,8 @@
-# zajednicastanara
+# ZajednicaStanara
 
 ### Installation ###
 
-# Linux
+## Linux
 
 To run this application on linux in local you need python3.7, pip and virtalenv.
 
