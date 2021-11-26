@@ -24,12 +24,6 @@ sudo apt install python3-pip
 
 sudo apt install python3-venv 
 
-### Create venv
-
-#Check python location.
-
-which python3.8
-
 ### Create a project folder.
 
 mkdir zajednica
@@ -50,6 +44,12 @@ git clone https://github.com/Matje1979/zajednicastanara.git
 ### Activate venv.
 
 source django_env/bin/activate
+
+### Install requirements.
+
+
+
+
 
 
 
