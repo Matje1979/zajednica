@@ -4,7 +4,16 @@
 
 {% block main_content %}
 {% if 'home_manager' not in request.path %}
-	  <main role="main" class="container">
+	  <main role="main" class="container" style="margin-top: 0px !important;">
+	      <div class="header" style="text-align: center;">
+              <h2><a href="#">Zajednica Stanara</a></h2>
+          {% if page_title %}
+	            <p>{{ page_title }}</p>
+	      {% else %}
+	            <p>Zajedno smo jači</p>
+	      {% endif %}
+    </div>
+    <br>
 	  {% if request.path == '/' %}
 	  <div class="row" id="winter-row">
 	  {% else %}
