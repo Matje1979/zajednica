@@ -4,12 +4,18 @@
 		}
 
 body {
-   background: #e3e4e7;
+   /*background: #e3e4e7;*/
   /*background: #bcc0c4;*/
   /*background: #f2f2f2;*/
+  background: #E9EBEE;
   color: #333333;
   padding-top: 56px;
   font-family: Metropolis;
+}
+
+.sidebar{
+    position: sticky;
+    top: 80px;
 }
 
 #phone-numbers ul li.list-group-item:hover{
@@ -579,6 +585,7 @@ li.list-group-item:hover {
 
 .bg-steel {
   background-color: #5f788a;
+  z-index: 1 !important;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -595,8 +602,8 @@ li.list-group-item:hover {
 
 .content-section {
   border: 1px solid #dddddd;;
-  border-radius: 8px;
-  margin-bottom: 16px;
+  /*border-radius: 8px;*/
+  margin-bottom: 10px;
   /*-webkit-box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);*/
   /*-moz-box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);*/
   /*box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);*/
@@ -687,6 +694,27 @@ a.article-title:hover {
 }
 
 @media screen and (max-width: 600px) {
+    .bg-steel {
+      background-color: #5f788a;
+      position: relative !important;
+      z-index: 1 !important;
+    }
+    .recycle{
+        margin-top: 30px;
+    }
+
+    .col-md-9{
+        padding: 0px;
+    }
+
+    .col-md-3{
+        padding: 0px;
+    }
+
+    .sidebar{
+        position: initial;
+    }
+
     #username-profile{
         padding-top: 0px !important;
         padding-bottom: 0px !important;
@@ -701,12 +729,15 @@ a.article-title:hover {
     }
 
     #body-auth{
-        padding-top: 46px;
+        padding-top: 0px;
     }
 
     #between{
         display: flex;
         padding-top: 12px !important;
+        position: sticky;
+        top: 0px;
+        z-index: 999;
     }
 
     #pic-box{
@@ -770,7 +801,7 @@ a.article-title:hover {
 
 
     main{
-        margin-top: 1rem!important;
+        margin-top: 0px !important;
     }
 
     .fa-bell{

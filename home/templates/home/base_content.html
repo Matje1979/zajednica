@@ -11,7 +11,7 @@
 	  <div class="row">
 	  {% endif %}
 	  {% if 'reciklaza' in request.path %}
-	      <ul class="nav nav-pills">
+	      <ul class="nav nav-pills recycle">
               <li class="nav-item">
                   {% if 'reciklaza_' in request.path %}
                       <a class="nav-link active" href="#">Papir</a>
@@ -54,7 +54,7 @@
 
 	  </div>
 	  <div class="col-md-3">
-	      <div class="content-section">
+	      <div class="content-section sidebar">
 	      	{% if 'papir' in request.path %}
 	      	<!--<h3 class="mt-1 mb-3">Bitne informacije</h3>-->
 	          <ul class="list-group">
@@ -164,7 +164,7 @@
 	  <div class="row">
 	  {% endif %}
 	  <div class="col-md-2">
-	      <div id="mngr-sidebar" class="content-section">
+	      <div id="mngr-sidebar" class="content-section sidebar">
 	      	{% if 'papir' in request.path %}
 	      	<!--<h3 class="mt-1 mb-3">Bitne informacije</h3>-->
 	          <ul class="list-group">

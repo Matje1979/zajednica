@@ -44,22 +44,22 @@
 
 	     {% if user.is_authenticated %}
 	         {% if 'papir' in request.path %}
-	              <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-size: 17px; margin-left: auto;">ZS</a>
+	              <a class="navbar-brand mr-5" href="/" style="font-size: 17px; margin-left: auto;">ZS</a>
 	          {% else %}
     	          {% if not user.profile.is_organisation %}
     	              {% if not user.is_director %}
     	              <!--If user is a regular tenant, there should be the address-name of his or her ulaz in the navbar, if user is upravnik only Pocetna-->
-    	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">
+    	                  <a class="navbar-brand mr-5" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">
     	                      <i class="fas fa-home"style="position: relative; bottom: 1px;"></i>&nbsp; {{ ulaz }}
     	                  </a>
     	              {% else %}
-    	                  <a class="navbar-brand mr-5 font-weight-bold" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">Početna</a>
+    	                  <a class="navbar-brand mr-5" href="{% url 'app-home' %}" style="font-size: 17px; margin-left: auto;">Početna</a>
     	              {% endif %}
     	           <!--What should be the case if user is an organisation?-->
     	          {% endif %}
 	         {% endif %}
 	      {% else %}
-	          <a class="navbar-brand mr-5 font-weight-bold" href="/" style="font-size: 17px; margin-left: auto;">ZS</a>
+	          <a class="navbar-brand mr-5" href="/" style="font-size: 17px; margin-left: auto;">ZS</a>
 	      {% endif %}
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
@@ -101,7 +101,7 @@
         	        	</li>
         	        	{% if not user.is_director %}
             	        	<li class="nav-item">
-            	        	    <a class="nav-link" href="{% url 'post-create' %}">Novi post <i class="fas fa-edit text-light"></i></a>
+            	        	 <a class="nav-link" href="{% url 'post-create' %}">Novi post <i class="fas fa-edit text-light"></i></a>
             	        	</li>
             	        {% endif %}
     	        	{% endif %}
@@ -121,9 +121,17 @@
 	  </nav>
       <!--<div class="content-section pt-4">-->
 	<!--</header>-->
+	<div class="header" style="text-align: center;">
+      <h2><a href="#">Zajednica Stanara</a></h2>
+          {% if page_title %}
+	            <p>{{ page_title }}</p>
+	      {% else %}
+	            <p>Zajedno smo jači</p>
+	      {% endif %}
+    </div>
 	<!--</header>-->
 	{% if user.is_authenticated %}
-	    <ul id="between" class="nav justify-content-between" style="height: 60px; margin-top: 10px; background-color: #5f788a; padding-top: 6px;">
+	    <ul id="between" class="nav justify-content-between" style="height: 60px; background-color: #5f788a; padding-top: 6px;">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'app-reciklaza' %}"><i class="fas fa-recycle fa-lg"></i><span class="sr-only">(current)</span></a>
           </li>
@@ -144,14 +152,6 @@
           </li>
     </ul>
     {% endif %}
-	<div class="header" style="text-align: center;">
-      <h2><a href="#">Zajednica Stanara</a></h2>
-          {% if page_title %}
-	            <p>{{ page_title }}</p>
-	      {% else %}
-	            <p>Zajedno smo jači</p>
-	      {% endif %}
-    </div>
     {% block main_content %}
     {% endblock main_content %}
 
