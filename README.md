@@ -2,6 +2,8 @@
 
 ### Installation ###
 
+(Install git before following bellow instructions)
+
 ## Linux
 
 To run this application on linux in local you need python3.7, pip and virtalenv.
@@ -48,6 +50,34 @@ source django_env/bin/activate
 ### Install requirements:
 
 pip3 install -r home_manager/requirements.txt
+
+# Contribute to the project
+
+### Create local copy of the branch you want to work on:
+
+git checkout -b name_of_the_branch origin/name_of_the_branch
+
+### Work on the branch, save, commit and push changes to remote repository. 
+
+git status
+
+(checks the status of git repository)
+
+git add *
+
+(adds all changes to the staging area)
+
+git commit -m "Your commit message"
+
+(commits changes in localk repository)
+
+git push -u origin name_of_branch
+
+(pushes changes to remote)
+
+
+
+
 
 
 
