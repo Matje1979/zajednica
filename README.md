@@ -1,6 +1,8 @@
 
 ### Installation ###
 
+(Install git before following bellow instructions)
+
 ## Linux
 
 To run this application on linux in local you need python3.7, pip and virtalenv.
@@ -15,13 +17,13 @@ restart terminal
 
 ### Install pip - library for downloading python modules:
 
-sudo apt install python3-pip   
+sudo apt install python3-pip
 
-(type pip3 command to check if pip is installed)  
+(type pip3 command to check if pip is installed)
 
 ### Install venv - library for creating virtual environments:
 
-sudo apt install python3-venv 
+sudo apt install python3-venv
 
 ### Create a project folder:
 
@@ -69,7 +71,7 @@ Click install
 
 ### Install virtualenv
 
-pip3 install virtualenv 
+pip3 install virtualenv
 
 ### Create a project folder:
 
@@ -98,6 +100,7 @@ virtualenv --python C:\Path\To\Python\python.exe django_env
 
 pip3 install -r home_manager/requirements.txt
 
+<<<<<<< HEAD
 ### Run project:
 
 cd home_manager
@@ -122,9 +125,27 @@ Uncomment STATICFILES_DIRS line
 
 Comment out lines STATIC_ROOT and MEDIA_ROOT lines.
 
+# Contribute to the project
 
+### Create local copy of the branch you want to work on:
 
+git checkout -b name_of_the_branch origin/name_of_the_branch
 
+### Work on the branch, save, commit and push changes to remote repository.
+
+git status
+
+(checks the status of git repository)
+
+git add *
+
+(adds all changes to the staging area)
+
+git commit -m "Your commit message"
+
+(commits changes in localk repository)
+
+git push -u origin name_of_branch
 
 
 
