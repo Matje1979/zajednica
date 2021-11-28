@@ -1,4 +1,3 @@
-# ZajednicaStanara
 
 ### Installation ###
 
@@ -83,7 +82,6 @@ cd zajednica
 ### Clone project from github:
 
 git clone https://github.com/Matje1979/zajednicastanara.git
-
 
 ### Create venv (virtual environment) named django_env (can use other name) in the folder:
 
