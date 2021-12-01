@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['zajednicastanara.pythonanywhere.com']
 INSTALLED_APPS = [
     # 'dal',
     # 'dal_select2',
+    'events',
     'corsheaders',
     'django.contrib.auth',
     'crispy_forms',

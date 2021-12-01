@@ -88,9 +88,11 @@
                       <a href="{% url 'message-list' %}"><i id="envelope-icon" class="fas fa-envelope" style="color: orange;"><span id="message-count" style="display: none'"></span></i></a>
                   </li>
                   <li class="nav-item">
-                	  <i id="bell-icon" class="fas fa-bell">
-                	    <span id="notification-count"></span>
-                	  </i>
+                      <a href="{% url 'event-list' %}">
+                    	  <i id="bell-icon" class="fas fa-bell">
+                    	    <span id="notification-count"></span>
+                    	  </i>
+                	  </a>
                   </li>
     	        	{% if not user.profile.is_organisation %}
         	        	<li class="nav-item">
@@ -139,8 +141,8 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'post-create' %}"><i class="fas fa-edit fa-lg text-light"></i></a>
           </li>
-          <li class="nav-item" style="pointer-events: none; opacity: 0.5;">
-            <a class="nav-link" href="#"><i class="fas fa-bell fa-lg text-light"></i></a>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'event-list' %}"><i class="fas fa-bell fa-lg text-light"></i></a>
           </li>
     </ul>
     {% endif %}
