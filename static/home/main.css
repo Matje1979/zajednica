@@ -93,10 +93,8 @@ body {
 
 main {
     margin-bottom: 30px;
-    margin-top: 2rem !important;
-}
-
-
+    /*margin-top: 2rem !important;*/
+    max-width: 1000px !important;
 }
 
 .panel-body{
@@ -109,6 +107,7 @@ main {
   background: #1abc9c;
   color: white;
   font-size: 30px;
+  margin-bottom: 15px;
 }
 
 .header p{
@@ -596,7 +595,7 @@ li.list-group-item{
 
 .content-section {
   border: 1px solid #dddddd;;
-  /*border-radius: 8px;*/
+  border-radius: 10px;
   margin-bottom: 10px;
   /*-webkit-box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);*/
   /*-moz-box-shadow: 2px 2px 20px -6px rgba(0,0,0,0.25);*/
