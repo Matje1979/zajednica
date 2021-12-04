@@ -22,12 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'yov061qe^&+p=rj=e0sf$0xr(!*k(2fgty+dp&1#t4v1)p!lz%'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['zajednicastanara.pythonanywhere.com']
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -88,7 +88,7 @@ MIDDLEWARE = [
 #     "http://localhost:8000",
 #     "http://localhost:8000/prijava/"
 # ]
-CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_ALL_ORIGINS=config('CORS_ALLOW_ALL_ORIGINS')
 ROOT_URLCONF = 'home_manager.urls'
 
 TEMPLATES = [
@@ -107,7 +107,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'zajednicastanara.wsgi.application'
+WSGI_APPLICATION = config('WSGI_APPLICATION')
 
 
 # Database
