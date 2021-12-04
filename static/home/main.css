@@ -13,6 +13,10 @@ body {
   font-family: Metropolis;
 }
 
+.card .d-flex{
+    flex-direction: row !important;
+}
+
 .sidebar{
     position: sticky;
     top: 80px;
@@ -37,6 +41,7 @@ body {
 
 #post-body p{
     padding-left: 1rem;
+    font-family: Helvetica;
 }
 
 .post-content p{
@@ -882,6 +887,13 @@ event-list {
 /*Events list end*/
 
 @media screen and (max-width: 600px) {
+    .large-media-icon{
+        display: none;
+    }
+
+    .card .d-flex{
+        flex-direction: column !important;
+    }
     .bg-steel {
       background-color: #5f788a;
       position: relative !important;

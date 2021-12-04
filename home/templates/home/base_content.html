@@ -88,47 +88,47 @@
 	          	{% if user.is_authenticated %}
 	          	    {% if user.is_director %}
 	          	        {% if 'profile' in request.path %}
-	                    	<a href="{% url 'profile' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin"></i>&nbsp Upravnik</li></a>
+	                    	<a href="{% url 'profile' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin"></i>&nbsp;&nbsp; Upravnik</li></a>
 	                    {% else %}
-	                    	<a href="{% url 'profile' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin"></i>&nbsp Upravnik</li></a>
+	                    	<a href="{% url 'profile' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin"></i>&nbsp;&nbsp; Upravnik</li></a>
 	          	        {% endif %}
 	          	    {% else %}
 	          	        {% if 'manager' in request.path %}
-	          	        	<a href="{% url 'manager' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin"></i>&nbsp Upravnik</li></a>
+	          	        	<a href="{% url 'manager' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin"></i>&nbsp;&nbsp; Upravnik</li></a>
 	          	        {% else %}
-	          	        	<a href="{% url 'manager' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin"></i>&nbsp Upravnik</li></a>
+	          	        	<a href="{% url 'manager' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin"></i>&nbsp;&nbsp; Upravnik</li></a>
 	          	        {% endif %}
 	          	    {% endif %}
 	            {% else %}
 	                {% if 'managers_page' in request.path %}
-	                	<a href="{% url 'managers_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp Upravnici</li></a>
+	                	<a href="{% url 'managers_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp;&nbsp; Upravnici</li></a>
 	                {% else %}
-	                	<a href="{% url 'managers_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp Upravnici</li></a>
+	                	<a href="{% url 'managers_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp;&nbsp; Upravnici</li></a>
                     {% endif %}
 	            {% endif %}
 	            <!-- <li class="list-group-item list-group-item-light">Struja/Voda/Grejanje</li> -->
 	            {% if user.is_authenticated %}
 		            {% if 'telefoni' in request.path %}
-		            	<a href="{% url 'app-telefoni' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp Važni telefoni</li></a>
+		            	<a href="{% url 'app-telefoni' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% else %}
-		            	<a href="{% url 'app-telefoni' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp Važni telefoni</li></a>
+		            	<a href="{% url 'app-telefoni' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% endif %}
 		        {% else %}
 		            {% if 'telefoni_p' in request.path %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp Važni telefoni</li></a>
+		            	<a href="{% url 'app-telefoni-public' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% else %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp Važni telefoni</li></a>
+		            	<a href="{% url 'app-telefoni-public' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% endif %}
 		        {% endif %}
 		        {%  if user.is_authenticated %}
 		            {% if 'poll_home' in request.path %}
-		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-poll"></i>&nbsp Ankete</li></a>
-		            	<a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-exclamation-circle"></i>&nbsp Prijavi kvar</li></a>
-		            	<li class="list-group-item list-group-item-light"><i class="fas fa-euro-sign" style="pointer-events: none; opacity: 0.5;"></i>&nbsp Finansije</li>
+		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-poll"></i>;&nbsp;&nbsp; Ankete</li></a>
+		            	<a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp; Prijavi kvar</li></a>
+		            	<li class="list-group-item list-group-item-light"><i class="fas fa-euro-sign" style="pointer-events: none; opacity: 0.5;"></i>&nbsp;&nbsp; Finansije</li>
 		            {% else %}
-		            	<a href="{% url 'poll-home' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-poll"></i>&nbsp Ankete</li></a>
-		            	<li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-euro-sign"></i>&nbsp Finansije</li>
-		            	<li id="prijavi-kvar" class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-exclamation-circle"></i>&nbsp Prijavi kvar</li>
+		            	<a href="{% url 'poll-home' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-poll"></i>&nbsp;&nbsp; Ankete</li></a>
+		            	<li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-euro-sign"></i>&nbsp;&nbsp; Finansije</li>
+		            	<li id="prijavi-kvar" class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-exclamation-circle"></i>&nbsp;&nbsp; Prijavi kvar</li>
 	            		<ul id="list-kvar"class="list-group">
 	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Lift</li>
 	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Vodoinstalacije</li>
@@ -140,19 +140,19 @@
 		        {% endif %}
 
 	            {% if 'docs' in request.path %}
-	            	<a href="{% url 'documents_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i>&nbsp Opšti dokumenti</li></a>
+	            	<a href="{% url 'documents_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i>&nbsp;&nbsp; Opšti dokumenti</li></a>
 	            {% else %}
-	            	<a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i>&nbsp Opšti dokumenti</li></a>
+	            	<a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i>&nbsp;&nbsp; Opšti dokumenti</li></a>
 	            {% endif %}
-	            <a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-hammer"></i>&nbsp Popravke</li></a>
-	            <a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-university"></i>&nbsp Institucije</li></a>
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-bullhorn"></i>&nbsp Oglasi</li></a>
+	            <a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-hammer"></i>&nbsp;&nbsp; Popravke</li></a>
+	            <a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-university"></i>&nbsp;&nbsp; Institucije</li></a>
+	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp; Oglasi</li></a>
                 {% if 'reciklaza' in request.path %}
-		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-recycle" style="color: white;"></i>&nbsp Recikliranje</li></a>
+		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-recycle" style="color: white;"></i>&nbsp;&nbsp; Recikliranje</li></a>
 		        {% else %}
-	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-recycle" style="color: green;"></i>&nbsp Recikliranje</li></a>
+	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-recycle" style="color: green;"></i>&nbsp;&nbsp; Recikliranje</li></a>
 	            {% endif %}
-	            <li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-tree"></i>&nbsp Zelenilo</li>
+	            <li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-tree"></i>&nbsp;&nbsp; Zelenilo</li>
 	          </ul>
 
 	      	{% endif %}
@@ -198,46 +198,46 @@
 	          	{% if user.is_authenticated %}
 	          	    {% if user.is_director %}
 	          	        {% if 'profile' in request.path %}
-	                    	<a href="{% url 'profile' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp Upravnik</li></a>
+	                    	<a href="{% url 'profile' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp;&nbsp; Upravnik</li></a>
 	                    {% else %}
-	                    	<a href="{% url 'profile' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp Upravnik</li></a>
+	                    	<a href="{% url 'profile' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp;&nbsp; Upravnik</li></a>
 	          	        {% endif %}
 	          	    {% else %}
 	          	        {% if 'manager' in request.path %}
-	          	        	<a href="{% url 'manager' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp Upravnik</li></a>
+	          	        	<a href="{% url 'manager' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp;&nbsp; Upravnik</li></a>
 	          	        {% else %}
-	          	        	<a href="{% url 'manager' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp Upravnik</li></a>
+	          	        	<a href="{% url 'manager' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp;&nbsp; Upravnik</li></a>
 	          	        {% endif %}
 	          	    {% endif %}
 	            {% else %}
 	                {% if 'managers_page' in request.path %}
-	                	<a href="{% url 'managers_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp Upravnici</li></a>
+	                	<a href="{% url 'managers_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp;&nbsp; Upravnici</li></a>
 	                {% else %}
-	                	<a href="{% url 'managers_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp Upravnici</li></a>
+	                	<a href="{% url 'managers_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp;&nbsp; Upravnici</li></a>
                     {% endif %}
 	            {% endif %}
 	            <!-- <li class="list-group-item list-group-item-light">Struja/Voda/Grejanje</li> -->
 	            {% if user.is_authenticated %}
 		            {% if 'telefoni' in request.path %}
-		            	<a href="{% url 'app-telefoni' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp Važni telefoni</li></a>
+		            	<a href="{% url 'app-telefoni' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% else %}
-		            	<a href="{% url 'app-telefoni' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp Važni telefoni</li></a>
+		            	<a href="{% url 'app-telefoni' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% endif %}
 		        {% else %}
 		            {% if 'telefoni_p' in request.path %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp Važni telefoni</li></a>
+		            	<a href="{% url 'app-telefoni-public' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% else %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp Važni telefoni</li></a>
+		            	<a href="{% url 'app-telefoni-public' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% endif %}
 		        {% endif %}
 		        {%  if user.is_authenticated %}
 		            {% if 'poll_home' in request.path %}
-		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-poll">&nbsp Napravi anketu</li></a>
+		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-poll">&nbsp;&nbsp; Napravi anketu</li></a>
 		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light">*</li></a>
-		            	<li class="list-group-item list-group-item-light"><i class="fas fa-euro-sign" style="pointer-events: none; opacity: 0.5;"></i>&nbsp Finansije</li>
+		            	<li class="list-group-item list-group-item-light"><i class="fas fa-euro-sign" style="pointer-events: none; opacity: 0.5;"></i>&nbsp;&nbsp; Finansije</li>
 		            {% else %}
-		            	<a href="{% url 'poll-home' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-poll">&nbsp Napravi anketu</li></a>
-		            	<li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-euro-sign"></i>&nbsp Finansije</li>
+		            	<a href="{% url 'poll-home' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-poll">&nbsp;&nbsp; Napravi anketu</li></a>
+		            	<li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-euro-sign"></i>&nbsp;&nbsp; Finansije</li>
 		            	<li id="kvar-prijavi" class="list-group-item list-group-item-light">Nadji majstora</li>
 	            		<ul id="kvar-list"class="list-group">
 	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Lift</li>
@@ -250,20 +250,20 @@
 		        {% endif %}
 
 	            {% if 'docs' in request.path %}
-	            	<a href="{% url 'documents_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i> Opšti dokumenti</li></a>
+	            	<a href="{% url 'documents_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i>&nbsp;&nbsp; Opšti dokumenti</li></a>
 	            {% else %}
-	            	<a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i> Opšti dokumenti</li></a>
+	            	<a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i>&nbsp;&nbsp; Opšti dokumenti</li></a>
 	            {% endif %}
 	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Kreiraj dogadjaj</li></a>
 	            <a href="#"><li class="list-group-item list-group-item-light"><i class="fas fa-hammer"></i> Popravke</li></a>
 	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Usluge</li></a>
 	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Trgovina</li></a>
                 {% if 'reciklaza' in request.path %}
-		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-recycle"></i> Recikliranje</li></a>
+		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-recycle"></i>&nbsp;&nbsp; Recikliranje</li></a>
 		        {% else %}
-	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-recycle"></i> Recikliranje</li></a>
+	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-recycle"></i>&nbsp;&nbsp; Recikliranje</li></a>
 	            {% endif %}
-	            <li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-tree"></i> Zelenilo</li>
+	            <li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-tree"></i>&nbsp;&nbsp; Zelenilo</li>
 	          </ul>
 
 	      	{% endif %}
