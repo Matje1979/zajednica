@@ -102,10 +102,6 @@ main {
     max-width: 1000px !important;
 }
 
-.panel-body{
-    overflow: scroll;
-}
-
 .header {
   padding: 20px;
   text-align: center;
@@ -821,6 +817,11 @@ event-list {
 }
 
 @media (min-width: 768px) {
+
+    .panel-body{
+        overflow: scroll;
+    }
+
 	.event-list > li {
 		position: relative;
 		display: block;
