@@ -817,11 +817,6 @@ event-list {
 }
 
 @media (min-width: 768px) {
-
-    .panel-body{
-        overflow: scroll;
-    }
-
 	.event-list > li {
 		position: relative;
 		display: block;
@@ -888,6 +883,10 @@ event-list {
 /*Events list end*/
 
 @media screen and (max-width: 600px) {
+    .panel-body{
+        overflow: scroll;
+    }
+
     .large-media-icon{
         display: none;
     }
