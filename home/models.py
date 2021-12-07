@@ -22,6 +22,7 @@ class Post(models.Model):
     tags = TaggableManager("Tagovi")
     anketa_id = models.IntegerField(blank=True, null=True)
     anketa_title = models.CharField(max_length=100, blank=True, null=True)
+    like = models.ManyToManyField(CustomUser)
 
     def __str__(self):
         return self.title
