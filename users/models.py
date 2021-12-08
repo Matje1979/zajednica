@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.apps import apps
+
 from PIL import Image
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import ugettext_lazy as _
 from location_field.models.plain import PlainLocationField
+
+
 
 # Create your models here.
 
@@ -93,9 +97,29 @@ class CustomUser(AbstractUser):
         Ulaz, on_delete=models.CASCADE, null=True, blank=True
     )
     upravnik_id = models.CharField(max_length=25, null=True, blank=True)
+    liked_posts = models.ManyToManyField("home.Post", related_name="user_likes")
 
     def __str__(self):
         return str(self.username)
+
+    def toggle_post_like(self, post_id):
+        print("Hey you!", flush=True)
+        """
+        Add post to liked_posts if post is not in liked_posts
+        and remove it if it is."""
+        Post = apps.get_model('home', 'Post')
+        post = Post.objects.get(id=post_id)
+        print("Post", post, flush=True)
+        if post in self.liked_posts.all():
+            print("Post in liked posts", flush=True)
+            try:
+                self.liked_posts.remove(post)
+            except Exception as e:
+                print("Exception: ", e, flush=True)
+            print("Poooostsssss", self.liked_posts.all())
+        else:
+            print("Post not in liked posts", flush=True)
+            self.liked_posts.add(post)
 
 
 class Upravnik(models.Model):

@@ -22,6 +22,11 @@
 	    </div>
 	    <h2 class="article-title">{{ object.title }}</h2>
 	    <p class="article-content">{{ object.Sadržaj|safe }}</p>
+	    {% if like %}
+	        <p><i class="far fa-thumbs-up mt-4 thumb-icon" style="cursor: pointer; display: none"></i><i class="fas fa-thumbs-up mt-4 like-icon" style="cursor: pointer; color: blue; "></i>&nbsp;&nbsp;<span class="like-text" style="color: blue;">Svidja mi se</span></p>
+	    {% else %}
+	        <p><i class="far fa-thumbs-up mt-4 thumb-icon" style="cursor: pointer;"></i><i class="fas fa-thumbs-up mt-4 like-icon" style="cursor: pointer; color: blue; display: none;"></i>&nbsp;&nbsp;<span class="like-text" style="color: blue; display: none;">Svidja mi se</span></p>
+	    {% endif %}
 	    <p>Komentari<span> ({{ comments.count }})</span></p>
 	    {% for comment in comments %}
 		  <article class="media content-section">
@@ -57,5 +62,20 @@
         </form>
 	  </div>
 	</article>
+	<script>
+	    $(document).ready(function() {
+	        $(".fa-thumbs-up").click(function() {
+	            $('.like-icon').toggle();
+	            $('.thumb-icon').toggle();
+	            $(".like-text").toggle();
+
+	            var post_id = {{ post.id }}
+	            $.ajax({
+                  type: "POST",
+                  url: "https://zajednicastanara.pythonanywhere.com/post/" + post_id + "/like",
+                });
+	        });
+	    });
+	</script>
 
 {% endblock content %}

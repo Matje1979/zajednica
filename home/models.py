@@ -22,13 +22,13 @@ class Post(models.Model):
     tags = TaggableManager("Tagovi")
     anketa_id = models.IntegerField(blank=True, null=True)
     anketa_title = models.CharField(max_length=100, blank=True, null=True)
-    like = models.ManyToManyField(CustomUser)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse("app-home")
+
 
     # 	return reverse('app-home', kwargs={'pk': self.pk})
     # This function returns a url of the detail page for the post as a string.
