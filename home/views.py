@@ -476,6 +476,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
             self.request.user.Ulaz.Ulica_i_broj, "sr", reversed=True
         )
         context["common_tags"] = Post.tags.most_common()[:4]
+        context['page_title'] = "Nova objava"
         return context
 
     def form_valid(self, form):
