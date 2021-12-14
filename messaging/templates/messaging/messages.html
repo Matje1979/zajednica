@@ -2,14 +2,15 @@
 
 {% block messages %}
     <main role="main" class="container">
+        <div class="header" style="text-align: center;">
+              <h2><a href="#">Zajednica Stanara</a></h2>
+          {% if page_title %}
+	            <p>{{ page_title }}</p>
+	      {% else %}
+	            <p>Zajedno smo jači</p>
+	      {% endif %}
+	    </div>
     <div class="wraper bootstrap snippets bootdeys bootdey">
-        <div class="page-title">
-            {% if 'messages_list' in request.path %}
-                <h3 id="inbox-title" class="title">Primljene poruke</h3>
-            {% elif 'sent_messages' in request.path %}
-                <h3 id="inbox-title" class="title">Poslate poruke</h3>
-            {% endif %}
-        </div>
         <div class="row">
             <!-- Right Sidebar -->
             <div class="col-md-9">
