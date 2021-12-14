@@ -102,10 +102,6 @@ main {
     max-width: 1000px !important;
 }
 
-.panel-body{
-    overflow: scroll;
-}
-
 .header {
   padding: 20px;
   text-align: center;
@@ -887,6 +883,10 @@ event-list {
 /*Events list end*/
 
 @media screen and (max-width: 600px) {
+    .panel-body{
+        overflow: scroll;
+    }
+
     .large-media-icon{
         display: none;
     }

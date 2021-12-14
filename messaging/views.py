@@ -109,6 +109,7 @@ class MessageListView(ListView):
             receiver=self.request.user
         )
         context["user_messages"] = messages
+        context["page_title"] = "Primljene poruke"
         return context
 
 #This the same as the previous, just using the DRF.
