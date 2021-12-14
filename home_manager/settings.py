@@ -25,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['zajednicastanara.pythonanywhere.com']
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -68,8 +68,14 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_CONFIGS ={
     'default': {
-    'toolbar': 'basic',
-    'height': 300,
+        'toolbar': 'Custom',
+        'height': 300,
+        'toolbar_Custom':[
+            ['Styles', 'Bold', 'Italic'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash'],
+
+        ],
     }
 }
 
@@ -88,7 +94,10 @@ MIDDLEWARE = [
 #     "http://localhost:8000",
 #     "http://localhost:8000/prijava/"
 # ]
-CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOW_ALL_ORIGINS = config(
+    'CORS_ALLOW_ALL_ORIGINS',
+    default=False, cast=bool
+)
 ROOT_URLCONF = 'home_manager.urls'
 
 TEMPLATES = [
@@ -107,7 +116,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'zajednicastanara.wsgi.application'
+WSGI_APPLICATION = config('WSGI_APPLICATION')
 
 
 # Database

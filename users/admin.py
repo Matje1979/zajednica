@@ -32,10 +32,19 @@ class CustomUserAdmin(UserAdmin):
 		    	'Opština',
 		    	'Ulica_i_broj',
 		    	'Broj_stana',
-		    	'Ulaz'
+		    	'Ulaz',
 		    	)
 		    }
+        ),
+        (
+            'Likes',
+            {
+                'fields': (
+                    'liked_posts',
+                )
+            }
         )
+
 	)
 
 admin.site.register(Grad)
