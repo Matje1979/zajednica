@@ -88,7 +88,7 @@ MIDDLEWARE = [
 #     "http://localhost:8000",
 #     "http://localhost:8000/prijava/"
 # ]
-CORS_ALLOW_ALL_ORIGINS=config('CORS_ALLOW_ALL_ORIGINS')
+CORS_ALLOW_ALL_ORIGINS=True
 ROOT_URLCONF = 'home_manager.urls'
 
 TEMPLATES = [
