@@ -68,8 +68,14 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_CONFIGS ={
     'default': {
-    'toolbar': 'basic',
-    'height': 300,
+        'toolbar': 'Custom',
+        'height': 300,
+        'toolbar_Custom':[
+            ['Styles', 'Bold', 'Italic'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Flash'],
+
+        ],
     }
 }
 
@@ -88,7 +94,13 @@ MIDDLEWARE = [
 #     "http://localhost:8000",
 #     "http://localhost:8000/prijava/"
 # ]
-CORS_ALLOW_ALL_ORIGINS=True
+
+
+CORS_ALLOW_ALL_ORIGINS = config(
+    'CORS_ALLOW_ALL_ORIGINS',
+    default=False, cast=bool
+)
+
 ROOT_URLCONF = 'home_manager.urls'
 
 TEMPLATES = [

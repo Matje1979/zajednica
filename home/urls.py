@@ -52,6 +52,7 @@ urlpatterns = [
     path("cep_confirmation/", csrf_exempt(views.CepConfirmation.as_view())),
     path("cepovi_list/<str:address>", csrf_exempt(views.CepoviList.as_view())),
     path("api/", views.apiOverview),
+    path("post/<int:pk>/like", csrf_exempt(views.post_like))
     # path(
     # 'manager_messages/', MngrMessageListView.as_view(), name="mngr-messages"
     # ),

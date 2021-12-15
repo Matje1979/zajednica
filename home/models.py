@@ -29,6 +29,7 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse("app-home")
 
+
     # 	return reverse('app-home', kwargs={'pk': self.pk})
     # This function returns a url of the detail page for the post as a string.
     # View then handles the string.

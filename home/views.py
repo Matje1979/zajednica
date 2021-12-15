@@ -47,6 +47,8 @@ import time
 import re
 import base64
 from django.core.files.images import ImageFile
+from django.http import JsonResponse
+from django.db.models import Count
 
 # from rest_framework.authentication import (
 # SessionAuthentication,
@@ -380,9 +382,15 @@ class PostListView(LoginRequiredMixin, ListView):
     paginate_by = 5
 
     def get_queryset(self):
+        print("Hellllooo", flush=True)
         posts = Post.objects.filter(
             author__Ulaz__Ulica_i_broj=self.request.user.Ulaz.Ulica_i_broj
-        ).order_by("-date_posted")
+        ).order_by("-date_posted").annotate(likes_count=Count('user_likes'))
+        for post in posts:
+            if post.likes_count:
+                print("Likes_count", post.likes_count, post.title, flush=True)
+            else:
+                print("post_title", post.title)
 
         return posts
 
@@ -410,6 +418,15 @@ def base_layout(request):
     template = "home/base.html"
     return render(request, template)
 
+def post_like(request, pk):
+    try:
+        print(request.user, flush=True)
+        request.user.toggle_post_like(pk)
+        return JsonResponse(status=200, safe=False)
+    except Exception:
+        return JsonResponse({"Error": "error"})
+
+
 
 # A View for seeing details about particular posts
 class PostDetailView(LoginRequiredMixin, DetailView):
@@ -425,6 +442,9 @@ class PostDetailView(LoginRequiredMixin, DetailView):
         post = get_object_or_404(Post, pk=self.kwargs["pk"])
         context["comments"] = Comment.objects.filter(post=post)
         context["form"] = CommentForm()
+        context["like"] = self.request.user.liked_posts.filter(
+            id=post.id
+        ).exists()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -456,6 +476,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
             self.request.user.Ulaz.Ulica_i_broj, "sr", reversed=True
         )
         context["common_tags"] = Post.tags.most_common()[:4]
+        context['page_title'] = "Nova objava"
         return context
 
     def form_valid(self, form):
