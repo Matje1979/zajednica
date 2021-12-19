@@ -98,7 +98,7 @@ virtualenv --python C:\Path\To\Python\python.exe django_env
 
 ### Installing dependencies:
 
-pip3 install -r home_manager/requirements.txt
+pip3 install -r requirements.txt
 
 <<<<<<< HEAD
 ### Run project:
