@@ -106,8 +106,6 @@ pip3 install -r requirements.txt
 
 ### Run project:
 
-cd home_manager
-
 python3 manage.py runserver
 
 Check website at localhost:8000
