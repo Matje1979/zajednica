@@ -91,6 +91,10 @@ virtualenv --python C:\Path\To\Python\python.exe django_env
 
 ### Activate venv:
 
+source django_env\Scripts\activate
+
+or 
+
 .\django_env\Scripts\activate
 
 # Final steps
