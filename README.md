@@ -98,7 +98,7 @@ or
 .\django_env\Scripts\activate
 
 # Final steps
-(same for Windows and Linux)
+(same for all systems)
 
 ### Installing dependencies:
 
@@ -141,10 +141,6 @@ Replace WSGI_APPLICATION = 'zajednicastanara.wsgi.application' with WSGI_APPLICA
 Replace Debug = False with Debug = True
 
 Set ALLOWED_HOSTS to ['localhost']
-
-Uncomment STATICFILES_DIRS line
-
-Comment out lines STATIC_ROOT and MEDIA_ROOT lines.
 
 ## Set up database
 
