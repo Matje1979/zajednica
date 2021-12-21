@@ -140,8 +140,6 @@ Replace WSGI_APPLICATION = 'zajednicastanara.wsgi.application' with WSGI_APPLICA
 
 Replace Debug = False with Debug = True
 
-cors_allowed_headers and cors_allow_all_origins as well as rest_framework = {} put in comments.
-
 Set ALLOWED_HOSTS to ['localhost']
 
 Uncomment STATICFILES_DIRS line
