@@ -90,10 +90,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:8000",
-#     "http://localhost:8000/prijava/"
-# ]
 CORS_ALLOW_ALL_ORIGINS = config(
     'CORS_ALLOW_ALL_ORIGINS',
     default=False, cast=bool
@@ -178,9 +174,9 @@ LOCATION_FIELD = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/home/zajednicastanara/zajednicastanara/static'
+STATIC_ROOT = BASE_DIR + '/static'
 
-MEDIA_ROOT = '/home/zajednicastanara/zajednicastanara/media/'
+MEDIA_ROOT = BASE_DIR + '/media/'
 
 MEDIA_URL = '/media/'
 
