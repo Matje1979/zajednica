@@ -88,10 +88,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+
+
+
+
+
+
 CORS_ALLOW_ALL_ORIGINS = config(
     'CORS_ALLOW_ALL_ORIGINS',
     default=False, cast=bool
 )
+
 ROOT_URLCONF = 'home_manager.urls'
 
 TEMPLATES = [
@@ -184,7 +192,7 @@ LOGIN_REDIRECT_URL = 'login-success'
 LOGIN_URL = 'login'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, '/static/'),
 ]
 PWA_APP_DEBUG_MODE = False
 PWA_APP_NAME = 'Zajednica Stanara'
