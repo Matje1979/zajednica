@@ -29,7 +29,6 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -178,9 +177,9 @@ LOCATION_FIELD = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/home/zajednicastanara/zajednicastanara/static'
+STATIC_ROOT = BASE_DIR + '/static'
 
-MEDIA_ROOT = '/home/zajednicastanara/zajednicastanara/media/'
+MEDIA_ROOT = BASE_DIR + '/media/'
 
 MEDIA_URL = '/media/'
 
@@ -190,9 +189,9 @@ LOGIN_REDIRECT_URL = 'login-success'
 
 LOGIN_URL = 'login'
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static'),
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 PWA_APP_DEBUG_MODE = False
 PWA_APP_NAME = 'Zajednica Stanara'
 PWA_APP_DESCRIPTION = "Zajednica Stanara PWA"
