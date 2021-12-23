@@ -3,7 +3,7 @@
 
 (Install git before following bellow instructions)
 
-## Linux
+# Linux
 
 To run this application on linux in local you need python3.7, pip and virtalenv.
 
@@ -47,7 +47,7 @@ source django_env/bin/activate
 
 ### Check final steps bellow
 
-## Windows
+# Windows
 
 ### Python
 
@@ -91,39 +91,66 @@ virtualenv --python C:\Path\To\Python\python.exe django_env
 
 ### Activate venv:
 
+source django_env\Scripts\activate
+
+or 
+
 .\django_env\Scripts\activate
 
 # Final steps
-(same for Windows and Linux)
+(same for all systems)
 
 ### Installing dependencies:
 
-pip3 install -r home_manager/requirements.txt
+pip3 install -r requirements.txt
 
-<<<<<<< HEAD
 ### Run project:
-
-cd home_manager
 
 python3 manage.py runserver
 
 Check website at localhost:8000
 
-## Settings
+# Mac
 
-Go to home_manager/settings.py
+### Steps for installing:
+
+xcode-select --install
+
+brew install python@3.8
+
+pip3 install virtualenv
+
+/usr/local/opt/python@3.8/bin/python3 -m venv django_env
+
+cd home_manager
+
+# Common steps
+
+# Settings
+
+Create .env file in the root of the project (zajednicastanara)
+
+Copy in it the content of example.env file.
+
+Replace parts right of '=' with appropriate characters.
+
+For example:
 
 Replace WSGI_APPLICATION = 'zajednicastanara.wsgi.application' with WSGI_APPLICATION = 'home_manager.wsgi.application'.
 
 Replace Debug = False with Debug = True
 
-cors_allowed_headers and cors_allow_all_origins as well as rest_framework = {} put in comments.
+Set ALLOWED_HOSTS to ['localhost']
 
-Set allowed hosts to []. Allowed_hosts = [ ]
+## Set up database
 
-Uncomment STATICFILES_DIRS line
+cd  zajednica stanara
 
-Comment out lines STATIC_ROOT and MEDIA_ROOT lines.
+python manage.py migrate
+
+or 
+
+python3 manage.py migrate
 
 # Contribute to the project
 
@@ -135,7 +162,7 @@ git checkout -b name_of_the_branch origin/name_of_the_branch
 
 git status
 
-(checks the status of git repository)
+(checks the status of git repository)### 
 
 git add *
 
@@ -146,6 +173,8 @@ git commit -m "Your commit message"
 (commits changes in localk repository)
 
 git push -u origin name_of_branch
+
+
 
 
 

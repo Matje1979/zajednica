@@ -17,7 +17,6 @@ from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -89,10 +88,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:8000",
-#     "http://localhost:8000/prijava/"
-# ]
 CORS_ALLOW_ALL_ORIGINS = config(
     'CORS_ALLOW_ALL_ORIGINS',
     default=False, cast=bool
@@ -148,7 +143,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
