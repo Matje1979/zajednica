@@ -1,0 +1,168 @@
+
+{% extends 'home/base_content.html' %}
+{% load static %}
+{% block content%}
+
+<div id="phone-numbers" class="content-section p-3">
+  <ul class="list-group">
+      {% for category in categories %}
+      <li id="#" class="list-group-item list-group-item-light" category_id="{{ category.id }}">
+          <i class="{{ category.icon }}"></i><span id="xpan">&nbsp; {{ category.name }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-plus"></i><i class="fas fa-minus" style="display: none;"></i>
+          <table class="table table-bordered mt-3" style="display: none; ">
+            <tbody>
+               <tr>
+                <td colspan="2"><a href="https://www.beograd94.rs/"><i class="fas fa-ambulance"></i>&nbsp; Hitna Pomoć &nbsp;&nbsp;</a></td>
+                <td><a href="tel:194" title="Pozovite">194</a></td>
+              </tr>
+            </tbody>
+          </table>
+      </li>
+      {% endfor %}
+  </ul>
+  <table class="table table-bordered">
+      <tbody>
+      <tr>
+        <td colspan="2"><a href="#"><img src="{% static 'home/policija-logo.png' %}" style="width: 22px;">&nbsp; Policija</a></td>
+        <td><a href="tel:194">192</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-taxi"></i>&nbsp; BEOGRADSKI TAXI</td>
+        <td><a href="tel:19801">19801</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><img src="{% static 'home/eps.png' %}" style="width: 22px;">&nbsp; Elektrodistribucija</td>
+        <td><a href="tel:063/321-45">063/321-45</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-hand-holding-water"></i>&nbsp; JKP Beogradski vodovod i kanalizacija</td>
+        <td><a href="tel:063/321-45">063/321-45</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-fire-alt"></i>&nbsp; Grejanje i topla voda: JKP Beogradske elektrane:</td>
+        <td><a href="tel:063/321-45">063/321-45</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-bolt" style="color: orange;"></i>&nbsp; EPS – JP Elektrodistribucija Beograd: </td>
+        <td>340-5555</td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="far fa-lightbulb"></i>&nbsp; JKP Javno osvetljenje: </td>
+        <td>4405-100</td>
+      </tr>
+      <tr>
+        <td colspan="2"><img src="{% static 'home/mts_logo.png' %}" style="width: 20px;">&nbsp; Telekom Srbija: </td>
+        <td>977, 9813</td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-burn"></i>&nbsp; Gasovod – JP Srbijagas: </td>
+        <td>2604-130, 312-9237</td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-parking"></i>&nbsp; Parkiranje – JKP Parking servis: </td>
+        <td>3035-400, 3017-070</td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-road"></i>&nbsp; Direkcija za puteve: </td>
+        <td>3309-250</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Beograd put:</td>
+        <td>2765-382, 3818-101 (00-24)</td>
+      </tr>
+      <tr>
+        <td colspan="2">Sekretarijat za saobraćaj: </td>
+        <td>3309-599</td>
+      </tr>
+      <tr>
+        <td colspan="2">Direkcija za puteve: </td>
+        <td>3309-250</td>
+      </tr>
+       <tr>
+        <td colspan="2">JKP Gradska čistoća: 3294-901</td>
+        <td> 3294-901</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Zelenilo Beograd: </td>
+        <td>2630-506</td>
+      </tr>
+       <tr>
+        <td colspan="2">Sekretarijat za zaštitu životne sredine: </td>
+        <td>3226-106</td>
+      </tr>
+      <tr>
+        <td colspan="2">Služba komunalne zoohigijene: </td>
+        <td>3293-099</td>
+      </tr>
+      <tr>
+        <td colspan="2">JP Gradsko stambeno(00-24):  </td>
+        <td>3950-300, 3950-301, 3537-777</td>
+      </tr>
+      <tr>
+        <td colspan="2">Preduzeće „Dimničar“: </td>
+        <td>2646-355</td>
+      </tr>
+      <tr>
+        <td colspan="2">Sekretarijat za imovinsko-pravne poslove i građevinsku inspekciju: </td>
+        <td>3228-740</td>
+      </tr>
+      <tr>
+        <td colspan="2">Sekretarijat za urbanizam i građevinske poslove: </td>
+        <td>3229-000</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Gradske pijace: </td>
+        <td>3806-450, 3806-451</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Pogrebne usluge: </td>
+        <td>2071-333</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Infostan: </td>
+        <td>3954-240</td>
+      </tr>
+      <tr>
+        <td colspan="2">Beo-kom servis: </td>
+        <td>0800-110-011 (besplatni pozivi sa fiksne mreže) i 3090-007 (za pozive iz mobilnih mreža)</td>
+      </tr>
+      <tr>
+        <td colspan="2">Komunalna, saobraćajna i ekološka inspekcija: </td>
+        <td>3227-000</td>
+      </tr>
+      <tr>
+        <td colspan="2">Građevinska inspekcija: </td>
+        <td>3228-740</td>
+      </tr>
+
+    </tbody>
+  </table>
+  <script>
+   $(document).ready(function() {
+       console.log("OO");
+       $("li").click(function(){
+           if ($(this).find(".fa-minus").css("display") == "none"){
+                var categoryId = $(this).attr('category_id')
+                $.ajax({
+                  type: "GET",
+                  url: "https://zajednicastanara.pythonanywhere.com/phone_numbers/" + categoryId,
+                  success: function(data) {
+                      alert(data)
+                   }
+                });
+                $(this).find("table").toggle();
+                $(this).css("background-color", "white");
+                $(this).find(".fa-minus").toggle();
+                $(this).find(".fa-plus").toggle();
+           } else {
+                $(this).find("table").toggle();
+                $(this).css("background-color", "white");
+                $(this).find(".fa-minus").toggle();
+                $(this).find(".fa-plus").toggle();
+           }
+
+        });
+   });
+  </script>
+</div>
+
+{% endblock content %}
