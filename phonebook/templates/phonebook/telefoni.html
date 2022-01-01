@@ -7,13 +7,22 @@
   <ul class="list-group">
       {% for category in categories %}
       <li id="#" class="list-group-item list-group-item-light" category_id="{{ category.id }}">
-          <i class="{{ category.icon }}"></i><span id="xpan">&nbsp; {{ category.name }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-plus"></i><i class="fas fa-minus" style="display: none;"></i>
-          <table class="table table-bordered mt-3" style="display: none; ">
+          <div class="row">
+              <div class="col-md-4"><i class="{{ category.icon }}"></i>&nbsp;&nbsp;&nbsp;<span id="xpan">{{ category.name }}</span></div>
+              <div class="col-md-4">
+                  {% if not None %}
+                      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ category.numbers }}</span>
+                  {% endif %}
+              </div>
+              <div class="col-md-4 text-right">
+                  <span id="xpan">
+                      <i class="fas fa-plus"></i>
+                      <i class="fas fa-minus" style="display: none;"></i>
+                  </span>
+              </div>
+          </div>
+          <table class="table table-bordered mt-3" style="display: none;">
             <tbody>
-               <tr>
-                <td colspan="2"><a href="https://www.beograd94.rs/"><i class="fas fa-ambulance"></i>&nbsp; Hitna Pomoć &nbsp;&nbsp;</a></td>
-                <td><a href="tel:194" title="Pozovite">194</a></td>
-              </tr>
             </tbody>
           </table>
       </li>
@@ -136,26 +145,52 @@
 
     </tbody>
   </table>
+<!--  $(document).mouseup(function(e) -->
+<!--{-->
+<!--    var container = $("YOUR CONTAINER SELECTOR");-->
+
+<!--    // if the target of the click isn't the container nor a descendant of the container-->
+<!--    if (!container.is(e.target) && container.has(e.target).length === 0) -->
+<!--    {-->
+<!--        container.hide();-->
+<!--    }-->
+<!--});-->
   <script>
    $(document).ready(function() {
        console.log("OO");
        $("li").click(function(){
-           if ($(this).find(".fa-minus").css("display") == "none"){
+           if ($(this).find(".fa-minus").is(":hidden")){
+               console.log("OOyeah")
                 var categoryId = $(this).attr('category_id')
+                var childNodes = $(this).children();
                 $.ajax({
+                  context: this,
                   type: "GET",
+                  dataType: "json",
                   url: "https://zajednicastanara.pythonanywhere.com/phone_numbers/" + categoryId,
                   success: function(data) {
-                      alert(data)
+                      data = JSON.parse(data);
+                      console.log(data, data[0].fields)
+                      for (var i = 0; i < data.length; i++){
+                          $(this).find("tbody").append(`
+                               <tr>
+                                <td colspan="2"><a href="${data[i].fields['link']}">&nbsp; ${data[i].fields['name']} &nbsp;&nbsp;</a></td>
+                                <td><a href="tel:${data[i].fields['name']}" title="Pozovite">${data[i].fields["num"]}</a></td>
+                              </tr>
+                          `)
+
+                      }
+                      i = 0;
+                      $(this).find("table").toggle();
                    }
                 });
-                $(this).find("table").toggle();
-                $(this).css("background-color", "white");
+
                 $(this).find(".fa-minus").toggle();
                 $(this).find(".fa-plus").toggle();
            } else {
-                $(this).find("table").toggle();
-                $(this).css("background-color", "white");
+               console.log("No way")
+               $(this).find("tbody").children().slice(0).remove();
+               $(this).find("table").toggle();
                 $(this).find(".fa-minus").toggle();
                 $(this).find(".fa-plus").toggle();
            }
