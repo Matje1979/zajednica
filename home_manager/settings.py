@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'taggit',
     'poll',
     'messaging',
+    'phonebook',
     'widget_tweaks',
     'ckeditor',
     'ckeditor_uploader',
