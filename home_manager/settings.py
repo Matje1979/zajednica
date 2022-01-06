@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-from decouple import config
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,12 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 'yov061qe^&+p=rj=e0sf$0xr(!*k(2fgty+dp&1#t4v1)p!lz%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = True
 
-ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 
@@ -65,11 +63,11 @@ INSTALLED_APPS = [
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
-CKEDITOR_CONFIGS ={
+CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Custom',
         'height': 300,
-        'toolbar_Custom':[
+        'toolbar_Custom': [
             ['Styles', 'Bold', 'Italic'],
             ['Link', 'Unlink', 'Anchor'],
             ['Image', 'Flash'],
@@ -90,18 +88,9 @@ MIDDLEWARE = [
 ]
 
 
+CORS_ALLOW_ALL_ORIGINS = True
 
-
-
-
-
-
-CORS_ALLOW_ALL_ORIGINS = config(
-    'CORS_ALLOW_ALL_ORIGINS',
-    default=False, cast=bool
-)
-
-ROOT_URLCONF = 'home_manager.urls'
+ROOT_URLCONF = 'zajednicastanara.urls'
 
 TEMPLATES = [
     {
@@ -119,7 +108,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = config('WSGI_APPLICATION')
+WSGI_APPLICATION = "zajednicastanara.wsgi.application"
 
 
 # Database
