@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from decouple import config
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'yov061qe^&+p=rj=e0sf$0xr(!*k(2fgty+dp&1#t4v1)p!lz%'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 
 # Application definition
 
@@ -88,9 +90,9 @@ MIDDLEWARE = [
 ]
 
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
-ROOT_URLCONF = 'zajednicastanara.urls'
+ROOT_URLCONF = 'home_manager.urls'
 
 TEMPLATES = [
     {
@@ -108,7 +110,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "zajednicastanara.wsgi.application"
+WSGI_APPLICATION = config("WSGI_APPLICATION")
 
 
 # Database
@@ -169,20 +171,21 @@ LOCATION_FIELD = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR + '/static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_ROOT = BASE_DIR + '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 LOGIN_REDIRECT_URL = 'login-success'
 
 LOGIN_URL = 'login'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '/static/'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 PWA_APP_DEBUG_MODE = False
 PWA_APP_NAME = 'Zajednica Stanara'

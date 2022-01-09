@@ -10,7 +10,6 @@ from django.utils.translation import ugettext_lazy as _
 from location_field.models.plain import PlainLocationField
 
 
-
 # Create your models here.
 
 VRSTE_UPRAVNIKA = (
@@ -97,7 +96,8 @@ class CustomUser(AbstractUser):
         Ulaz, on_delete=models.CASCADE, null=True, blank=True
     )
     upravnik_id = models.CharField(max_length=25, null=True, blank=True)
-    liked_posts = models.ManyToManyField("home.Post", related_name="user_likes")
+    liked_posts = models.ManyToManyField(
+        "home.Post", related_name="user_likes")
 
     def __str__(self):
         return str(self.username)
@@ -179,7 +179,7 @@ class Temp(models.Model):
 
 
 class Temp2(models.Model):
-    CITY_CHOICES = [(x.name, x.name) for x in Grad.objects.all()]
+    CITY_CHOICES = [("BG", "Beograd"), ("NS", "Novi Sad")]
     secr = models.IntegerField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
