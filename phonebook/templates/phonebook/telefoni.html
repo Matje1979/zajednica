@@ -1,0 +1,203 @@
+
+{% extends 'home/base_content.html' %}
+{% load static %}
+{% block content%}
+
+<div id="phone-numbers" class="content-section p-3">
+  <ul class="list-group">
+      {% for category in categories %}
+      <li id="#" class="list-group-item list-group-item-light" category_id="{{ category.id }}">
+          <div class="row">
+              <div class="col-md-4"><i class="{{ category.icon }}"></i>&nbsp;&nbsp;&nbsp;<span id="xpan">{{ category.name }}</span></div>
+              <div class="col-md-4">
+                  {% if not None %}
+                      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ category.numbers }}</span>
+                  {% endif %}
+              </div>
+              <div class="col-md-4 text-right">
+                  <span id="xpan">
+                      <i class="fas fa-plus"></i>
+                      <i class="fas fa-minus" style="display: none;"></i>
+                  </span>
+              </div>
+          </div>
+          <table class="table table-bordered mt-3" style="display: none;">
+            <tbody>
+            </tbody>
+          </table>
+      </li>
+      {% endfor %}
+  </ul>
+  <table class="table table-bordered">
+      <tbody>
+      <tr>
+        <td colspan="2"><a href="#"><img src="{% static 'home/policija-logo.png' %}" style="width: 22px;">&nbsp; Policija</a></td>
+        <td><a href="tel:194">192</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-taxi"></i>&nbsp; BEOGRADSKI TAXI</td>
+        <td><a href="tel:19801">19801</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><img src="{% static 'home/eps.png' %}" style="width: 22px;">&nbsp; Elektrodistribucija</td>
+        <td><a href="tel:063/321-45">063/321-45</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-hand-holding-water"></i>&nbsp; JKP Beogradski vodovod i kanalizacija</td>
+        <td><a href="tel:063/321-45">063/321-45</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-fire-alt"></i>&nbsp; Grejanje i topla voda: JKP Beogradske elektrane:</td>
+        <td><a href="tel:063/321-45">063/321-45</a></td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-bolt" style="color: orange;"></i>&nbsp; EPS – JP Elektrodistribucija Beograd: </td>
+        <td>340-5555</td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="far fa-lightbulb"></i>&nbsp; JKP Javno osvetljenje: </td>
+        <td>4405-100</td>
+      </tr>
+      <tr>
+        <td colspan="2"><img src="{% static 'home/mts_logo.png' %}" style="width: 20px;">&nbsp; Telekom Srbija: </td>
+        <td>977, 9813</td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-burn"></i>&nbsp; Gasovod – JP Srbijagas: </td>
+        <td>2604-130, 312-9237</td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-parking"></i>&nbsp; Parkiranje – JKP Parking servis: </td>
+        <td>3035-400, 3017-070</td>
+      </tr>
+      <tr>
+        <td colspan="2"><i class="fas fa-road"></i>&nbsp; Direkcija za puteve: </td>
+        <td>3309-250</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Beograd put:</td>
+        <td>2765-382, 3818-101 (00-24)</td>
+      </tr>
+      <tr>
+        <td colspan="2">Sekretarijat za saobraćaj: </td>
+        <td>3309-599</td>
+      </tr>
+      <tr>
+        <td colspan="2">Direkcija za puteve: </td>
+        <td>3309-250</td>
+      </tr>
+       <tr>
+        <td colspan="2">JKP Gradska čistoća: 3294-901</td>
+        <td> 3294-901</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Zelenilo Beograd: </td>
+        <td>2630-506</td>
+      </tr>
+       <tr>
+        <td colspan="2">Sekretarijat za zaštitu životne sredine: </td>
+        <td>3226-106</td>
+      </tr>
+      <tr>
+        <td colspan="2">Služba komunalne zoohigijene: </td>
+        <td>3293-099</td>
+      </tr>
+      <tr>
+        <td colspan="2">JP Gradsko stambeno(00-24):  </td>
+        <td>3950-300, 3950-301, 3537-777</td>
+      </tr>
+      <tr>
+        <td colspan="2">Preduzeće „Dimničar“: </td>
+        <td>2646-355</td>
+      </tr>
+      <tr>
+        <td colspan="2">Sekretarijat za imovinsko-pravne poslove i građevinsku inspekciju: </td>
+        <td>3228-740</td>
+      </tr>
+      <tr>
+        <td colspan="2">Sekretarijat za urbanizam i građevinske poslove: </td>
+        <td>3229-000</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Gradske pijace: </td>
+        <td>3806-450, 3806-451</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Pogrebne usluge: </td>
+        <td>2071-333</td>
+      </tr>
+      <tr>
+        <td colspan="2">JKP Infostan: </td>
+        <td>3954-240</td>
+      </tr>
+      <tr>
+        <td colspan="2">Beo-kom servis: </td>
+        <td>0800-110-011 (besplatni pozivi sa fiksne mreže) i 3090-007 (za pozive iz mobilnih mreža)</td>
+      </tr>
+      <tr>
+        <td colspan="2">Komunalna, saobraćajna i ekološka inspekcija: </td>
+        <td>3227-000</td>
+      </tr>
+      <tr>
+        <td colspan="2">Građevinska inspekcija: </td>
+        <td>3228-740</td>
+      </tr>
+
+    </tbody>
+  </table>
+<!--  $(document).mouseup(function(e) -->
+<!--{-->
+<!--    var container = $("YOUR CONTAINER SELECTOR");-->
+
+<!--    // if the target of the click isn't the container nor a descendant of the container-->
+<!--    if (!container.is(e.target) && container.has(e.target).length === 0) -->
+<!--    {-->
+<!--        container.hide();-->
+<!--    }-->
+<!--});-->
+  <script>
+   $(document).ready(function() {
+       console.log("OO");
+       $("li").click(function(){
+           if ($(this).find(".fa-minus").is(":hidden")){
+               console.log("OOyeah")
+                var categoryId = $(this).attr('category_id')
+                var childNodes = $(this).children();
+                $.ajax({
+                  context: this,
+                  type: "GET",
+                  dataType: "json",
+                  url: "https://zajednicastanara.pythonanywhere.com/phone_numbers/" + categoryId,
+                  success: function(data) {
+                      data = JSON.parse(data);
+                      console.log(data, data[0].fields)
+                      for (var i = 0; i < data.length; i++){
+                          $(this).find("tbody").append(`
+                               <tr>
+                                <td colspan="2"><a href="${data[i].fields['link']}">&nbsp; ${data[i].fields['name']} &nbsp;&nbsp;</a></td>
+                                <td><a href="tel:${data[i].fields['name']}" title="Pozovite">${data[i].fields["num"]}</a></td>
+                              </tr>
+                          `)
+
+                      }
+                      i = 0;
+                      $(this).find("table").toggle();
+                   }
+                });
+
+                $(this).find(".fa-minus").toggle();
+                $(this).find(".fa-plus").toggle();
+           } else {
+               console.log("No way")
+               $(this).find("tbody").children().slice(0).remove();
+               $(this).find("table").toggle();
+                $(this).find(".fa-minus").toggle();
+                $(this).find(".fa-plus").toggle();
+           }
+
+        });
+   });
+  </script>
+</div>
+
+{% endblock content %}

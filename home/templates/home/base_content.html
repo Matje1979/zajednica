@@ -109,9 +109,9 @@
 	            <!-- <li class="list-group-item list-group-item-light">Struja/Voda/Grejanje</li> -->
 	            {% if user.is_authenticated %}
 		            {% if 'telefoni' in request.path %}
-		            	<a href="{% url 'app-telefoni' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
+		            	<a href="{% url 'app-phonebook' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% else %}
-		            	<a href="{% url 'app-telefoni' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
+		            	<a href="{% url 'app-phonebook' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
 		            {% endif %}
 		        {% else %}
 		            {% if 'telefoni_p' in request.path %}
