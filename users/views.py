@@ -8,7 +8,6 @@ from .forms import (
     PapirForm,
     Register1Form,
     Register2Form,
-    Register3Form,
     SecretForm
 )
 from django.views.generic import ListView
@@ -21,7 +20,6 @@ from .models import (
     KomentarUpravnika,
     Ulaz,
     Temp,
-    Temp2,
     TempPapir,
     Opština
 )
@@ -133,63 +131,63 @@ def register2(request, yourname):
     return render(request, 'users/register2.html', context)
 
 
-def register3(request, temp_id):
-    if request.method == 'POST':
-        form = Register3Form(request.POST)
-        if form.is_valid():
-            secr = secrets.randbelow(10000)
-            temp2 = form.save(commit=False)
-            print("Temp_id: ", temp_id)
-            temp2.name = Temp.objects.get(id=temp_id).name
-            temp2.email = Temp.objects.get(id=temp_id).email
-            temp2.secr = secr
-            temp2.save()
-            Temp.objects.get(pk=temp_id).delete()
-            # Sending the secret code the users email (mailbox in future)
-            # and a link to the registration page.
-            yourname = temp2.name
-            r_num = secr
-            reg_link = (
-                'zajednicastanara.pythonanywhere.com/register/'
-                + str(temp2.id)
-            )
+# def register3(request, temp_id):
+#     if request.method == 'POST':
+#         form = Register3Form(request.POST)
+#         if form.is_valid():
+#             secr = secrets.randbelow(10000)
+#             temp2 = form.save(commit=False)
+#             print("Temp_id: ", temp_id)
+#             temp2.name = Temp.objects.get(id=temp_id).name
+#             temp2.email = Temp.objects.get(id=temp_id).email
+#             temp2.secr = secr
+#             temp2.save()
+#             Temp.objects.get(pk=temp_id).delete()
+#             # Sending the secret code the users email (mailbox in future)
+#             # and a link to the registration page.
+#             yourname = temp2.name
+#             r_num = secr
+#             reg_link = (
+#                 'zajednicastanara.pythonanywhere.com/register/'
+#                 + str(temp2.id)
+#             )
 
-            EMAIL_ADDRESS = "damircicic@gmail.com"
-            password = "jpjpqiomgxbqustb"
-            receiver = temp2.email
-            msg = EmailMessage()
-            msg['Subject'] = "Šifra za registraciju na ZS."
-            msg['From'] = EMAIL_ADDRESS
-            msg['To'] = receiver
-            content = f'''Zdravo {temp2.name}!
-                Ovo je šifra za nastavak registracije: {str(r_num)}.
-                Ovo je link strane za registraciju: {reg_link}.'''
-            msg.set_content(content)
+#             EMAIL_ADDRESS = "damircicic@gmail.com"
+#             password = "jpjpqiomgxbqustb"
+#             receiver = temp2.email
+#             msg = EmailMessage()
+#             msg['Subject'] = "Šifra za registraciju na ZS."
+#             msg['From'] = EMAIL_ADDRESS
+#             msg['To'] = receiver
+#             content = f'''Zdravo {temp2.name}!
+#                 Ovo je šifra za nastavak registracije: {str(r_num)}.
+#                 Ovo je link strane za registraciju: {reg_link}.'''
+#             msg.set_content(content)
 
-            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-                # smtp.ehlo()
-                # smtp.starttls()
-                # smtp.ehlo()
-                smtp.login(EMAIL_ADDRESS, password)
-            # body = form.instance.content
-            # msg = f'Subject: {subject}\n\n{body}'
-            # smtp.send_message(msg.encode('utf-8'))
-                smtp.send_message(msg)
-                messages.success(
-                    request, '''
-                    Na vašu adresu će stići
-                    pismo sa uputstvima za dalju prijavu.'''
-                )
-            return redirect('register4', yourname=yourname)
+#             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+#                 # smtp.ehlo()
+#                 # smtp.starttls()
+#                 # smtp.ehlo()
+#                 smtp.login(EMAIL_ADDRESS, password)
+#             # body = form.instance.content
+#             # msg = f'Subject: {subject}\n\n{body}'
+#             # smtp.send_message(msg.encode('utf-8'))
+#                 smtp.send_message(msg)
+#                 messages.success(
+#                     request, '''
+#                     Na vašu adresu će stići
+#                     pismo sa uputstvima za dalju prijavu.'''
+#                 )
+#             return redirect('register4', yourname=yourname)
 
-    form = Register3Form()
-    context = {'form': form}
-    return render(request, 'users/register3.html', context)
+#     form = Register3Form()
+#     context = {'form': form}
+#     return render(request, 'users/register3.html', context)
 
 
-def register4(request, yourname):
-    context = {'yourname': yourname}
-    return render(request, 'users/register4.html', context)
+# def register4(request, yourname):
+#     context = {'yourname': yourname}
+#     return render(request, 'users/register4.html', context)
 
 
 @login_required

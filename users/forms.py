@@ -2,7 +2,7 @@ from django import 	forms
 from django.forms.widgets import Select
 # from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, CustomUser, Temp2, Ulaz, Grad
+from .models import Profile, CustomUser, Ulaz, Grad
 import logging
 
 
@@ -30,24 +30,24 @@ class Register1Form(forms.Form):
 class Register2Form(forms.Form):
     šifra = forms.CharField(max_length=10)
 
-class Register3Form(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['ulaz'].queryset = Ulaz.objects.none()
+# class Register3Form(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['ulaz'].queryset = Ulaz.objects.none()
 
 
-    class Meta:
-	   # CHOICES=Grad.objects.all()
-	   # choice_list = [(x.name, x.name) for x in CHOICES]
-	   # first = ("----------","----------")
-	   # choice_list.insert(0, first)
-	    model = Temp2
-	    fields = ['Grad', 'Opština', 'ulaz', 'Broj_stana']
-	   # choices = tuple(choice_list)
-	    widgets = {
-	       # 'Grad': Select(choices=choices, initial="none"),
-	        'Opština': Select()
-	        }
+#     class Meta:
+# 	   # CHOICES=Grad.objects.all()
+# 	   # choice_list = [(x.name, x.name) for x in CHOICES]
+# 	   # first = ("----------","----------")
+# 	   # choice_list.insert(0, first)
+# 	    model = Temp2
+# 	    fields = ['Grad', 'Opština', 'ulaz', 'Broj_stana']
+# 	   # choices = tuple(choice_list)
+# 	    widgets = {
+# 	       # 'Grad': Select(choices=choices, initial="none"),
+# 	        'Opština': Select()
+# 	        }
 
 
 
