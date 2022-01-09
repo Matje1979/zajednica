@@ -178,17 +178,6 @@ class Temp(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
 
 
-class Temp2(models.Model):
-    CITY_CHOICES = [("BG", "Beograd"), ("NS", "Novi Sad")]
-    secr = models.IntegerField(null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    name = models.CharField(max_length=50, null=True, blank=True)
-    Grad = models.CharField(max_length=50, null=True, choices=CITY_CHOICES)
-    Opština = models.CharField(max_length=50, null=True)
-    ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE)
-    Broj_stana = models.IntegerField(null=True)
-
-
 class TempPapir(models.Model):
     ulaz = models.ForeignKey(Ulaz, on_delete=models.CASCADE, unique=True)
     foto = models.ImageField(
