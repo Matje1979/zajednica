@@ -19,7 +19,6 @@ from .models import (
     Profile,
     KomentarUpravnika,
     Ulaz,
-    Temp,
     TempPapir,
     Opština
 )
@@ -40,95 +39,95 @@ def login_success(request):
         return redirect('app-home')
 
 
-def register(request, pk):
-    pk = int(pk)
-    temp2 = Temp2.objects.get(id=pk)
-    if request.method == 'POST':
-        form = CustomUserRegisterForm(request.POST)
-        secr_form = SecretForm(request.POST)
-        if form.is_valid() and secr_form.is_valid():
-            # Need to handle this somehow
-            if secr_form.cleaned_data.get('secr') == temp2.secr:
-                new_user = form.save(commit=False)
-                new_user.Grad = temp2.Grad
-                new_user.Opština = temp2.Opština
-                new_user.Ulaz = temp2.ulaz
-                new_user.email = temp2.email
-                new_user.Ulica_i_broj = temp2.ulaz.Ulica_i_broj
-                new_user.Broj_stana = temp2.Broj_stana
-                new_user.save()
-                messages.success(
-                    request,
-                    '''
-                    Your account has been created! You are now able to log in.
-                    '''
-                )
-                return redirect('login')
-    else:
-        form = CustomUserRegisterForm()
-        secr_form = SecretForm()
+# def register(request, pk):
+#     pk = int(pk)
+#     temp2 = Temp2.objects.get(id=pk)
+#     if request.method == 'POST':
+#         form = CustomUserRegisterForm(request.POST)
+#         secr_form = SecretForm(request.POST)
+#         if form.is_valid() and secr_form.is_valid():
+#             # Need to handle this somehow
+#             if secr_form.cleaned_data.get('secr') == temp2.secr:
+#                 new_user = form.save(commit=False)
+#                 new_user.Grad = temp2.Grad
+#                 new_user.Opština = temp2.Opština
+#                 new_user.Ulaz = temp2.ulaz
+#                 new_user.email = temp2.email
+#                 new_user.Ulica_i_broj = temp2.ulaz.Ulica_i_broj
+#                 new_user.Broj_stana = temp2.Broj_stana
+#                 new_user.save()
+#                 messages.success(
+#                     request,
+#                     '''
+#                     Your account has been created! You are now able to log in.
+#                     '''
+#                 )
+#                 return redirect('login')
+#     else:
+#         form = CustomUserRegisterForm()
+#         secr_form = SecretForm()
 
-    context = {'form': form, 'secr_form': secr_form}
-    return render(request, 'users/register.html', context)
-
-
-def register1(request):
-    if request.method == 'POST':
-        form = Register1Form(request.POST)
-        if form.is_valid():
-            yourname = form.cleaned_data['name']
-            r_num = secrets.randbelow(10000)
-            Temp.objects.create(
-                secr=r_num, name=yourname,
-                email=form.cleaned_data['email']
-            )
-            EMAIL_ADDRESS = "damircicic@gmail.com"
-            password = "jpjpqiomgxbqustb"
-            receiver = form.cleaned_data['email']
-            msg = EmailMessage()
-            msg['Subject'] = "Šifra za registraciju na ZS."
-            msg['From'] = EMAIL_ADDRESS
-            msg['To'] = receiver
-            content = f"""
-            Zdravo {form.cleaned_data['name']}!
-            Ovo je šifra za nastavak registracije: {str(r_num)}
-            """
-            msg.set_content(content)
-
-            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-                # smtp.ehlo()
-                # smtp.starttls()
-                # smtp.ehlo()
-
-                smtp.login(EMAIL_ADDRESS, password)
-                # body = form.instance.content
-                # msg = f'Subject: {subject}\n\n{body}'
-                # smtp.send_message(msg.encode('utf-8'))
-                smtp.send_message(msg)
-                messages.success(request, 'Proverite svoju email adresu!')
-            return redirect('register2', yourname=yourname)
-    else:
-        form = Register1Form()
-    context = {'form': form}
-    return render(request, 'users/register1.html', context)
+#     context = {'form': form, 'secr_form': secr_form}
+#     return render(request, 'users/register.html', context)
 
 
-def register2(request, yourname):
-    if request.method == 'POST':
-        form = Register2Form(request.POST)
-        if form.is_valid():
-            if Temp.objects.get(secr=form.cleaned_data['šifra']) is not None:
-                temp_id = Temp.objects.get(secr=form.cleaned_data['šifra']).id
-                return redirect('register3', temp_id=temp_id)
-            else:
-                messages.danger(
-                    request, 'Uneli ste pogrešnu šifru. Pokušajte ponovo!'
-                )
-                return redirect('register1')
+# def register1(request):
+#     if request.method == 'POST':
+#         form = Register1Form(request.POST)
+#         if form.is_valid():
+#             yourname = form.cleaned_data['name']
+#             r_num = secrets.randbelow(10000)
+#             Temp.objects.create(
+#                 secr=r_num, name=yourname,
+#                 email=form.cleaned_data['email']
+#             )
+#             EMAIL_ADDRESS = "damircicic@gmail.com"
+#             password = "jpjpqiomgxbqustb"
+#             receiver = form.cleaned_data['email']
+#             msg = EmailMessage()
+#             msg['Subject'] = "Šifra za registraciju na ZS."
+#             msg['From'] = EMAIL_ADDRESS
+#             msg['To'] = receiver
+#             content = f"""
+#             Zdravo {form.cleaned_data['name']}!
+#             Ovo je šifra za nastavak registracije: {str(r_num)}
+#             """
+#             msg.set_content(content)
 
-    form = Register2Form()
-    context = {'form': form, 'yourname': yourname}
-    return render(request, 'users/register2.html', context)
+#             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+#                 # smtp.ehlo()
+#                 # smtp.starttls()
+#                 # smtp.ehlo()
+
+#                 smtp.login(EMAIL_ADDRESS, password)
+#                 # body = form.instance.content
+#                 # msg = f'Subject: {subject}\n\n{body}'
+#                 # smtp.send_message(msg.encode('utf-8'))
+#                 smtp.send_message(msg)
+#                 messages.success(request, 'Proverite svoju email adresu!')
+#             return redirect('register2', yourname=yourname)
+#     else:
+#         form = Register1Form()
+#     context = {'form': form}
+#     return render(request, 'users/register1.html', context)
+
+
+# def register2(request, yourname):
+#     if request.method == 'POST':
+#         form = Register2Form(request.POST)
+#         if form.is_valid():
+#             if Temp.objects.get(secr=form.cleaned_data['šifra']) is not None:
+#                 temp_id = Temp.objects.get(secr=form.cleaned_data['šifra']).id
+#                 return redirect('register3', temp_id=temp_id)
+#             else:
+#                 messages.danger(
+#                     request, 'Uneli ste pogrešnu šifru. Pokušajte ponovo!'
+#                 )
+#                 return redirect('register1')
+
+#     form = Register2Form()
+#     context = {'form': form, 'yourname': yourname}
+#     return render(request, 'users/register2.html', context)
 
 
 # def register3(request, temp_id):

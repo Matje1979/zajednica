@@ -97,7 +97,7 @@ class CustomUser(AbstractUser):
     )
     upravnik_id = models.CharField(max_length=25, null=True, blank=True)
     liked_posts = models.ManyToManyField(
-        "home.Post", related_name="user_likes")
+        "home.Post", related_name="user_likes", blank=True, null=True)
 
     def __str__(self):
         return str(self.username)
@@ -170,12 +170,6 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
-
-
-class Temp(models.Model):
-    secr = models.IntegerField(null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    name = models.CharField(max_length=50, null=True, blank=True)
 
 
 class TempPapir(models.Model):
