@@ -54,8 +54,7 @@ INSTALLED_APPS = [
     'location_field.apps.DefaultConfig',
     'rest_framework',
     "rest_framework_api_key",
-    'pwa',
-    'dbbackup',  # django-dbbackup
+    'pwa'
 ]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
