@@ -1,7 +1,5 @@
 
-### Installation ###
-
-# Linux
+## Installation
 
 To run this application on linux in local you need python3.7.9 or 3.8.0,
 pip and virtalenv or venv.
@@ -22,7 +20,7 @@ cd into zajednica folder (the root project folder)
 
 pip3 install -r requirements.txt
 
-# Settings
+## Settings
 
 Create .env file in the root of the project (zajednicastanara)
 
@@ -34,7 +32,7 @@ python manage.py migrate (or python3 manage.py migrate)
 
 Go to zajednica/users/apps.py and comment out the ready function.
 
-This is a ways to prevent creating new profiles for users
+This is to prevent creating new profiles for users
 when records are imported.
 
 ### Import data:
@@ -57,7 +55,7 @@ Check website at localhost:8000
 
 python manage.py createsuperuser
 
-# Contribute to the project
+## Contribute to the project
 
 ### Create local copy of the branch you want to work on:
 
@@ -75,7 +73,7 @@ git add *
 
 git commit -m "Your commit message"
 
-(commits changes in localk repository)
+(commits changes in the local repository)
 
 git push -u origin name_of_branch
 
