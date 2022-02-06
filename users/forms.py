@@ -86,7 +86,7 @@ class PapirForm(forms.ModelForm):
 		super().__init__(*args, **kwargs)
 		self.fields['kolicina'].required = True
 		self.fields['ulaz'].required = True
-		self.fields['ulaz'].queryset = Ulaz.objects.filter(box_full=True)
+		self.fields['ulaz'].queryset = Ulaz.objects.filter(papir_box_full=True)
 		self.fields['cena'].required = True
 
 	class Meta:
