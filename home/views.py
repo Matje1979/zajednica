@@ -642,8 +642,8 @@ def reciklaza(request):
                 request.user.Ulaz.Ulica_i_broj, "sr", reversed=True
             )
             print("Ulaz", ulaz)
-            context = {"papiri": papiri, "ulaz": ulaz}
-            return render(request, "home/reciklaza.html", context)
+            # context = {"papiri": papiri, "ulaz": ulaz}
+            # return render(request, "home/reciklaza.html", context)
             # if request.POST.get('vrsta') == "Papir":
             print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
             print("request Post")
@@ -669,12 +669,14 @@ def reciklaza(request):
                         request,
                         "Hvala što ste nas obavestili o popunjenosti kutije!"
                     )
+                    return render(request, "home/reciklaza.html")
                 else:
                     messages.warning(
                         request,
                         """Niste napravili fotografiju,
                         molim vas probajte ponovo.""",
                     )
+                    return render(request, "home/reciklaza.html")
 
             else:
 
@@ -686,6 +688,7 @@ def reciklaza(request):
                         """Niste napravili fotografiju,
                         molim vas probajte ponovo.""",
                     )
+                    return render(request, "home/reciklaza.html")
                 else:
                     messages.warning(
                         request,
@@ -693,6 +696,7 @@ def reciklaza(request):
                         molim vas probajte ponovo.""",
                     )
                     print("photo not taken")
+                    # return render(request, "home/reciklaza.html")
 
             # print ("Method Post")
             # if request.user.is_authenticated:
