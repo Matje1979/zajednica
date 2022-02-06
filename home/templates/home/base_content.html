@@ -166,131 +166,19 @@
 	</main>
 	{% else %}
 	<main role="main" id="container" class="container">
-	  {% if request.path == '/' %}
-	  <div class="row" id="winter-row">
-	  {% else %}
-	  <div class="row">
-	  {% endif %}
-	  <div class="col-md-2">
-	      <div id="mngr-sidebar" class="content-section sidebar">
-	      	{% if 'papir' in request.path %}
-	      	<!--<h3 class="mt-1 mb-3">Bitne informacije</h3>-->
-	          <ul class="list-group">
-	            {% if 'mapa' in request.path %}
-	                <a href="{% url 'prijavljen_papir' %}"><li class="list-group-item list-group-item-light">Prijavljene kutije</li></a>
-	                <li id="page-link" class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
-	                <a href="{% url 'papir_servis' %}"><li class="list-group-item list-group-item-light">Informacije o predaji papira</li></a>
-	            {% elif 'prijavljen_papir' in request.path %}
-	                <li id="page-link" class="list-group-item list-group-item-light">Prijavljene kutije</li>
-                    <a href="{% url 'papir_mapa' %}"><li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li></a>
-	                <a href="{% url 'papir_servis' %}"><li class="list-group-item list-group-item-light">Informacije o predaji papira</li></a>
-	            {% else %}
-	               <a href="{% url 'prijavljen_papir' %}"><li class="list-group-item list-group-item-light">Prijavljene kutije</li></a>
-	               <a href="{% url 'papir_mapa' %}"><li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li></a>
-	               <li id="page-link" class="list-group-item list-group-item-light">Informacije o predaji papira</li>
-	             {% endif %}
-	          </ul>
-
-	      	{% else %}
-	      	<h3 class="mt-1"></h3>
-	        <!-- <p class='text-muted'>Servisne informacije i podaci o zgradi</p> -->
-	          <ul class="list-group">
-	          	{% if user.is_authenticated %}
-	          	    {% if user.is_director %}
-	          	        {% if 'profile' in request.path %}
-	                    	<a href="{% url 'profile' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp;&nbsp; Upravnik</li></a>
-	                    {% else %}
-	                    	<a href="{% url 'profile' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp;&nbsp; Upravnik</li></a>
-	          	        {% endif %}
-	          	    {% else %}
-	          	        {% if 'manager' in request.path %}
-	          	        	<a href="{% url 'manager' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp;&nbsp; Upravnik</li></a>
-	          	        {% else %}
-	          	        	<a href="{% url 'manager' %}"><li class="list-group-item list-group-item-light"><i class="far fa-grin">&nbsp;&nbsp; Upravnik</li></a>
-	          	        {% endif %}
-	          	    {% endif %}
-	            {% else %}
-	                {% if 'managers_page' in request.path %}
-	                	<a href="{% url 'managers_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp;&nbsp; Upravnici</li></a>
-	                {% else %}
-	                	<a href="{% url 'managers_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-user-friends"></i>&nbsp;&nbsp; Upravnici</li></a>
-                    {% endif %}
-	            {% endif %}
-	            <!-- <li class="list-group-item list-group-item-light">Struja/Voda/Grejanje</li> -->
-	            {% if user.is_authenticated %}
-		            {% if 'telefoni' in request.path %}
-		            	<a href="{% url 'app-telefoni' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
-		            {% else %}
-		            	<a href="{% url 'app-telefoni' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
-		            {% endif %}
-		        {% else %}
-		            {% if 'telefoni_p' in request.path %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
-		            {% else %}
-		            	<a href="{% url 'app-telefoni-public' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt"></i>&nbsp;&nbsp; Važni telefoni</li></a>
-		            {% endif %}
-		        {% endif %}
-		        {%  if user.is_authenticated %}
-		            {% if 'poll_home' in request.path %}
-		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-poll">&nbsp;&nbsp; Napravi anketu</li></a>
-		            	<a href="{% url 'poll-home' %}"><li id="page-link" class="list-group-item list-group-item-light">*</li></a>
-		            	<li class="list-group-item list-group-item-light"><i class="fas fa-euro-sign" style="pointer-events: none; opacity: 0.5;"></i>&nbsp;&nbsp; Finansije</li>
-		            {% else %}
-		            	<a href="{% url 'poll-home' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-poll">&nbsp;&nbsp; Napravi anketu</li></a>
-		            	<li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-euro-sign"></i>&nbsp;&nbsp; Finansije</li>
-		            	<li id="kvar-prijavi" class="list-group-item list-group-item-light">Nadji majstora</li>
-	            		<ul id="kvar-list"class="list-group">
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Lift</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Vodoinstalacije</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Krov</li>
-	            			<li class="list-group-item list-group-item-light bg-secondary kvar">Podrum</li>
-	            		</ul>
-
-		            {% endif %}
-		        {% endif %}
-
-	            {% if 'docs' in request.path %}
-	            	<a href="{% url 'documents_page' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i>&nbsp;&nbsp; Opšti dokumenti</li></a>
-	            {% else %}
-	            	<a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-file-word"></i>&nbsp;&nbsp; Opšti dokumenti</li></a>
-	            {% endif %}
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Kreiraj dogadjaj</li></a>
-	            <a href="#"><li class="list-group-item list-group-item-light"><i class="fas fa-hammer"></i> Popravke</li></a>
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Usluge</li></a>
-	            <a href="{% url 'documents_page' %}"><li class="list-group-item list-group-item-light">Trgovina</li></a>
-                {% if 'reciklaza' in request.path %}
-		            <a href="{% url 'app-reciklaza' %}"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-recycle"></i>&nbsp;&nbsp; Recikliranje</li></a>
-		        {% else %}
-	            	<a href="{% url 'app-reciklaza' %}"><li class="list-group-item list-group-item-light"><i class="fas fa-recycle"></i>&nbsp;&nbsp; Recikliranje</li></a>
-	            {% endif %}
-	            <li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-tree"></i>&nbsp;&nbsp; Zelenilo</li>
-	          </ul>
-
-	      	{% endif %}
-	      </div>
-	      <!--<div class="content-section">-->
-	      <!--	<img src="{% static 'home/reklama1.jpeg'%}">-->
-	      <!--</div>-->
-	    </div>
-	    <div class="col-md-10">
-
-	    	{% if messages %}
-	    	    {% for message in messages %}
-	    	        <div class="alert alert-{{ message.tags }}">
-	    	        	{{ message }}
-	    	        </div>
-	    	    {% endfor %}
-	    	{% endif %}
-
-	        {% block mngrcontent %}{% endblock mngrcontent %}
-         {% if 'papir' not in request.path %}
-	     <div class="content-section mt-3">
-
-	      	    <img src="{% static 'home/kej.jpeg'%}" style="width:98%; height: auto; margin: 0 auto; display: block;">
-	     </div>
-	     {% endif %}
-
-	    </div>
+    	{% if messages %}
+    	    {% for message in messages %}
+    	        <div class="alert alert-{{ message.tags }}">
+    	        	{{ message }}
+    	        </div>
+    	    {% endfor %}
+    	{% endif %}
+        {% block mngrcontent %}{% endblock mngrcontent %}
+     {% if 'papir' not in request.path %}
+     <div class="content-section mt-3">
+      	 <img src="{% static 'home/kej.jpeg'%}" style="width:98%; height: auto; margin: 0 auto; display: block;">
+     </div>
+     {% endif %}
 	    <script>
 	        let button = document.getElementByName("message-button")
             let input = document.getElementById("task")
@@ -302,7 +190,6 @@
                }
             })
         </script>
-	  </div>
 	</main>
 	{% endif %}
 {% endblock main_content %}
