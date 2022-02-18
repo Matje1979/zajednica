@@ -50,6 +50,13 @@ from django.core.files.images import ImageFile
 from django.http import JsonResponse
 from django.db.models import Count
 
+
+class MyLocation(APIView):
+    # parser_classes = (MultiPartParser, FormParser, FileUploadParser)
+    def post(self, request, *args, **kwargs):
+        print ("Reguest data: ", request.data, flush=True)
+        return Response(request.data)
+
 # from rest_framework.authentication import (
 # SessionAuthentication,
 # BasicAuthentication
@@ -854,6 +861,9 @@ def home_manager(request):
 
 def malfunction_report(request):
     return render(request, "home/malfunction.html")
+
+def collectors_map(request):
+    return render(request, "home/collector_map.html")
 
     # def test_func(self):
     #     post = self.get_object()   #gets the post that we want to update
