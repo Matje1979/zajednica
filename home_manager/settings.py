@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     # 'dal',
     # 'dal_select2',
     'events',
-    'corsheaders',
+    # 'corsheaders',
     'django.contrib.auth',
     'crispy_forms',
     'django.contrib.contenttypes',
@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'rest_framework',
     "rest_framework_api_key",
     'pwa',
-    'dbbackup',  # django-dbbackup
 ]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
