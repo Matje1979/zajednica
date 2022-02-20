@@ -1,108 +1,49 @@
 
-### Installation ###
+## Installation
 
-(Install git before following bellow instructions)
-
-# Linux
-
-To run this application on linux in local you need python3.7, pip and virtalenv.
+To run this application on linux in local you need python3.7.9 or 3.8.0,
+pip and virtalenv or venv.
 
 ### Python, pip and virtualenv
 
-Steps for installing:
+Install python and pip (comes built in with python 3.8.0 or higher)
 
-sudo apt install python3.8
-
-restart terminal
-
-### Install pip - library for downloading python modules:
-
-sudo apt install python3-pip
-
-(type pip3 command to check if pip is installed)
-
-### Install venv - library for creating virtual environments:
-
-sudo apt install python3-venv
-
-### Create a project folder:
-
-mkdir zajednica
-
-### Enter this folder:
-
-cd zajednica
+Create and activate a virtual environment.
 
 ### Clone project from github:
 
-git clone https://github.com/Matje1979/zajednicastanara.git
+git clone https://github.com/Matje1979/zajednica.git
 
-### Create venv (virtual environment) named django_env (can use other name) in the folder:
+cd into zajednica folder (the root project folder)
 
-/usr/bin/python3.8 -m venv django_env
-
-### Activate venv:
-
-source django_env/bin/activate
-
-### Check final steps bellow
-
-# Windows
-
-### Python
-
-Go to https://www.python.org/downloads/
-
-Find python version 3.8 (any more specific version)
-
-Click download
-
-Click on downloaded .exe file.
-
-Python installer will open. Check Add Python 3.8 to PATH checkbox.
-
-Click Customize Installation
-
-In Optional Features check all, and click next.
-
-In Advanced Options change location for python installation (totally optional)
-
-Click install
-
-### Install virtualenv
-
-pip3 install virtualenv
-
-### Create a project folder:
-
-mkdir zajednica
-
-### Enter this folder:
-
-cd zajednica
-
-### Clone project from github:
-
-git clone https://github.com/Matje1979/zajednicastanara.git
-
-### Create venv (virtual environment) named django_env (can use other name) in the folder:
-
-virtualenv --python C:\Path\To\Python\python.exe django_env
-
-### Activate venv:
-
-source django_env\Scripts\activate
-
-or 
-
-.\django_env\Scripts\activate
-
-# Final steps
-(same for all systems)
-
-### Installing dependencies:
+### Install dependencies:
 
 pip3 install -r requirements.txt
+
+## Settings
+
+Create .env file in the root of the project (zajednicastanara)
+
+Copy in it the content of .env.example file.
+
+### Set database:
+
+python manage.py migrate (or python3 manage.py migrate)
+
+Go to zajednica/users/apps.py and comment out the ready function.
+
+This is to prevent creating new profiles for users
+when records are imported.
+
+### Import data:
+
+python manage.py loaddata db.json
+
+Uncomment ready function in zajednica/users/apps.py
+
+### Set static files:
+
+python3 manage.py collectstatic
 
 ### Run project:
 
@@ -110,49 +51,11 @@ python3 manage.py runserver
 
 Check website at localhost:8000
 
-# Mac
+### Create admin user
 
-### Steps for installing:
+python manage.py createsuperuser
 
-xcode-select --install
-
-brew install python@3.8
-
-pip3 install virtualenv
-
-/usr/local/opt/python@3.8/bin/python3 -m venv django_env
-
-cd home_manager
-
-# Common steps
-
-# Settings
-
-Create .env file in the root of the project (zajednicastanara)
-
-Copy in it the content of example.env file.
-
-Replace parts right of '=' with appropriate characters.
-
-For example:
-
-Replace WSGI_APPLICATION = 'zajednicastanara.wsgi.application' with WSGI_APPLICATION = 'home_manager.wsgi.application'.
-
-Replace Debug = False with Debug = True
-
-Set ALLOWED_HOSTS to ['localhost']
-
-## Set up database
-
-cd  zajednica stanara
-
-python manage.py migrate
-
-or 
-
-python3 manage.py migrate
-
-# Contribute to the project
+## Contribute to the project
 
 ### Create local copy of the branch you want to work on:
 
@@ -162,7 +65,7 @@ git checkout -b name_of_the_branch origin/name_of_the_branch
 
 git status
 
-(checks the status of git repository)### 
+(checks the status of git repository)###
 
 git add *
 
@@ -170,7 +73,7 @@ git add *
 
 git commit -m "Your commit message"
 
-(commits changes in localk repository)
+(commits changes in the local repository)
 
 git push -u origin name_of_branch
 

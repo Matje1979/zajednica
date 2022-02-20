@@ -1,4 +1,9 @@
 *.env
 *.pyc
 *.json
+media/
 db.sqlite3
+db.json
+dump.json
+*backup/
+backup/default-green-liveconsole2-2022-01-11-174522.dump

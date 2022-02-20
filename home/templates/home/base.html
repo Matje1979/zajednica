@@ -146,8 +146,14 @@
           </li>
     </ul>
     {% endif %}
-    {% block main_content %}
-    {% endblock main_content %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            {% block main_content %}
+            {% endblock main_content %}
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
 
     {% block messages %}
     {% endblock messages %}
