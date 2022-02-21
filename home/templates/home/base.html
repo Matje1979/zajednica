@@ -147,10 +147,28 @@
     </ul>
     {% endif %}
     <div class="row">
-        <div id="sidebar-left" class="col-sm-3">
-          <button class="navbar-toggler justify-content-end" type="button">
+        <div id="sidebar-left" class="col-sm-3 d-flex content-section sidebar">
+          <h3 class="mt-1"></h3>
+          <!--<p class='text-muted'>Servisne informacije i podaci o zgradi</p>-->
+          <button class="navbar-toggler justify-content-end" type="button" data-bs-toggle="collapse" data-bs-target="#colapseInfo">
              <i class="fa-solid fa-circle-info"></i>
           </button>
+          <div class="collapse navbar-collapse" id="collapseInfo">
+            <ul class="navbar-nav align-self-stretch list-group">
+              	<a href="/managers_page/"><li class="list-group-item list-group-item-light"><i class="fas fa-user-friends" aria-hidden="true"></i>&nbsp;&nbsp; Upravnici</li></a>
+                <!-- <li class="list-group-item list-group-item-light">Struja/Voda/Grejanje</li> -->
+                <a href="/telefoni_p/"><li class="list-group-item list-group-item-light"><i class="fas fa-phone-square-alt" aria-hidden="true"></i>&nbsp;&nbsp; Važni telefoni</li></a>
+                <a href="/docs/"><li id="page-link" class="list-group-item list-group-item-light"><i class="fas fa-file-word" aria-hidden="true"></i>&nbsp;&nbsp; Opšti dokumenti</li></a>
+                <a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-hammer" aria-hidden="true"></i>&nbsp;&nbsp; Popravke</li></a>
+                <a href="#"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-university" aria-hidden="true"></i>&nbsp;&nbsp; Institucije</li></a>
+                <a href="/docs/"><li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-bullhorn" aria-hidden="true"></i>&nbsp;&nbsp; Oglasi</li></a>
+	            	<a href="/reciklaza_/"><li class="list-group-item list-group-item-light"><i class="fas fa-recycle" style="color: green;" aria-hidden="true"></i>&nbsp;&nbsp; Recikliranje</li></a>
+	            <li class="list-group-item list-group-item-light" style="pointer-events: none; opacity: 0.5;"><i class="fas fa-tree" aria-hidden="true"></i>&nbsp;&nbsp; Zelenilo</li>
+            </ul>
+          </div>
+
+          <div class="col-md-3">	      	
+	      </div>
         
         </div>
         <div class="col-sm-6">
