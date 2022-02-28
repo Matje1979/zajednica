@@ -147,15 +147,28 @@
     </ul>
     {% endif %}
     <div class="row">
-        <div id="sidebar-left" class="col-xsm-3 col-sm-1">
+        <div id="sidebar-left" class="col-sm-3">
         </div>
-        <div class="col-xsm-6 col-sm-10">
+        <div class="col-sm-6">
             {% block main_content %}
             {% endblock main_content %}
         </div>
-        <div class="col-xsm-3 col-sm-1"></div>
+        <div id="sidebar-right"class="col-sm-3">
+            <div style="overflow-y: auto; width: 350px; margin-left: 50px; position: fixed; top: 55px; bottom: 0px">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">Prijavljene kutije</li>
+                    <li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
+                    <li class="list-group-item list-group-item-light">Informacije o predaji papira</li>
+                    <li class="list-group-item list-group-item-light">Prijavljene kutije</li>
+                    <li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
+                    <li class="list-group-item list-group-item-light">Informacije o predaji papira</li>
+                    <li class="list-group-item list-group-item-light">Prijavljene kutije</li>
+                    <li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
+                    <li class="list-group-item list-group-item-light">Informacije o predaji papira</li>
+                </ul>
+            </div>
+        </div>
     </div>
-
     {% block messages %}
     {% endblock messages %}
 	<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->

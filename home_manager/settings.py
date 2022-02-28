@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [config('ALLOWED_HOSTS')]
 INSTALLED_APPS = [
     # 'dal',
     # 'dal_select2',
+    'channels',
     'events',
     'corsheaders',
     'django.contrib.auth',
@@ -116,6 +117,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = config("WSGI_APPLICATION")
+ASGI_APPLICATION = "home_manager.asgi.application"
 
 
 # Database
