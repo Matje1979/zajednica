@@ -35,10 +35,6 @@ body {
     color: #0083eb;
 }
 
-.tag-list-item{
-    padding
-}
-
 #post-body p{
     padding-left: 1rem;
     font-family: Helvetica;
@@ -457,6 +453,7 @@ a {
 #map{
   height: 600px;
   width: 100%;
+  z-index: 0 !important;
 }
 
 ul {

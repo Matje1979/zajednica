@@ -1,18 +1,61 @@
-<!-- chat/templates/chat/room.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-</head>
-<body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
+
+{% extends 'home/base_content.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content%}
+
+<!-- {% for box in filled_boxes %}
+    <p>{{ box }}<span>  {{ location }}</p>
+    {% if box.foto != None %}
+        <img src="{{ box.foto.url }}" style="width:200px; height: auto;">
+    {% endif %}
+{% endfor %} -->
+
+<div class="mapa-container">
+    <h2 class="mapa-title">Trenutne lokacije sakupljača</h2>
+    <div id="map"></div>
+    <!--{% if filled_boxes != None %}-->
+    <!--{% endif %}-->
+</div>
+    <p id="user" style="display: none;">{{ request.user }}</p>
+    <textarea id="chat-log" cols="100" rows="20" style="display: none;"></textarea><br>
+    <input id="chat-message-input" type="text" size="100" style="display: none;"><br>
+    <button id="chat-message-submit">Submit</button>
     {{ room_name|json_script:"room-name" }}
     <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        var map = L.map('map').setView([44.8067577, 20.4006503], 13);
+    
+        map.addControl(new L.Control.Fullscreen());
+    
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
+        
+    
+    
+    </script>
+    <!-- {% for box in filled_boxes %} -->
+    <script>
+    
+        // var popup = L.popup().setContent("<p>{{ box }}</p>");
+        // console.log(popup)
+
+    
+
+        // L.marker([44.786568, 20.448922]).addTo(map).bindPopup(popup)
+    
+            // .openPopup();
+    // </script>
+    <!-- {% endfor %} -->
+    <script>
+        
+
+
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const username = document.getElementById("user").innerHTML
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -21,30 +64,74 @@
             + '/'
         );
 
-        chatSocket.onmessage = function(e) {
+        chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            console.log(data);
+            // if (data.tester) {
+            //     document.querySelector('#chat-log').value += (data.tester + '\n');
+            // } else {
+                // document.querySelector('#chat-log').value += (data.username + ': ' + data.message + '\n');
+            L.marker(data.message).addTo(map)
+            .bindPopup(`Hello ${data.username}!.<br> Easily customizable.`)
+            .openPopup();
+            // }
+
         };
 
-        chatSocket.onclose = function(e) {
+        chatSocket.onclose = function (e) {
             console.error('Chat socket closed unexpectedly');
         };
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
+        // document.querySelector('#chat-message-input').focus();
+        // document.querySelector('#chat-message-input').onkeyup = function (e) {
+        //     if (e.keyCode === 13) {  // enter, return
+        //         document.querySelector('#chat-message-submit').click();
+        //     }
+        // };
+
+        // document.querySelector('#chat-message-submit').onclick = function (e) {
+            // const messageInputDom = document.querySelector('#chat-message-input');
+            // const message = messageInputDom.value;
+            // chatSocket.send(JSON.stringify({
+            //     'message': message,
+            //     'username': username,
+            // }));
+            // messageInputDom.value = '';
+        //     navigator.geolocation.getCurrentPosition(success, error, options);
+        // };
+
+        chatSocket.onopen = function() {
+            // socket.send("hello world");
+            navigator.geolocation.getCurrentPosition(success, error, options);
+        }
+        // Call onopen directly if socket is already open
+        if (chatSocket.readyState == WebSocket.OPEN) socket.onopen();
+
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
         };
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
+        function success(pos) {
+            var crd = pos.coords;
+            var coords = [crd.latitude, crd.longitude]
             chatSocket.send(JSON.stringify({
-                'message': message
+                // 'message': message,
+                'message': [44.8067577, 20.4006503],
+                'username': username,
             }));
-            messageInputDom.value = '';
-        };
+
+            console.log('Your current position is:');
+            console.log(`Latitude : ${crd.latitude}`);
+            console.log(`Longitude: ${crd.longitude}`);
+            console.log(`More or less ${crd.accuracy} meters.`);
+        }
+
+        function error(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+
+        
     </script>
-</body>
-</html>
+{% endblock content %}
