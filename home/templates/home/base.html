@@ -84,11 +84,14 @@
                   <li class="nav-item ">
                       <a href="#" class="text-light nav-link" style="margin-right: 10px;">Srbija</a>
                   </li>
+                  <li class="nav-item" style="margin-right: 10px;">
+                    <a class="nav-link" href="{% url 'event-list' %}"><i class="fa fa-calendar fa-lg text-light"></i></a>
+                  </li>
     	        <li id="inbox-item" class="nav-item">
                       <a href="{% url 'message-list' %}"><i id="envelope-icon" class="fas fa-envelope" style="color: orange;"><span id="message-count" style="display: none'"></span></i></a>
                   </li>
-                  <li class="nav-item">
-                      <a href="{% url 'event-list' %}">
+                  <li class="nav-item" onclick="showNotifications(event)">
+                      <a href="#">
                     	  <i id="bell-icon" class="fas fa-bell">
                     	    <span id="notification-count"></span>
                     	  </i>
@@ -96,14 +99,14 @@
                   </li>
     	        	{% if not user.profile.is_organisation %}
         	        	<li class="nav-item">
-        	        	    <a class="nav-link" href="{% url 'profile' %}">Moj profil <i class="fas fa-user text-light"></i></a>
+        	        	    <a class="nav-link" href="{% url 'profile' %}">Profil <i class="fas fa-user text-light"></i></a>
         	        	</li>
         	        	<li class="nav-item">
-        	        	    <a class="nav-link" href="{% url 'profile' %}">Moje grupe <i class="fas fa-users text-light"></i></a>
+        	        	    <a class="nav-link" href="{% url 'profile' %}">Grupe <i class="fas fa-users text-light"></i></a>
         	        	</li>
         	        	{% if not user.is_director %}
             	        	<li class="nav-item">
-            	        	 <a class="nav-link" href="{% url 'post-create' %}">Novi post <i class="fas fa-edit text-light"></i></a>
+            	        	 <a class="nav-link" href="{% url 'post-create' %}">Post <i class="fas fa-edit text-light"></i></a>
             	        	</li>
             	        {% endif %}
     	        	{% endif %}
@@ -126,23 +129,33 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'app-reciklaza' %}"><i class="fas fa-recycle fa-lg"></i><span class="sr-only">(current)</span></a>
           </li>
-           <li class="nav-item" style="pointer-events: none; opacity: 0.5;">
-            <a class="nav-link" href="#"><i class="fas fa-users fa-lg text-light"></i></a>
-          </li>
-          <li class="nav-item" style="pointer-events: none; opacity: 0.5;">
-            <a class="nav-link" href="#"><i class="fas fa-calendar-alt fa-lg text-light"></i></a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'message-list' %}"><i class="fas fa-envelope fa-lg text-light" onclick="markSeen()"><span id="message-count-mobile"></span></i></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'post-create' %}"><i class="fas fa-edit fa-lg text-light"></i></a>
           </li>
+          <li class="nav-item" onclick="showNotifications(event)">
+            <a class="nav-link"><i class="fas fa-bell fa-lg text-light"></i></a>
+          </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'event-list' %}"><i class="fas fa-bell fa-lg text-light"></i></a>
+            <a class="nav-link" href="{% url 'event-list' %}"><i class="fa fa-calendar fa-lg text-light"></i></a>
           </li>
     </ul>
     {% endif %}
+    <div id="sidebar-right-content-mobile">
+        <ul class="list-group" style="background-color: white">
+            <li class="list-group-item list-group-item-light">Prijavljene kutije</li>
+            <li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
+            <li class="list-group-item list-group-item-light">Informacije o predaji papira</li>
+            <li class="list-group-item list-group-item-light">Prijavljene kutije</li>
+            <li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
+            <li class="list-group-item list-group-item-light">Informacije o predaji papira</li>
+            <li class="list-group-item list-group-item-light">Prijavljene kutije</li>
+            <li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
+            <li class="list-group-item list-group-item-light">Informacije o predaji papira</li>
+        </ul>
+    </div>
     <div class="row no-gutters">
         <div id="sidebar-left" class="col-12 col-md-3">
             <div class="d-sm-none d-md-block" style="overflow-y: auto; width: auto; margin-right: 50px; position: fixed; top: 55px; bottom: 0px">
@@ -167,8 +180,8 @@
             {% endblock main_content %}
         </div>
         <div id="sidebar-right" class="col-12 col-md-3">
-            <div style="overflow-y: auto; width: auto; margin-left: 50px; position: fixed; top: 55px; bottom: 0px">
-                <ul class="list-group">
+            <div id="sidebar-right-content">
+                <ul class="list-group" style="background-color: white;">
                     <li class="list-group-item list-group-item-light">Prijavljene kutije</li>
                     <li class="list-group-item list-group-item-light">Mapa popunjenih kutija</li>
                     <li class="list-group-item list-group-item-light">Informacije o predaji papira</li>
@@ -257,7 +270,25 @@
         </script>
     {% endif %} -->
     <script>
+        function showNotifications() {
+            if (window.innerWidth <= 600) {
+                $("#sidebar-right-content-mobile").toggle();
+                event.stopPropagation();
+            } else {
+                $("#sidebar-right-content").toggle();
+                event.stopPropagation();
+            }
+            
+        }
 
+
+        $("body").click(function() {
+            if (window.innerWidth <= 600){
+                $("#sidebar-right-content-mobile").css("display", "none")
+            } else {
+                $("#sidebar-right-content").css("display", "none")
+            }
+        })
 
     	$("#update-profile-btn").click(function(){
     		$("#profile-form").css('display', 'block');

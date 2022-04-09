@@ -881,9 +881,42 @@ event-list {
 	}
 }
 
+#sidebar-right-content{
+  overflow-y: auto; 
+  width: auto; 
+  margin-left: 100px; 
+  position: fixed; 
+  top: 55px; 
+  bottom: 0px;
+  display: none;
+}
+
+#sidebar-right-content-mobile {
+  display: none;
+}
+
 /*Events list end*/
 
 @media screen and (max-width: 600px) {
+    #sidebar-right-content{
+      overflow-y: auto; 
+      width: 100%; 
+      margin-left: 0px; 
+      position: fixed; 
+      top: 0px; 
+      bottom: 0px;
+    }
+
+    #sidebar-right-content-mobile {
+      overflow-y: auto; 
+      width: auto; 
+      position: sticky; 
+      top: 55px; 
+      bottom: 0px;
+      display: none;
+      z-index:999;
+    }
+
     .large-media-icon{
         display: none;
     }
