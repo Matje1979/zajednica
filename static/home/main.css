@@ -204,6 +204,19 @@ main {
     border-bottom: 1px solid rgba(0,0,0,.125) !important;
 }
 
+
+#sidebar-left .list-group-item{
+  border-top: 0px !important;
+  border-left: 0px !important;
+  border-right: 0px !important;
+  border-bottom: 0px !important;
+  background-color: transparent;
+}
+
+#sidebar-left .list-group{
+  background-color: transparent;
+}
+
 #envelope-icon{
     cursor: pointer;
 }
@@ -915,6 +928,7 @@ event-list {
       bottom: 0px;
       display: none;
       z-index:999;
+
     }
 
     .large-media-icon{
