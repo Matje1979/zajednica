@@ -750,7 +750,7 @@ def reciklaza(request):
         context = {"p_quant": p_quant, "page_title": page_title}
         return render(request, "home/reciklaza.html", context)
 
-
+@login_required
 def cepovi(request):
     page_title = "Reciklaža"
     ulaz = translit(
