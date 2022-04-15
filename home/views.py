@@ -6,6 +6,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.views.generic.base import TemplateView
 from .models import Post, Comment, Papir, Cepovi
 from users.models import (
     Upravnik,
@@ -85,6 +86,11 @@ from django.db.models import Count
 #         # print (result, flush=True)
 #         return Response(serializer.data)
 
+def collectors_locations(request, room_name):
+    return render(request, "home/collectors_locations.html", {'room_name': room_name})
+
+# class CollectorsLocationsView(TemplateView):
+#     template_name = "home/collectors_locations.html"
 
 # Overview of api enpoints.
 @api_view(["GET"])
@@ -744,7 +750,7 @@ def reciklaza(request):
         context = {"p_quant": p_quant, "page_title": page_title}
         return render(request, "home/reciklaza.html", context)
 
-
+@login_required
 def cepovi(request):
     page_title = "Reciklaža"
     ulaz = translit(
