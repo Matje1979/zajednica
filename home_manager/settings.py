@@ -113,7 +113,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = config("WSGI_APPLICATION")
+WSGI_APPLICATION = "home_manager.wsgi.application"
 ASGI_APPLICATION = "home_manager.asgi.application"
 # local config
 # CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
