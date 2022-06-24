@@ -190,7 +190,7 @@ LOCATION_FIELD = {
 
 STATIC_URL = "/static/"
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
@@ -204,7 +204,7 @@ LOGIN_REDIRECT_URL = "login-success"
 LOGIN_URL = "login"
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "staticfiles"),
 ]
 PWA_APP_DEBUG_MODE = False
 PWA_APP_NAME = "Zajednica Stanara"
