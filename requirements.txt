@@ -59,6 +59,7 @@ packaging==20.9
 pastel==0.2.1
 pathspec==0.9.0
 pexpect==4.8.0
+Pillow
 pkginfo==1.8.2
 platformdirs==2.5.0
 poetry==1.1.13
