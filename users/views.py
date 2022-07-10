@@ -203,8 +203,13 @@ def profile(request):
             messages.success(request, 'Your account has been updated!')
             return redirect('profile')
     else:
-        u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=request.user.profile)
+        if request.user.profile:
+            u_form = UserUpdateForm(instance=request.user)
+            p_form = ProfileUpdateForm(instance=request.user.profile)
+        else:
+            u_form = UserUpdateForm(instance=request.user)
+            profile = Profile.objects.create(user=request.user) # create basic profile if it does not exist.
+            p_form = ProfileUpdateForm(instance=profile)
 
     page_title = "Moj profil"
 
