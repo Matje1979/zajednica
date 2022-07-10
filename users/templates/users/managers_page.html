@@ -37,12 +37,12 @@
                 <tr>
                     <td style="width: 3%;">{{ item.prosecna_ocena|floatformat:2 }}</div>
                     <td class="star-ratings">
-                      <div class="fill-ratings text-center" style="width: calc({{item.prosecna_ocena}} * 10%);">
+                      <!-- <div class="fill-ratings text-center" style="width: calc({{item.prosecna_ocena}} * 10%);">
                         <span>★★★★★</span>
-                      </div>
-                      <div class="empty-ratings">
+                      </div> -->
+                      <!-- <div class="empty-ratings">
                         <span>★★★★★</span>
-                      </div>
+                      </div> -->
                     </td>
                     <td><a href="{% url 'manager_public' item.id %}" style="padding: 0px 0px 0px 20px !important; text-align: center; font-family: Metropolis; font-size: 1rem; font-weight: 400; text-align: left;">{{item.user.first_name}} {{item.user.last_name}}</a></td>
                     <td>Kosmaj</td>

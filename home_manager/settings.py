@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "yov061qe^&+p=rj=e0sf$0xr(!*k(2fgty+dp&1#t4v1)p!lz%"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     # 'dal',
     # 'dal_select2',
-    "channels",
+    # "channels",
     "events",
     "corsheaders",
     "django.contrib.auth",
@@ -116,17 +116,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "home_manager.wsgi.application"
-ASGI_APPLICATION = "home_manager.asgi.application"
+# ASGI_APPLICATION = "home_manager.asgi.application"
 # local config
 # CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
+#         },
+#     },
+# }
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

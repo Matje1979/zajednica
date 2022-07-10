@@ -32,14 +32,15 @@ urlpatterns = [
     path("about/", views.about, name="app-about"),
     path("reciklaza_/", views.reciklaza, name="app-reciklaza"),
     path("reciklaza/cepovi", views.cepovi, name="reciklaza-cepovi"),
-    path("reciklaza/collectors_locations/<str:room_name>", views.collectors_locations, name="collectors-locations"),
+    path(
+        "reciklaza/collectors_locations",
+        views.collectors_locations,
+        name="collectors-locations",
+    ),
     path("tag/<slug:slug>", views.tagged, name="app-tagged"),
     path("telefoni/", views.telefoni, name="app-telefoni"),
     path("telefoni_p/", views.telefoni_p, name="app-telefoni-public"),
-    path(
-        "upravnik_postovi/<int:pk>",
-        views.upravnik_posts, name="upravnik-posts"
-        ),
+    path("upravnik_postovi/<int:pk>", views.upravnik_posts, name="upravnik-posts"),
     path("papirlist/", views.TempPapirList.as_view()),
     path("prijavljeni_cepovi/", views.TempCepoviList.as_view()),
     path("api/papir/<int:pk>", views.UlazPapirList.as_view()),
