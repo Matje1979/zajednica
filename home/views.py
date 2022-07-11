@@ -86,8 +86,10 @@ from django.db.models import Count
 #         # print (result, flush=True)
 #         return Response(serializer.data)
 
-def collectors_locations(request, room_name):
-    return render(request, "home/collectors_locations.html", {'room_name': room_name})
+
+def collectors_locations(request):
+    return render(request, "home/collectors_locations.html")
+
 
 # class CollectorsLocationsView(TemplateView):
 #     template_name = "home/collectors_locations.html"
@@ -272,14 +274,10 @@ class PapirPrijava(APIView):
                     # serializer.save(ulaz=ulaz)
                     # adding external argument ulaz to serializer
                     serializer.save(ulaz=ulaz)
-                    return Response(
-                        serializer.data, status=status.HTTP_201_CREATED
-                    )
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
                 except KeyError:
                     raise KeyError()
-            return Response(
-                serializer.errors, status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(
                 {"Success": "Hvala na prijavi! "}, status=status.HTTP_200_OK
@@ -345,8 +343,7 @@ class CepPrijava(APIView):
             )
         else:
             return Response(
-                {"Success": "Hvala na ponovnoj prijavi! "},
-                status=status.HTTP_200_OK
+                {"Success": "Hvala na ponovnoj prijavi! "}, status=status.HTTP_200_OK
             )
 
 
@@ -359,9 +356,7 @@ class GradesList(APIView):
         )[:10]
         for profile in users_profiles:
             grade_dict = {}
-            grade_dict["name"] = (
-                profile.user.first_name + " " + profile.user.last_name
-            )
+            grade_dict["name"] = profile.user.first_name + " " + profile.user.last_name
             grade_dict["grade"] = profile.prosecna_ocena
             grade_list.append(grade_dict)
         return Response(grade_list)
@@ -389,9 +384,13 @@ class PostListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         print("Hellllooo", flush=True)
-        posts = Post.objects.filter(
-            author__Ulaz__Ulica_i_broj=self.request.user.Ulaz.Ulica_i_broj
-        ).order_by("-date_posted").annotate(likes_count=Count('user_likes'))
+        posts = (
+            Post.objects.filter(
+                author__Ulaz__Ulica_i_broj=self.request.user.Ulaz.Ulica_i_broj
+            )
+            .order_by("-date_posted")
+            .annotate(likes_count=Count("user_likes"))
+        )
         for post in posts:
             if post.likes_count:
                 print("Likes_count", post.likes_count, post.title, flush=True)
@@ -405,11 +404,9 @@ class PostListView(LoginRequiredMixin, ListView):
         context["upravnik"] = Upravnik.objects.get(ulaz=self.request.user.Ulaz)
         context["ulaz"] = self.request.user.Ulaz.Ulica_i_broj
         context["website"] = self.request.user.Ulaz.website
-        context["page_title"] ="Objave stanara"
+        context["page_title"] = "Objave stanara"
         # MessageForUpravnik are all messages. Should change the name!
-        messages = MessageForUpravnik.objects.filter(
-            receiver=self.request.user
-        )
+        messages = MessageForUpravnik.objects.filter(receiver=self.request.user)
         context["user_messages"] = messages
         return context
 
@@ -424,6 +421,7 @@ def base_layout(request):
     template = "home/base.html"
     return render(request, template)
 
+
 def post_like(request, pk):
     try:
         print(request.user, flush=True)
@@ -431,7 +429,6 @@ def post_like(request, pk):
         return JsonResponse(status=200, safe=False)
     except Exception:
         return JsonResponse({"Error": "error"})
-
 
 
 # A View for seeing details about particular posts
@@ -448,9 +445,7 @@ class PostDetailView(LoginRequiredMixin, DetailView):
         post = get_object_or_404(Post, pk=self.kwargs["pk"])
         context["comments"] = Comment.objects.filter(post=post)
         context["form"] = CommentForm()
-        context["like"] = self.request.user.liked_posts.filter(
-            id=post.id
-        ).exists()
+        context["like"] = self.request.user.liked_posts.filter(id=post.id).exists()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -482,7 +477,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
             self.request.user.Ulaz.Ulica_i_broj, "sr", reversed=True
         )
         context["common_tags"] = Post.tags.most_common()[:4]
-        context['page_title'] = "Nova objava"
+        context["page_title"] = "Nova objava"
         return context
 
     def form_valid(self, form):
@@ -644,9 +639,7 @@ def reciklaza(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             papiri = Papir.objects.filter(ulaz=request.user.Ulaz)
-            ulaz = translit(
-                request.user.Ulaz.Ulica_i_broj, "sr", reversed=True
-            )
+            ulaz = translit(request.user.Ulaz.Ulica_i_broj, "sr", reversed=True)
             print("Ulaz", ulaz)
             # context = {"papiri": papiri, "ulaz": ulaz}
             # return render(request, "home/reciklaza.html", context)
@@ -672,8 +665,7 @@ def reciklaza(request):
                     )
 
                     messages.success(
-                        request,
-                        "Hvala što ste nas obavestili o popunjenosti kutije!"
+                        request, "Hvala što ste nas obavestili o popunjenosti kutije!"
                     )
                     return render(request, "home/reciklaza.html")
                 else:
@@ -719,9 +711,7 @@ def reciklaza(request):
 
         else:
             papiri = Papir.objects.filter(ulaz=request.user.Ulaz)
-            ulaz = translit(
-                request.user.Ulaz.Ulica_i_broj, "sr", reversed=True
-            )
+            ulaz = translit(request.user.Ulaz.Ulica_i_broj, "sr", reversed=True)
             print("Ulaz", ulaz)
             total_kolicina = 0
             total_cena = 0
@@ -736,7 +726,7 @@ def reciklaza(request):
                 "total_cena": total_cena,
                 "papiri": papiri,
                 "ulaz": ulaz,
-                "page_title": page_title
+                "page_title": page_title,
             }
             return render(request, "home/reciklaza.html", context)
 
@@ -750,12 +740,11 @@ def reciklaza(request):
         context = {"p_quant": p_quant, "page_title": page_title}
         return render(request, "home/reciklaza.html", context)
 
+
 @login_required
 def cepovi(request):
     page_title = "Reciklaža"
-    ulaz = translit(
-            request.user.Ulaz.Ulica_i_broj, "sr", reversed=True
-        )
+    ulaz = translit(request.user.Ulaz.Ulica_i_broj, "sr", reversed=True)
     context = {"ulaz": ulaz, "page_title": page_title}
 
     return render(request, "home/cepovi.html", context)
@@ -801,9 +790,7 @@ def home_manager(request):
             msgs_by_ulazi[ulaz] = 0
     print(len(msgs_by_ulazi.items()), flush=True)
 
-    context = {
-        "ulaz": "Početna", "ulazi": ulazi, "msgs_by_ulazi": msgs_by_ulazi
-    }
+    context = {"ulaz": "Početna", "ulazi": ulazi, "msgs_by_ulazi": msgs_by_ulazi}
     return render(request, "home/director_dashboard.html", context)
 
 

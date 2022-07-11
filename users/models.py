@@ -43,7 +43,7 @@ class Opština(models.Model):
     class Meta:
         verbose_name_plural = "Opštine"
 
-
+    
 class Ulaz(models.Model):
     Grad = models.ForeignKey(
         Grad, on_delete=models.SET_NULL, related_name="ulazi", null=True

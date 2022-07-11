@@ -1,95 +1,101 @@
 {% extends 'home/base_content.html' %}
 {% load static %}
 {% block content%}
-    {% if not user.is_authenticated %}
-    <article class="content-section mt-2 p-3">
-    	<i class="fas fa-recycle fa-3x"></i><br><br>
-    	<h4>Informacije o sakupljenim stvarima za reciklažu </h4><br>
-        <h5>Beograd</h5><br>
-    	 <h6>Papir</h6><hr>
-    	 <p class="text-secondary">Sakupljeno u svim ulazima: <span>{{ p_quant }} kg</span></p>
-    	<h6>Čepovi</h6><hr>
-    	<p class="text-secondary">Još uvek nije počelo sakupljanje</p>
+{% if not user.is_authenticated %}
+<article class="content-section mt-2 p-3">
+    <i class="fas fa-recycle fa-3x"></i><br><br>
+    <h4>Informacije o sakupljenim stvarima za reciklažu </h4><br>
+    <h5>Beograd</h5><br>
+    <h6>Papir</h6>
+    <hr>
+    <p class="text-secondary">Sakupljeno u svim ulazima: <span>{{ p_quant }} kg</span></p>
+    <h6>Čepovi</h6>
+    <hr>
+    <p class="text-secondary">Još uvek nije počelo sakupljanje</p>
 
-    </article>
+</article>
 
-   <!--  <div class="content-section">
+<!--  <div class="content-section">
         <img src="{% static 'home/plot.png' %}">
     </div> -->
-    {% else %}
- <article class="content-section mt-2 p-3">
-     <div class="row">
-         <div class="col-4"><h6 class="text-primary">Čepovi</h6></div>
-         <div class="col-4"><h6>Flaše</h6></div>
-         <div class="col-4"><h6>Ostalo</h6></div>
-     </div>
+{% else %}
+<article class="content-section mt-2 p-3">
+    <div class="row">
+        <div class="col-4">
+            <h6 class="text-primary">Čepovi</h6>
+        </div>
+        <div class="col-4">
+            <h6>Flaše</h6>
+        </div>
+        <div class="col-4">
+            <h6>Ostalo</h6>
+        </div>
+    </div>
     <hr>
     <p>Ukupno sakupljeno kutija: <span><strong>{{ total_kolicina }}</strong></span></p>
     <button id="p-button" class="btn btn-info mb-2">Detalji</button>
-     <br>
-     <br>
-     <div id="paper-details">
-    	  <!--{% for papir in papiri %}-->
-    	  <!--    <ul>-->
-       <!--           <li><p>Datum: <span>{{ papir.datum }}</span></p></li>-->
-    		 <!--     <li><p>Količina: <span>{{ papir.kolicina }} kg</span></p></li>-->
-    		 <!--     <li><p>Cena: <span>{{ papir.cena }} dinara</span></p><br></li>-->
-    	  <!--    </ul>-->
-       <!--   {% endfor %}-->
+    <br>
+    <br>
+    <div id="paper-details">
+        <!--{% for papir in papiri %}-->
+        <!--    <ul>-->
+        <!--           <li><p>Datum: <span>{{ papir.datum }}</span></p></li>-->
+        <!--     <li><p>Količina: <span>{{ papir.kolicina }} kg</span></p></li>-->
+        <!--     <li><p>Cena: <span>{{ papir.cena }} dinara</span></p><br></li>-->
+        <!--    </ul>-->
+        <!--   {% endfor %}-->
 
     </div>
-     <h5 class="mb-3">Kutija je popunjena?</h5>
-      <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <h5 class="mb-3">Kutija je popunjena?</h5>
+    <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
         <input type="hidden" id="ulaz" name="ulaz" value="{{user.Ulaz.Ulica_i_broj}}">
         <input type="hidden" id="ulaz" name="vrsta" value="Cepovi">
-        <label for="capture" class="btn btn-success mb-2" >Napravi fotografiju <span><i class="fas fa-camera"></i></span></label>
-            <!-- Does not work with attribute required -->
-            <input type="file"
-            name="foto"
-            id="capture"
-            style="visibility: hidden;"
-            accept="image/*"
-            capture = "camera"
-            />
+        <label for="capture" class="btn btn-success mb-2">Napravi fotografiju <span><i
+                    class="fas fa-camera"></i></span></label>
+        <!-- Does not work with attribute required -->
+        <input type="file" name="foto" id="capture" style="visibility: hidden;" accept="image/*" capture="camera" />
         <input type="submit" class="btn btn-success mb-2" value="Pošalji">
-     </form>
-     <p class="mt-2" style="position: relative;"><small>Nemate kutiju? <a href="#" style="color: #007bff;">Naručite je</a></small><img src="{% static 'home/Openstreetmap_logo.png' %}" style="width: 40px; position: absolute; right: 10px; bottom: 3px;"></p>
+    </form>
+    <p class="mt-2" style="position: relative;"><small>Nemate kutiju? <a href="#" style="color: #007bff;">Naručite
+                je</a></small><a href="{% url 'collectors-locations' %}"><img
+                src="{% static 'home/Openstreetmap_logo.png' %}"
+                style="width: 40px; position: absolute; right: 10px; bottom: 3px;"></a></p>
 </article>
 
-    {% endif %}
+{% endif %}
 
 <script>
-    $('#p-button').click(function (){
+    $('#p-button').click(function () {
         $('#paper-details').toggle();
     });
 </script>
 
- <script>
+<script>
 
-        document.addEventListener('DOMContentLoaded', (ev)=>{
-            let form = document.getElementById('myform');
-            //get the captured media file
-            let input = document.getElementById('capture');
+    document.addEventListener('DOMContentLoaded', (ev) => {
+        let form = document.getElementById('myform');
+        //get the captured media file
+        let input = document.getElementById('capture');
 
-            input.addEventListener('change', (ev)=>{
-                console.dir( input.files[0] );
-                if(input.files[0].type.indexOf("image/") > -1){
-                    let img = document.getElementById('papir-img');
-                    img.src = window.URL.createObjectURL(input.files[0]);
-                    img.style.display = "block";
-                }
-                else if(input.files[0].type.indexOf("audio/") > -1 ){
-                    let audio = document.getElementById('audio');
-                    audio.src = window.URL.createObjectURL(input.files[0]);
-                }
-                else if(input.files[0].type.indexOf("video/") > -1 ){
-                    let video = document.getElementById('video');
-                    video.src=window.URL.createObjectURL(input.files[0]);
-                }
+        input.addEventListener('change', (ev) => {
+            console.dir(input.files[0]);
+            if (input.files[0].type.indexOf("image/") > -1) {
+                let img = document.getElementById('papir-img');
+                img.src = window.URL.createObjectURL(input.files[0]);
+                img.style.display = "block";
+            }
+            else if (input.files[0].type.indexOf("audio/") > -1) {
+                let audio = document.getElementById('audio');
+                audio.src = window.URL.createObjectURL(input.files[0]);
+            }
+            else if (input.files[0].type.indexOf("video/") > -1) {
+                let video = document.getElementById('video');
+                video.src = window.URL.createObjectURL(input.files[0]);
+            }
 
-
-            })
 
         })
-    </script>
+
+    })
+</script>
 {% endblock content %}

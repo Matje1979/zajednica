@@ -348,6 +348,7 @@ class ManagersRankingView(ListView):
             # .select_related('user')
             # .select_related('broj_ocenjivaca')
         ).order_by('-prosecna_ocena')[:15]
+        print (upravnici)
         return upravnici
 
     # upravnik_list = []
