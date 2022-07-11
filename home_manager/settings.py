@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     # 'dal',
     # 'dal_select2',
-    "channels",
+    # "channels",
     "events",
     "corsheaders",
     "django.contrib.auth",
@@ -116,17 +116,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "home_manager.wsgi.application"
-ASGI_APPLICATION = "home_manager.asgi.application"
+# ASGI_APPLICATION = "home_manager.asgi.application"
 # local config
 # CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
+#         },
+#     },
+# }
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
