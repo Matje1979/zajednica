@@ -8,7 +8,7 @@ class UsersTestCase(TestCase):
     def setUp(self):
         self.user_password = "azerty123"
         self.grad = Grad.objects.create(name="Beograd")
-        self.opstina = Grad.objects.create(name="Novi Beograd", grad=self.grad)
+        self.opstina = Opština.objects.create(name="Novi Beograd", Grad=self.grad)
         self.ulaz = Ulaz.objects.create(
             Grad=self.grad,
             Opština=self.opstina,
